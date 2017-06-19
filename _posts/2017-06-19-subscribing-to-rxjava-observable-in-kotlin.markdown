@@ -53,6 +53,8 @@ private fun onGetRecentPostsFail(posts: Throwable) {
 }
 ```
 
+Whooping seven lines of boilerplate go away! Only meaningful code left. It may look like not that much, but if you have huge RxJava trains in your code, this improvement is a game changer. It makes you RxJava trains actually readable and maintainable. It enables possibilities like writing your entire presenter as a RxJava chain.
+
 I should note here though, that handling errors in the subscriber is usually a bad idea. If you are expecting errors, like you usually do with HTTP requests, it's better to catch them with `onErrrorResumeNext()` or `onErrorReturn()`. And you observable should return object that contains either received data or error.
 
 This is because of how RxJava is designed. Errors returned from `onError` are analogs of runtime errors, unexpected errors, like programming errors.
