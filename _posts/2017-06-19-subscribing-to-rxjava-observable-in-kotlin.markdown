@@ -4,7 +4,7 @@ title:  "Java vs Kotlin: subscribing to an observer in RxJava"
 categories: kotlin rxjava rx
 ---
 
-Using RxJava with Kotlin is much more convenient. The difference is so big, that RxJava simply becomes more powerful instrument with Kotlin.
+RxJava is much more convenient with Kotlin and resulting code is so much cleaner and concise.
 
 Here is an example of how subscribing typically looks in Java and in Kotlin.
 
