@@ -4,4 +4,4 @@ title: About
 permalink: /about/
 ---
 
-A blog about Android development, especially about RxJava and Kotlin.
+A blog about Android development, especially about Kotlin and RxJava tricks.

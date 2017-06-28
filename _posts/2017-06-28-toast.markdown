@@ -1,0 +1,33 @@
+---
+layout: post
+title:  "Making toasts with Kotlin and extension functions"
+categories: kotlin
+---
+
+With Kotlin extension functions it's possible to display toasts as simple as this:
+
+```kotlin
+"This is my string".showToast(context)
+```
+
+You'll just need to define this extension function somewhere in your code:
+
+```kotlin
+fun Any.toast(context: Context) {
+  Toast.makeText(context, this.toString(), Toast.LENGTH_LONG).show()
+}
+```
+
+This solution especially shines when combined this with Kotlin's string templates feature:
+
+```kotlin
+"click on ${position.name}".showToast(context)
+```
+Look at the beauty of that!
+
+For comparison, this is how you write the same code with Java:
+
+```java
+String message = String.format("click on %d", position.name);
+Toast.makeText(context, message, Toast.LENGTH_LONG).show()
+```
