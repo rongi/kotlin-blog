@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "Java vs Kotlin: subscribing to an observer in RxJava"
+title:  "Kotlin vs Java: subscribing to an observer in RxJava"
 categories: kotlin rxjava rx
 ---
 

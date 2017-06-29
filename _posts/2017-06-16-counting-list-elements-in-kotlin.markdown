@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "Java vs Kotlin: Count number of items in a list satisfying a condition"
+title:  "Kotlin vs Java: Count number of items in a list satisfying a condition"
 categories: kotlin
 ---
 
