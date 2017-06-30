@@ -37,4 +37,4 @@ exclude:
 google_analytics: UA-101153501-1
 
 disqus:
-  shortname: "https://rongi-github-io-kotlin-blog.disqus.com/embed.js"
+  shortname: https://rongi-github-io-kotlin-blog.disqus.com/embed.js
