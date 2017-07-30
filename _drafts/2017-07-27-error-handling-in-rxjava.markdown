@@ -4,15 +4,15 @@ title:  "Error handling in RxJava, best practices"
 categories: rxjava rx
 ---
 
-Once you start write RxJava code you realize that there are so many ways to handle errors. What is the best one? I've spent quite some time trying to answer this question and here are my findings along with some supporting arguments.
+Once you start write RxJava code you realize that there are so many ways to handle errors. Which is the best one? I've spent quite some time trying to answer this question and here are my findings along with some supporting arguments.
 
 ## Expected and unexpected exceptions
 
 Just to start on the same page I want to remind you that errors/exceptions in software development can be divided into two groups.
 
-Expected exceptions are the ones that are expected to happen in a bug-free program. Examples here are various kinds of IO exceptions, like no network exception, etc. Developers should write code that reacts on this kind of exceptions, shows error message, etc. Expected exceptions are like second valid return value, they are always part of a method's signature.
+Expected exceptions are the ones that are expected to happen in a bug-free program. Examples here are various kinds of IO exceptions, like no network exception, etc. Your software is supposed to react on these exceptions gracefully, showing error messages, etc. Expected exceptions are like second valid return value, they are part of method's signature.
 
-Unexpected exceptions are programming errors mostly. They can and will happen during development, but they should never happen in the finished product. At least it's the goal. But if they do happen, it's a good idea usually just to crash the app right away. This helps to raise attention to the problem and fix it as soon as possible.
+Unexpected exceptions are mostly programming errors. They can and will happen during development, but they should never happen in the finished product. At least it's a goal. But if they do happen, usually it's a good idea just to crash the app right away. This helps to raise attention to the problem quickly and fix it as soon as possible.
 
 In Java expected exceptions are mostly implemented using checked exceptions (subclassed directly from `Exception` class). The majority of unexpected ones are implemented with unchecked exceptions and derived from `RuntimeException`.
 
