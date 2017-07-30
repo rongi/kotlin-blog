@@ -29,13 +29,13 @@ So, let's say you have an observable that can produce an exception. How to handl
 
 It's similar to what we used to do with `AssyncTasks` and looks pretty much like a try-catch block.
 
-There is one big problem with this though. Say there is a programming error inside `userProvider.getUsers()` observable that leads to `NullPointerException` or something like this. This error will be handled as an expected one: an error message will be shown and app will not crash. It'll be super convenient here though to see the crash right away so we can detect and fix problem on the spot.
+There is one big problem with this though. Say there is a programming error inside `userProvider.getUsers()` observable that leads to `NullPointerException` or something like this. It'll be super convenient here if app crash right away, so we can detect and fix the problem on the spot. But there will be no crash, the error will be handled as an expected one: an error message will be shown, or in some other graceful way.
 
-Even worse is that there wouldn't be any crash in the unit tests. The tests will just fail with mysterious unexpected behavior. You'll have to spend time on investigating this instead of seeing the reason right away in the call stack. Crashing is super convenient here.
+Even worse is that there wouldn't be any crash in the unit tests. The tests will just fail with mysterious unexpected behavior. You'll have to spend time on debugging this instead of seeing the reason right away in a nice call stack.
 
 ## Crashing on RuntimeExceptions
 
-Ok, how about this then:
+So, if we want it to crash why don't just throw inside `onError` consumer if the exception is an instance of `RuntimeException`. Like this:
 
 ```kotlin
   userProvider.getUsers().subscribe(
@@ -50,12 +50,12 @@ Ok, how about this then:
   )
 ```
 
-This one has many flaws though. Here are some of them:
+This one may look nice, but it has a couple of flaws:
 
 1. In RxJava 2 this will crash in live app but not in unit tests which can be extremely confusing. In RxJava 1 though it will crash both in unit tests and in live app.
 2. There are more unchecked exceptions besides `RuntimeException` that we want to crash on. This includes `Error`, etc. It's hard to track on all exceptions of this kind.
 
-But the main flaw of this approach is this:
+But the main flaw is this:
 
 During application development Rx chains become more and more complex. Also your observables will be reused in different places in different chains. In the contexts you never expected them to be used in.
 
