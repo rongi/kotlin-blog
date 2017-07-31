@@ -1,6 +1,7 @@
 ---
 layout: post
 title:  "Error handling in RxJava"
+description: "What is the best way to handle errors in RxJava?"
 categories: rxjava rx
 ---
 
