@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "Error handling in RxJava, best practices"
+title:  "Error handling in RxJava"
 categories: rxjava rx
 ---
 
@@ -57,7 +57,7 @@ This one may look nice, but it has a couple of flaws:
 
 But the main flaw is this:
 
-During application development Rx chains become more and more complex. Also your observables will be reused in different places in different chains. In the contexts you never expected them to be used in.
+During application development your Rx chains will become more and more complex. Also your observables will be reused in different places, in the contexts you never expected them to be used in.
 
 Imagine you've decided to use `userProvider.getUsers()` observable in this chain:
 
@@ -69,15 +69,15 @@ Observable.concat(userProvider.getUsers(), userProvider.getUsers())
 
 What will happen if both `userProvider.getUsers()` observables emit an error?
 
-Now, you may think that both of these error will be mapped to an empty list and two empty lists will be emitted. You may be surprised to see that actually only one list is emitted.
+Now, you may think that both errors will be mapped to an empty list and so two empty lists will be emitted. You may be surprised to see that actually only one list is emitted. This is because error occurred in the first `userProvider.getUsers()` will terminate the whole chain upstream and second parameter of `concat` will never be executed.
 
-You see, errors in RxJava are pretty destructive. They are designed as fatal conditions that stops the whole chain upstream. They aren't supposed to be part of interface of your observable. They are handled by RxJava as unexpected errors should be handled.
+You see, errors in RxJava are pretty destructive. They are designed as fatal signals that stops the whole chain upstream. They aren't supposed to be part of interface of your observable. They are handled by RxJava as unexpected errors.
 
-If you design your observables to emit errors as a valid output these observables will have limited scope of possible use. It's not obvious how complex chains work in case of error, so it's very easy to misuse error-emitting observables and this will result in bugs. Very nasty kind of bugs, the ones that are reproducible only occasionally (on exceptional conditions, like lack of network) and don't leave stack traces.
+If you design your observables to emit errors as a valid output these observables will have limited scope of possible use. It's not obvious how complex chains will work in case of error, so it's very easy to misuse error-emitting observables which will result in bugs. Very nasty kind of bugs, the ones that are reproducible only occasionally (on exceptional conditions, like lack of network) and don't leave stack traces.
 
 ## Result class
 
-So, how to design observables that return expected errors? Just wrap them into some kind of `Result` class, some variation of this:
+So, how to design observables that return expected errors? Just make them return some kind of `Result` class, which can contain either legit result or an exception. Something like this:
 
 ```kotlin
 data class Result<out T>(
@@ -85,6 +85,8 @@ data class Result<out T>(
   val error: Throwable?
 )
 ```
+
+Wrap all expected exceptions into this and let all unexpected ones fall through and crash the app.
 
 Now, while this approach doesn't looks particularly elegant or intuitive and produces quite a bit of boilerplate, I've found that it causes the least amount of problems. Also, it looks like this is an "official" way to do error handling in RxJava. I saw it recommended by RxJava maintainers in multiple discussions across Internet.
 
@@ -135,7 +137,3 @@ not vocal enough
 > RxJava errors are RuntimeErrors, programming errors, unexpected errors. If you are designing an observable that is expected to throw errors sometimes, like http requests are expected to have "no internet" errors, then you better use compound result with either return value or exception.
 
 > Throwing inside an observable expecting to "catch" that exception inside onError() method of the subscriber is not a valid option.
-
-> Yes, it is uncomfortable
-
-> If your observables are designed to emit errors as a valid output sooner or later you'll end up in situation when you program doesn't work as expected by some mysterious reason.
