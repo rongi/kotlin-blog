@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "Test parcelable recreates"
+title:  "Test parcelable serialisation/deserialisation"
 date:   2017-06-15 16:07:20 +0200
 categories: kotlin parcelable test
 ---
