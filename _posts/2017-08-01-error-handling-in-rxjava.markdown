@@ -25,13 +25,13 @@ It's similar to what we used to do with `AssyncTasks` and looks pretty much like
 
 There is one big problem with this though. Say there is a programming error inside `userProvider.getUsers()` observable that leads to `NullPointerException` or something like this. It'll be super convenient here to crash right away so we can detect and fix the problem on the spot. But we'll see no crash, the error will be handled as an expected one: an error message will be shown, or in some other graceful way.
 
-Even worse is that there wouldn't be any crash in the unit tests. The tests will just fail with mysterious unexpected behavior. You'll have to spend time on debugging instead of seeing the reason right away in a nice call stack.
+Even worse is that there wouldn't be any crash in the tests. The tests will just fail with mysterious unexpected behavior. You'll have to spend time on debugging instead of seeing the reason right away in a nice call stack.
 
 ## Expected and unexpected exceptions
 
-Just to be on the same page a little explanation on what is meant here by expected and unexpected exceptions.
+Just to be clear let me explain what do I meant here by expected and unexpected exceptions.
 
-Expected exceptions are the ones that are expected to happen in a bug-free program. Examples here are various kinds of IO exceptions, like no network exception, etc. Your software is supposed to react on these exceptions gracefully, showing error messages, etc. Expected exceptions are like second valid return value, they are part of method's signature.
+Expected exceptions are those that are expected to happen in a bug-free program. Examples here are various kinds of IO exceptions, like no network exception, etc. Your software is supposed to react on these exceptions gracefully, showing error messages, etc. Expected exceptions are like second valid return value, they are part of method's signature.
 
 Unexpected exceptions are mostly programming errors. They can and will happen during development, but they should never happen in the finished product. At least it's a goal. But if they do happen, usually it's a good idea just to crash the app right away. This helps to raise attention to the problem quickly and fix it as soon as possible.
 
@@ -56,7 +56,7 @@ So, if we want to crash why don't just check if the exception is an `RuntimeExce
 
 This one may look nice, but it has a couple of flaws:
 
-1. In RxJava 2 this will crash in live app but not in the unit tests. Which can be extremely confusing. In RxJava 1 though it will crash both in the unit tests and in the application.
+1. In RxJava 2 this will crash in the live app but not in the tests. Which can be extremely confusing. In RxJava 1 though it will crash both in the tests and in the application.
 2. There are more unchecked exceptions besides `RuntimeException` that we want to crash on. This includes `Error`, etc. It's hard to track all exceptions of this kind.
 
 But the main flaw is this:
@@ -77,7 +77,7 @@ Now, you may think that both errors will be mapped to an empty list and so two e
 
 You see, errors in RxJava are pretty destructive. They are designed as fatal signals that stops the whole chain upstream. They aren't supposed to be part of interface of your observable. They perform as unexpected errors.
 
-Observables designed to emit errors as a valid output have limited scope of possible use. It's not obvious how complex chains will work in case of error, so it's very easy to misuse this kind of observables. And this will result in bugs. Very nasty kind of bugs, the ones that are reproducible only occasionally (on exceptional conditions, like lack of network) and don't leave stack traces.
+Observables designed to emit errors as a valid output have limited scope of possible use. It's not obvious how complex chains will work in case of error, so it's very easy to misuse this kind of observables. And this will result in bugs. Very nasty kind of bugs, those that are reproducible only occasionally (on exceptional conditions, like lack of network) and don't leave stack traces.
 
 ## Result class
 
@@ -96,7 +96,7 @@ Now, while this approach doesn't looks particularly elegant or intuitive and pro
 
 ## Some useful code snippets
 
-To convert your Retrofit observables to the ones returning `Result` you can use this handy extension function:
+To make your Retrofit observables return `Result` you can use this handy extension function:
 
 ```kotlin
 fun <T> Observable<T>.retrofitResponseToResult(): Observable<Result<T>> {
