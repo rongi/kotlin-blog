@@ -3,6 +3,7 @@ layout: post
 title:  "Test parcelable serialisation/deserialisation"
 date:   2017-06-15 16:07:20 +0200
 categories: kotlin parcelable test
+tags: kotlin parcelable test
 ---
 
 It happens pretty often that you make some update in a parcelable that breaks it's serilisation/deserialisation process. It results in crashes that are detected late in the test process or even not detected at all and end up in production.

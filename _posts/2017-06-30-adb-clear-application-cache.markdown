@@ -2,6 +2,7 @@
 layout: post
 title:  "Clear application cache from console"
 categories: adb android
+tags: adb android
 ---
 
 This here is the single most useful command in the adb arsenal:

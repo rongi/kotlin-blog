@@ -2,6 +2,7 @@
 layout: post
 title:  "Kotlin vs Java: Count number of items in a list satisfying a condition"
 categories: kotlin
+tags: kotlin
 ---
 
 Java:

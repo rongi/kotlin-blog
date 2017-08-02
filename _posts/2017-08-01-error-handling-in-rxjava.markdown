@@ -4,6 +4,7 @@ title:  "Error handling in RxJava"
 description: "What is the best way to handle errors in RxJava?"
 excerpt: "What is the best way to handle errors in RxJava?"
 categories: rxjava rx
+tags: rxjava rx
 ---
 
 Once you start writing RxJava code you realize that some things can be done in different ways and sometimes it's hard to identify best practices right away. Error handling is one of these things.

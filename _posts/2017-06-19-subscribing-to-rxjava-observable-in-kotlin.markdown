@@ -2,6 +2,7 @@
 layout: post
 title:  "Kotlin vs Java: subscribing to an observer in RxJava"
 categories: kotlin rxjava rx
+tags: kotlin rxjava rx
 ---
 
 RxJava is much more convenient with Kotlin and resulting code is so much cleaner and concise.
