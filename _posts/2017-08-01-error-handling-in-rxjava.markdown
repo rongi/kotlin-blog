@@ -6,7 +6,7 @@ excerpt: "What is the best way to handle errors in RxJava?"
 categories: rxjava rx
 ---
 
-Once you start writing RxJava code you realize that some things can be done in different ways and sometimes it's hard to identify best practices right away. Error handling is one of this things.
+Once you start writing RxJava code you realize that some things can be done in different ways and sometimes it's hard to identify best practices right away. Error handling is one of these things.
 
 So, what is the best way to handle errors in RxJava and what are the options?
 
@@ -39,7 +39,7 @@ In Java expected exceptions are mostly implemented using checked exceptions (sub
 
 ## Crashing on RuntimeExceptions
 
-So, if we want to crash why don't just check if the exception is an `RuntimeException` and rethrow it inside `onError` consumer? And if it's not just handle it like we did it in the previous example?
+So, if we want to crash why don't just check if the exception is a `RuntimeException` and rethrow it inside `onError` consumer? And if it's not just handle it like we did it in the previous example?
 
 ```kotlin
   userProvider.getUsers().subscribe(
@@ -75,13 +75,13 @@ What will happen if both `userProvider.getUsers()` observables emit an error?
 
 Now, you may think that both errors will be mapped to an empty list and so two empty lists will be emitted. You may be surprised to see that actually only one list is emitted. This is because error occurred in the first `userProvider.getUsers()` will terminate the whole chain upstream and second parameter of `concat` will never be executed.
 
-You see, errors in RxJava are pretty destructive. They are designed as fatal signals that stops the whole chain upstream. They aren't supposed to be part of interface of your observable. They perform as unexpected errors.
+You see, errors in RxJava are pretty destructive. They are designed as fatal signals that stop the whole chain upstream. They aren't supposed to be part of interface of your observable. They perform as unexpected errors.
 
 Observables designed to emit errors as a valid output have limited scope of possible use. It's not obvious how complex chains will work in case of error, so it's very easy to misuse this kind of observables. And this will result in bugs. Very nasty kind of bugs, those that are reproducible only occasionally (on exceptional conditions, like lack of network) and don't leave stack traces.
 
 ## Result class
 
-So, how to design observables that return expected errors? Just make them return some kind of `Result` class which will contain either result of the operation or an exception. Something like this:
+So, how to design observables that return expected errors? Just make them return some kind of `Result` class, which will contain either result of the operation or an exception. Something like this:
 
 ```kotlin
 data class Result<out T>(
