@@ -7,6 +7,8 @@ categories: rxjava rx
 tags: rxjava rx
 ---
 
+<img src="{{site.url}}/{{site.baseurl}}/assets/error-handling-in-rxjava-title.jpg" alt="Drawing" style="width: 638px;"/>
+
 Once you start writing RxJava code you realize that some things can be done in different ways and sometimes it's hard to identify best practices right away. Error handling is one of these things.
 
 So, what is the best way to handle errors in RxJava and what are the options?
