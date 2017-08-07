@@ -1,0 +1,41 @@
+---
+# Only the main Sass file needs front matter (the dashes are enough)
+---
+
+@import "minima";
+
+$social-icon-size: 42px;
+
+/**
+ * Grid helpers
+ */
+.one-half {
+  width: -webkit-calc(50% - (#{$spacing-unit} / 2));
+  width:         calc(50% - (#{$spacing-unit} / 2));
+}
+
+.social-media-list {
+  display: table;
+  position: relative;
+  margin-top: 0;
+  margin-bottom: 0;
+  margin-left: auto;
+  margin-right: auto;
+  top: -$spacing-unit / 3;
+  li {
+    float: left;
+    a {
+      display: block;
+      display: flex;
+      margin: 0 12px;
+      padding: $spacing-unit / 4;
+      border: 0px solid $grey-color-light
+    }
+    &:hover .svg-icon { fill: $brand-color; }
+  }
+  .svg-icon {
+    width: $social-icon-size;
+    height: $social-icon-size;
+    fill: $grey-color;
+  }
+}

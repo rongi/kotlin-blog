@@ -23,6 +23,20 @@ twitter_username: KotlinBlog
 github_username:  rongi
 author: Dmitry Ryadnenko
 
+social:
+  twitter: KotlinBlog
+  facebook: DmitryRd
+  github:  rongi
+  # googleplus: +jekyll
+  # dribbble: jekyll
+  # flickr: jekyll
+  # instagram: jekyll
+  # linkedin: jekyll
+  # pinterest: jekyll
+  # rss: rss
+  # stackoverflow: 12345/jekyll
+  # youtube: jekyll
+
 # Build settings
 markdown: kramdown
 theme: minima

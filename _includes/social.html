@@ -1,0 +1,111 @@
+{% assign social = site.social %}
+<ul class="social-media-list">
+  {% if social.twitter %}
+    <li>
+      <a href="https://www.twitter.com/{{ social.twitter | cgi_escape | escape }}" title="Twitter">
+        <svg class="svg-icon">
+          <use xlink:href="{{site.baseurl}}/assets/icons.svg#twitter"></use>
+        </svg>
+      </a>
+    </li>
+  {% endif %}
+  {% if social.facebook %}
+    <li>
+      <a href="https://www.facebook.com/{{ social.facebook | cgi_escape | escape }}" title="Facebook">
+        <svg class="svg-icon">
+          <use xlink:href="{{site.baseurl}}/assets/icons.svg#facebook"></use>
+        </svg>
+      </a>
+    </li>
+  {% endif %}
+  {% if social.dribbble %}
+    <li>
+      <a href="https://dribbble.com/{{ social.dribbble | cgi_escape | escape }}" title="Dribbble">
+        <svg class="svg-icon">
+          <use xlink:href="{{site.baseurl}}{{site.baseurl}}/assets/icons.svg#dribbble"></use>
+        </svg>
+      </a>
+    </li>
+  {% endif %}
+  {% if social.flickr %}
+    <li>
+      <a href="https://www.flickr.com/photos/{{ social.flickr | cgi_escape | escape }}" title="Flickr">
+        <svg class="svg-icon">
+          <use xlink:href="{{site.baseurl}}/assets/icons.svg#flickr"></use>
+        </svg>
+      </a>
+    </li>
+  {% endif %}
+  {% if social.github %}
+    <li>
+      <a href="https://github.com/{{ social.github | cgi_escape | escape }}" title="GitHub">
+        <svg class="svg-icon">
+          <use xlink:href="{{site.baseurl}}/assets/icons.svg#github"></use>
+        </svg>
+      </a>
+    </li>
+  {% endif %}
+  {% if social.instagram %}
+    <li>
+      <a href="https://instagram.com/{{ social.instagram | cgi_escape | escape }}" title="Instagram">
+        <svg class="svg-icon">
+          <use xlink:href="{{site.baseurl}}/assets/icons.svg#instagram"></use>
+        </svg>
+      </a>
+    </li>
+  {% endif %}
+  {% if social.linkedin %}
+    <li>
+      <a href="https://www.linkedin.com/in/{{ social.linkedin | cgi_escape | escape }}" title="LinkedIn">
+        <svg class="svg-icon">
+          <use xlink:href="{{site.baseurl}}/assets/icons.svg#linkedin"></use>
+        </svg>
+      </a>
+    </li>
+  {% endif %}
+  {% if social.pinterest %}
+    <li>
+      <a href="https://www.pinterest.com/{{ social.pinterest | cgi_escape | escape }}" title="Pinterest">
+        <svg class="svg-icon">
+          <use xlink:href="{{site.baseurl}}/assets/icons.svg#pinterest"></use>
+        </svg>
+      </a>
+    </li>
+  {% endif %}
+  {% if social.stackoverflow %}
+    <li>
+      <a href="https://stackoverflow.com/users/{{ social.stackoverflow | escape }}" title="Stack Overflow">
+        <svg class="svg-icon">
+          <use xlink:href="{{site.baseurl}}/assets/icons.svg#stackoverflow"></use>
+        </svg>
+      </a>
+    </li>
+  {% endif %}
+  {% if social.youtube %}
+    <li>
+      <a href="https://youtube.com/{{ social.youtube | cgi_escape | escape }}" title="YouTube">
+        <svg class="svg-icon">
+          <use xlink:href="{{site.baseurl}}/assets/icons.svg#youtube"></use>
+        </svg>
+      </a>
+    </li>
+  {% endif %}
+  {% if social.googleplus %}
+    <li>
+      <a href="https://plus.google.com/{{ social.googleplus | escape }}" title="Google Plus">
+        <svg class="svg-icon">
+          <use xlink:href="{{site.baseurl}}/assets/icons.svg#googleplus"></use>
+        </svg>
+      </a>
+    </li>
+  {% endif %}
+  {% if social.rss %}
+    <li>
+      <a href="{{ 'feed.xml' | relative_url }}" title="RSS Feed">
+        <svg class="svg-icon">
+          <use xlink:href="{{site.baseurl}}/assets/icons.svg#rss"></use>
+        </svg>
+      </a>
+    </li>
+  {% endif %}
+</ul>
