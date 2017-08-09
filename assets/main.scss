@@ -40,3 +40,92 @@ $social-icon-size: 38px;
     fill: $grey-color;
   }
 }
+
+// Simple share buttons
+
+ul.share-buttons{
+  padding: 0;
+}
+
+ul.share-buttons li{
+  display: inline;
+  margin-right: 8px;
+  a {
+    text-decoration: none;
+    i {
+      display: inline-block;
+      vertical-align: bottom;
+    }
+  }
+}
+
+.sb-button {
+  display: inline;
+  background: black;
+  padding-top: 17px;
+  padding-left: 6px;
+  padding-right: 4px;
+  padding-bottom: 4px;
+}
+
+.sb-icon-text {
+  display: inline-block;
+  vertical-align: bottom;
+  color: white;
+  font-size: 18px;
+  margin-left: 8px;
+}
+
+.fa {
+  color: white;
+}
+
+.sb-button-twitter {
+  background: #5BC2F0;
+}
+
+.sb-button-facebook {
+  background: #435D96;
+}
+
+.sb-button-google-plus {
+  background: #E93F2E;
+}
+
+.sb-button-email {
+  background: #0A88FF;
+}
+
+.share-buttons-container {
+    border-top: 1px solid #e8e8e8;
+    border-bottom: 1px solid #e8e8e8;
+    padding-top: 20px;
+    padding-bottom: 8px;
+}
+
+// ul.share-buttons .sr-only{
+//   position: absolute;
+//   clip: rect(1px 1px 1px 1px);
+//   clip: rect(1px, 1px, 1px, 1px);
+//   padding: 0;
+//   border: 0;
+//   height: 1px;
+//   width: 1px;
+//   overflow: hidden;
+// }
+
+// .fa-twitter-square {
+//   color: #5BC2F0;
+// }
+//
+// .fa-facebook-square {
+//   color: #435D96;
+// }
+//
+// .fa-google-plus-square {
+//   color: #E93F2E;
+// }
+//
+// .fa-envelope-square {
+//   color: #0A88FF;
+// }
