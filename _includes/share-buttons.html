@@ -1,0 +1,38 @@
+<ul class="share-buttons" style="margin-left:0;">
+  <li><a href="https://twitter.com/intent/tweet?source={{ site.url }}{{ page.url }}&text={{ page.title }}:%20{{ site.url }}{{ page.url }}&via={{site.social.twitter}}" target="_blank" title="Tweet" onclick="windowPopup('https://twitter.com/intent/tweet?text=' + encodeURIComponent(document.title) + ':%20' + encodeURIComponent(document.URL)); return false;">
+    <div class="sb-button sb-button-twitter">
+      <i class="fa fa-twitter fa-2x" aria-hidden="true"></i><span class="sb-icon-text">Tweet</span>
+    </div>
+  </a></li>
+  <li><a href="https://www.facebook.com/sharer/sharer.php?u={{ site.url }}{{ page.url }}" target="_blank" title="Share on Facebook" onclick="windowPopup('https://www.facebook.com/sharer/sharer.php?u=' + encodeURIComponent(document.URL) + '&t=' + encodeURIComponent(document.URL)); return false;">
+    <div class="sb-button sb-button-facebook">
+      <i class="fa fa-facebook fa-2x" aria-hidden="true"></i><span class="sb-icon-text">Share on Facebook</span>
+    </div>
+  </a></li>
+  <li><a href="https://plus.google.com/share?url={{ site.url }}{{ page.url }}" target="_blank" title="Share on Google+" onclick="windowPopup('https://plus.google.com/share?url=' + encodeURIComponent(document.URL)); return false;">
+    <div class="sb-button sb-button-google-plus">
+      <i class="fa fa-google-plus fa-2x" aria-hidden="true"></i><span class="sb-icon-text">Share on Google+</span>
+    </div>
+  </a></li>
+  <li><a href="mailto:?subject=&body={{ site.url }}{{ page.url }}" target="_blank" title="Send email" onclick="windowPopup('mailto:?subject=' + encodeURIComponent(document.title) + '&body=' +  encodeURIComponent(document.URL)); return false;">
+    <div class="sb-button sb-button-email">
+      <i class="fa fa-envelope fa-2x" aria-hidden="true"></i><span class="sb-icon-text">Send email</span>
+    </div>
+  </a></li>
+</ul>
+
+<script>
+
+function windowPopup(url) {
+  var width = 700
+  var height = 400
+  var left = (screen.width / 2) - (width / 2)
+  var top = (screen.height / 2) - (height / 2)
+
+  window.open(
+    url, "",
+    "menubar=no,toolbar=no,resizable=yes,scrollbars=yes,width=" + width + ",height=" + height + ",top=" + top + ",left=" + left
+  );
+}
+
+</script>
