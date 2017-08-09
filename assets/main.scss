@@ -4,7 +4,7 @@
 
 @import "minima";
 
-$social-icon-size: 42px;
+$social-icon-size: 38px;
 
 /**
  * Grid helpers
@@ -22,15 +22,15 @@ $social-icon-size: 42px;
   margin-left: auto;
   margin-right: auto;
   list-style: none;
-  top: -$spacing-unit / 3;
+  top: -$spacing-unit / 2;
   li {
     float: left;
     a {
       display: block;
       display: flex;
-      margin: 0 12px;
+      margin: 0 4px;
       padding: $spacing-unit / 4;
-      border: 1px solid $grey-color-light
+      border: 0px solid $grey-color-light
     }
     &:hover .svg-icon { fill: $brand-color; }
   }
