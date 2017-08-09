@@ -30,7 +30,7 @@ $social-icon-size: 42px;
       display: flex;
       margin: 0 12px;
       padding: $spacing-unit / 4;
-      border: 0px solid $grey-color-light
+      border: 1px solid $grey-color-light
     }
     &:hover .svg-icon { fill: $brand-color; }
   }
