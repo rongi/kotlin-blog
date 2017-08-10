@@ -19,12 +19,12 @@ description: > # this means to ignore newlines until "baseurl:"
   A blog about Android, Kotlin and Rxjava development
 baseurl: "/kotlin-blog" # the subpath of your site, e.g. /blog
 url: "https://rongi.github.io" # the base hostname & protocol for your site, e.g. http://example.com
-twitter_username: KotlinBlog
+twitter_username: DmitryRyadnenko
 github_username:  rongi
 author: Dmitry Ryadnenko
 
 social:
-  twitter: KotlinBlog
+  twitter: DmitryRyadnenko
   facebook: DmitryRd
   github:  rongi
   rss: rss
