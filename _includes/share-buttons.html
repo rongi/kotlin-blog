@@ -1,20 +1,20 @@
 <ul class="share-buttons" style="margin-left:0;">
-  <li><a href="https://twitter.com/intent/tweet?source={{ site.url }}{{ page.url }}&text={{ page.title }}:%20{{ site.url }}{{ page.url }}&via={{site.social.twitter}}" target="_blank" title="Tweet" onclick="return onShareFbClick();">
+  <li><a href="https://twitter.com/intent/tweet?source={{ site.url }}{{ page.url }}&text={{ page.title }}:%20{{ site.url }}{{ page.url }}&via={{site.social.twitter}}" target="_blank" title="Tweet" onclick="return onShareTwitterClick();">
     <div class="sb-button sb-button-twitter">
       <i class="fa fa-twitter fa-lg" aria-hidden="true"></i><span class="sb-icon-text">Tweet</span>
     </div>
   </a></li>
-  <li><a href="https://www.facebook.com/sharer/sharer.php?u={{ site.url }}{{ page.url }}" target="_blank" title="Share on Facebook" onclick="windowPopup('https://www.facebook.com/sharer/sharer.php?u=' + encodeURIComponent(document.URL) + '&t=' + encodeURIComponent(document.URL)); return false;">
+  <li><a href="https://www.facebook.com/sharer/sharer.php?u={{ site.url }}{{ page.url }}" target="_blank" title="Share on Facebook" onclick="return onShareFbClick();">
     <div class="sb-button sb-button-facebook">
       <i class="fa fa-facebook fa-lg" aria-hidden="true"></i><span class="sb-icon-text">Share</span>
     </div>
   </a></li>
-  <li><a href="https://plus.google.com/share?url={{ site.url }}{{ page.url }}" target="_blank" title="Share on Google+" onclick="windowPopup('https://plus.google.com/share?url=' + encodeURIComponent(document.URL)); return false;">
+  <li><a href="https://plus.google.com/share?url={{ site.url }}{{ page.url }}" target="_blank" title="Share on Google+" onclick="return onShareGooglePlusClick();">
     <div class="sb-button sb-button-google-plus">
       <i class="fa fa-google-plus fa-lg" aria-hidden="true"></i><span class="sb-icon-text">Share</span>
     </div>
   </a></li>
-  <li><a href="mailto:?subject=&body={{ site.url }}{{ page.url }}" target="_blank" title="Send email" onclick="windowPopup('mailto:?subject=' + encodeURIComponent(document.title) + '&body=' +  encodeURIComponent(document.URL)); return false;">
+  <li><a href="mailto:?subject=&body={{ site.url }}{{ page.url }}" target="_blank" title="Send email" onclick="return onShareEmailClick();">
     <div class="sb-button sb-button-email">
       <i class="fa fa-envelope fa-lg" aria-hidden="true"></i><span class="sb-icon-text">Email</span>
     </div>
@@ -36,9 +36,31 @@ function windowPopup(url) {
 }
 
 function onShareFbClick() {
-  windowPopup('https://twitter.com/intent/tweet?text=' + encodeURIComponent(document.title) + ':%20' + encodeURIComponent(document.URL));
+  windowPopup('https://www.facebook.com/sharer/sharer.php?u=' + encodeURIComponent(document.URL) + '&t=' + encodeURIComponent(document.URL));
+  gaSocialShareClickEvent('Facebook')
   return false;
+}
 
+function onShareTwitterClick() {
+  windowPopup('https://twitter.com/intent/tweet?text=' + encodeURIComponent(document.title) + ':%20' + encodeURIComponent(document.URL));
+  gaSocialShareClickEvent('Twitter')
+  return false;
+}
+
+function onShareGooglePlusClick() {
+  windowPopup('https://plus.google.com/share?url=' + encodeURIComponent(document.URL));
+  gaSocialShareClickEvent('Google Plus')
+  return false;
+}
+
+function onShareEmailClick() {
+  windowPopup('mailto:?subject=' + encodeURIComponent(document.title) + '&body=' +  encodeURIComponent(document.URL));
+  gaSocialShareClickEvent('Email')
+  return false;
+}
+
+function gaSocialShareClickEvent(socialNetwork) {
+  ga('send', 'event', 'Social Share', 'Click', socialNetwork);
 }
 
 </script>
