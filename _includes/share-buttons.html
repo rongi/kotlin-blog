@@ -1,5 +1,5 @@
 <ul class="share-buttons" style="margin-left:0;">
-  <li><a href="https://twitter.com/intent/tweet?source={{ site.url }}{{ page.url }}&text={{ page.title }}:%20{{ site.url }}{{ page.url }}&via={{site.social.twitter}}" target="_blank" title="Tweet" onclick="windowPopup('https://twitter.com/intent/tweet?text=' + encodeURIComponent(document.title) + ':%20' + encodeURIComponent(document.URL)); return false;">
+  <li><a href="https://twitter.com/intent/tweet?source={{ site.url }}{{ page.url }}&text={{ page.title }}:%20{{ site.url }}{{ page.url }}&via={{site.social.twitter}}" target="_blank" title="Tweet" onclick="return onShareFbClick();">
     <div class="sb-button sb-button-twitter">
       <i class="fa fa-twitter fa-lg" aria-hidden="true"></i><span class="sb-icon-text">Tweet</span>
     </div>
@@ -33,6 +33,12 @@ function windowPopup(url) {
     url, "",
     "menubar=no,toolbar=no,resizable=yes,scrollbars=yes,width=" + width + ",height=" + height + ",top=" + top + ",left=" + left
   );
+}
+
+function onShareFbClick() {
+  windowPopup('https://twitter.com/intent/tweet?text=' + encodeURIComponent(document.title) + ':%20' + encodeURIComponent(document.URL));
+  return false;
+
 }
 
 </script>
