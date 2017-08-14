@@ -2,7 +2,7 @@
 <ul class="social-media-list-my">
   {% if social.twitter %}
     <li>
-      <a href="https://www.twitter.com/{{ social.twitter | cgi_escape | escape }}" title="Twitter">
+      <a href="https://www.twitter.com/{{ social.twitter | cgi_escape | escape }}" title="Twitter" onclick="gaSocialProfileClickEvent('Twitter');return true;">
         <svg class="svg-icon">
           <use xlink:href="{{site.baseurl}}/assets/icons.svg#twitter"></use>
         </svg>
@@ -11,7 +11,7 @@
   {% endif %}
   {% if social.facebook %}
     <li>
-      <a href="https://www.facebook.com/{{ social.facebook | cgi_escape | escape }}" title="Facebook">
+      <a href="https://www.facebook.com/{{ social.facebook | cgi_escape | escape }}" title="Facebook" onclick="gaSocialProfileClickEvent('Facebook');return true;">
         <svg class="svg-icon">
           <use xlink:href="{{site.baseurl}}/assets/icons.svg#facebook"></use>
         </svg>
@@ -38,7 +38,7 @@
   {% endif %}
   {% if social.github %}
     <li>
-      <a href="https://github.com/{{ social.github | cgi_escape | escape }}" title="GitHub">
+      <a href="https://github.com/{{ social.github | cgi_escape | escape }}" title="GitHub" onclick="gaSocialProfileClickEvent('GitHub');return true;">
         <svg class="svg-icon">
           <use xlink:href="{{site.baseurl}}/assets/icons.svg#github"></use>
         </svg>
@@ -56,7 +56,7 @@
   {% endif %}
   {% if social.linkedin %}
     <li>
-      <a href="https://www.linkedin.com/in/{{ social.linkedin | cgi_escape | escape }}" title="LinkedIn">
+      <a href="https://www.linkedin.com/in/{{ social.linkedin | cgi_escape | escape }}" title="LinkedIn" onclick="gaSocialProfileClickEvent('LinkedIn');return true;">
         <svg class="svg-icon">
           <use xlink:href="{{site.baseurl}}/assets/icons.svg#linkedin"></use>
         </svg>
@@ -92,7 +92,7 @@
   {% endif %}
   {% if social.googleplus %}
     <li>
-      <a href="https://plus.google.com/{{ social.googleplus | escape }}" title="Google Plus">
+      <a href="https://plus.google.com/{{ social.googleplus | escape }}" title="Google Plus" onclick="gaSocialProfileClickEvent('Google Plus');return true;">
         <svg class="svg-icon">
           <use xlink:href="{{site.baseurl}}/assets/icons.svg#googleplus"></use>
         </svg>
@@ -101,7 +101,7 @@
   {% endif %}
   {% if social.rss %}
     <li>
-      <a href="{{ 'feed.xml' | relative_url }}" title="RSS Feed">
+      <a href="{{ 'feed.xml' | relative_url }}" title="RSS Feed" onclick="gaSocialProfileClickEvent('RSS Icon');return true;">
         <svg class="svg-icon">
           <use xlink:href="{{site.baseurl}}/assets/icons.svg#rss"></use>
         </svg>
@@ -109,3 +109,11 @@
     </li>
   {% endif %}
 </ul>
+
+<script>
+
+function gaSocialProfileClickEvent(socialNetwork) {
+  ga('send', 'event', 'Social Profile', 'Click', socialNetwork);
+}
+
+</script>
