@@ -132,3 +132,25 @@ class UserProvider {
   }
 }
 ```
+
+## Use sealed class for Result
+
+It is a good idea to implement `Result` as a sealed class:
+
+```kotlin
+sealed class Result<out T> {
+  data class Success<out T>(val data: T) : Result<T>()
+  data class Error<out T>(val throwable: Throwable) : Result<T>()
+}
+```
+
+This allows you to write this beauty:
+
+```kotlin
+userProvider.getUsers().subscribe {
+  when (it) {
+    is Result.Success -> handleSuccess(result.data)
+    is Result.Error -> handleError(result.throwable)
+  }
+}
+```
