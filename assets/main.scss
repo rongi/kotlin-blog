@@ -4,9 +4,10 @@
 
 @import "minima";
 
-$social-icon-size: 38px;
+$social-icon-size: 30px;
 $social-icon-color: #7a7a7a !default;
 
+$social-icon-between: $spacing-unit / 3;
 /**
  * Grid helpers
  */
@@ -20,17 +21,18 @@ $social-icon-color: #7a7a7a !default;
   position: relative;
   margin-top: 0;
   margin-bottom: 0;
-  margin-left: auto;
-  margin-right: auto;
+  margin-left: -$social-icon-between - $spacing-unit / 1.4;
+  margin-right: 0px;
   list-style: none;
-  top: -$spacing-unit / 3;
+  top: -$spacing-unit / 777;
   li {
     float: left;
     a {
       display: block;
       display: flex;
       margin: 0 4px;
-      padding: $spacing-unit / 4;
+      padding-left: $social-icon-between;
+      padding-right: $social-icon-between;
       border: 0px solid $grey-color-light
     }
     &:hover .svg-icon { fill: $brand-color; }
