@@ -24,7 +24,7 @@ Let's say you have an observable that can produce an exception. How to handle th
   )
 ```
 
-It's similar to what we used to do with `AssyncTasks` and looks pretty much like a try-catch block.
+It's similar to what we used to do with `AsyncTasks` and looks pretty much like a try-catch block.
 
 There is one big problem with this though. Say there is a programming error inside `userProvider.getUsers()` observable that leads to `NullPointerException` or something like this. It'll be super convenient here to crash right away so we can detect and fix the problem on the spot. But we'll see no crash, the error will be handled as an expected one: an error message will be shown, or in some other graceful way.
 
