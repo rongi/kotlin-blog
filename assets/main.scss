@@ -5,7 +5,7 @@
 @import "minima";
 
 $social-icon-size: 30px;
-$social-icon-color: #7a7a7a !default;
+$social-icon-color: #666666 !default;
 
 $social-icon-between: $spacing-unit / 3;
 /**
@@ -105,4 +105,14 @@ ul.share-buttons li{
 
 .highlight {
   .err   { color: #111; background-color: #eef } // Error
+}
+
+.author-photo {
+   height: 50px;
+   width: 50px;
+   float: left;
+   margin-left: 12px;
+   margin-top: 3px;
+   margin-bottom: 3px;
+   border-radius: 50%
 }
