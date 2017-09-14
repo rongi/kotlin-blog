@@ -4,4 +4,6 @@ title: About
 permalink: /about/
 ---
 
-A blog about Android, Kotlin and Rxjava development
+Android developer from Stockholm, Sweden.
+
+And this is my blog about Android, Kotlin and Rxjava development.
