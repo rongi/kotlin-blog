@@ -9,5 +9,3 @@ tags: rxjava rx
 <img src="{{site.url}}{{site.baseurl}}/assets/hansel-and-gretel-breadcrumbs.jpg" alt="Drawing" style="width: 678px;"/>
 
 Breadcrumbs. It's hard to understand what crashed if something crashed inside RxJava.
-
-Oh my, something inside RxJava just crashed.
