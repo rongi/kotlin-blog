@@ -1,13 +1,87 @@
 ---
 layout: post
 title:  "How to make RxJava crash logs more informative"
+excerpt: "Once in a while, something inside RxJava guts will crash and spit out perfectly useless crash log. This is how to avoid it."
 tags: rxjava rx
 ---
-
-## Breadcrumbs
+RxJava: better crashlogs with breadcrumbs
 
 <img src="{{site.url}}{{site.baseurl}}/assets/hansel-and-gretel-breadcrumbs.jpg" alt="Drawing" style="width: 678px;"/>
 
+<!-- Sometimes RxJava produces useless crashlogs
+
+It happens from time to time that RxJava produces crashlogs that are totally useless.
+
+It happens from time to time that RxJava produces crash logs that are totally useless. This article is about how to spice up your crash logs with more useful information.
+
+Sometimes something crashes in your RxJava observables
+
+Sometimes your RxJava observables crash. And sometimes crashlogs produced by this crashes are totally meaningless.
+
+Sometimes your RxJava observables crash. And crash logs produced by these crashes are totally useless sometimes.
+
+Sometimes your RxJava observables crash. And crash logs produced can be totally useless.
+
+Sometimes your RxJava observables crash and crash logs with crash logs which are useless.
+
+Sometimes your RxJava observables crash and spit up crash logs which are useless. -->
+
+<!-- Once in a while your RxJava observable will crash and spit out crash log which is totally useless. -->
+
+<!-- Once in a while RxJava observables crash and spit out crash logs which are totally useless. -->
+
+<!-- Once in a while your RxJava observable will crash and spit out crash log which is totally useless.
+
+Once in a while something inside RxJava will crash and spit out crash log which is totally useless.
+
+Once in a while something inside RxJava will crash and give you totally useless crashlog.
+
+Once in a while something inside RxJava guts will crash and you will be presented with perfectly useless crash log. -->
+
+<!-- Once in a while, something inside RxJava guts will crash and spit out perfectly useless crash log.
+
+This is how to avoid it. -->
+
+--
+
+<!-- How to make these crash logs more informative? -->
+
+--
+
+Once in a while, something inside RxJava guts will crash and spit out perfectly useless crash log.
+
+Like this:
+
+// Crash Log //
+
+--
+
+Now, knowing that you have a crash in your app and being unable to localize it can be quite daunting. You may dump hours or even days into it. This is certainly a situation you want to avoid.
+
+<!-- Now, having crash on your hands which you can't localize can -->
+
+<!-- is a very very grim situation. make you -->
+
+<!-- Here is how to improve the situation. -->
+
+<!-- This post is about how to avoid this kind of situation and make all your RxJava crash logs meaningful.
+
+This post is about how to spice up your crash logs with useful data
+
+This post is about how to add information to the crash logs that will help localize the problem.
+
+Learn how to make crash logs more informative.
+
+And then you are in a very bad situation.
+
+Now, having crash on your hands which you can't localized is a very very bad situation. -->
+
+
+
+
+
+
+<!-- cryptic -->
 TODO: better title, something about a problem and how to solve it
 
 TODO: Intro about that sometimes something crash in RxJava and you have no idea what
