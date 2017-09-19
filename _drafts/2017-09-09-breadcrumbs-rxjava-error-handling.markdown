@@ -45,6 +45,8 @@ java.lang.NullPointerException: The mapper function returned a null value.
 
 Oh my, something inside RxJava guts just crashed!
 
+Ho hint on where the chain was created or where is the subscriber.
+
 Now, if it's a real project, you can spend the rest of your day bisecting your code in hopes to eventually isolate the bug. And even this will work only if you know how to reproduce the thing. If it's something from crash report system, then you have a crash on your hands and you can do nothing to fix it.
 
 If you think that this is synthetic example, don't. I've seen this kind of crashlogs pretty regularly. All you need to do to have it is:
