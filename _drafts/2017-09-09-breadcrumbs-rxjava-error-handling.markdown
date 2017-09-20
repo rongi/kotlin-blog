@@ -50,6 +50,8 @@ All you need to have to have this kind of bugs is this:
 1. Crash occurred in the guts of RxJava
 2. Crash occurred on a background thread
 
+Also you may be able to identify which observable crashed but unable to identify in which chain it was used. For example Retrofit observable reused. 
+
 You can have similar problem if one of your observables is reused across several chains and runs on separate thread (a Retrofit observable for example). Then you'll see which observable've crashed, but you will be unable to see in which chain.
 
 To fix it use breadcrumbs:
