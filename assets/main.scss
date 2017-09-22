@@ -50,6 +50,10 @@ $social-icon-between: $spacing-unit / 3;
   fill: $social-icon-color;
 }
 
+.svg-icon-header:hover {
+  fill: $brand-color;
+}
+
 .page-link-icon {
   vertical-align: -webkit-baseline-middle;
 }
