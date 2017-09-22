@@ -154,10 +154,3 @@ userProvider.getUsers().subscribe {
   }
 }
 ```
-
-<!-- ## Read next
-
-#### [Improve your RxJava crashlogs]({{site.baseurl}}{% post_url 2017-09-09-breadcrumbs-rxjava-error-handling %})
-
->Once in a while, something inside RxJava will crash and reward you with absolutely useless crash log.
-How to never get into this kind of situation? -->
