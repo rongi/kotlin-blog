@@ -169,10 +169,10 @@ Observable.just("a string").map(...)
     .subscribe();
 ```
 
-#### Read next
+## Read next
 
-#### [_Error handling in RxJava_]({{site.baseurl}}{% post_url 2017-08-01-error-handling-in-rxjava %})
-
+> #### [Error handling in RxJava]({{site.baseurl}}{% post_url 2017-08-01-error-handling-in-rxjava %})
+>
 >What is the best way to handle errors in RxJava?
 
 <!-- Now, you at least know which of your observables just exploded!
