@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "RxJava: better crashlogs or how to always know which of your observables just crashed"
+title: "RxJava - Better crash logs or how to always know which of your observables just crashed"
 excerpt: "Once in a while, something inside RxJava will crash and give you absolutely useless crash log.
 How to never get into this kind of situation?"
 tags: rxjava rx
@@ -38,7 +38,7 @@ Just look at all these sweet `io.reactivex` and `java` packages! There is no sin
 
 Now, it's probably time to abandon whatever you were doing right now and spend the rest of your day in an exciting task of bisecting your code in hope to isolate the crash. And dear lord you are lucky if this one is easy to reproduce!
 
-This kind of problems happens quite regularly. The crash log above was produced by following code:
+This kind of problems happens quite regularly. For example, the crash log above was produced by this code:
 
 ```kotlin
 just("a string").map { null }
@@ -47,15 +47,15 @@ just("a string").map { null }
 }
 ```
 
-Just run some of your observables on a separate thread (like you do it with Retrofit observables) and you can run into this babies.
+Just run some of your observables on a separate thread (like you do it with Retrofit observables) and you can run into this kind of issues.
 
-Similar thing can happen if you reuse the same observable (or observable creation code, like Retrofit calls) across multiple chains. Or just subscribe to these observables more than once. In this case you may be unable to identify which chain just crashed even if you can identify the observable itself.
+Similar thing can happen if you reuse the same observable (or observable creation code, like Retrofit calls) across multiple chains. Or if you subscribe to these observables more than once. In this case you may be unable to identify which chain have just crashed even if you can identify the crashed observable itself.
 
-You may think: "Sounds like it may be useful to have an info about where the crashed observable was created." But how to do that? Is that even  possible?
+You may think: "Sounds like it may be useful to add info to your logs about where the crashed observable was created." But how to do that? Is that possible?
 
-## Breadcrumbs to the rescue
+## Breadcrumb exception
 
-Well, sure it's possible! Just decorate all your chains with this extension function:
+Well, it is possible. Just decorate all your chains with this extension function:
 
 ```kotlin
 fun <T> Observable<T>.dropBreadcrumb(): Observable<T> {
@@ -66,7 +66,7 @@ fun <T> Observable<T>.dropBreadcrumb(): Observable<T> {
 }
 ```
 
-And here is how you do it:
+Like this:
 
 ```kotlin
 just("a string").map { null }
@@ -169,20 +169,11 @@ Observable.just("a string").map(...)
     .subscribe();
 ```
 
-## Read next
+#### Read next
 
-#### [Error handling in RxJava]({{site.baseurl}}{% post_url 2017-08-01-error-handling-in-rxjava %})
+#### [_Error handling in RxJava_]({{site.baseurl}}{% post_url 2017-08-01-error-handling-in-rxjava %})
 
 >What is the best way to handle errors in RxJava?
-
-TODO review more
-
-TODO grammar
-
-TODO remove comments
-
-TODO test links between error handling articles
-
 
 <!-- Now, you at least know which of your observables just exploded!
  -->
