@@ -16,7 +16,7 @@ Once in a while, one of your observables will crash and leave behind a crash log
 
 ```java
 java.lang.NullPointerException: The mapper function returned a null value.
-    at io.reactivex.internal.functions.ObjectHelper.requireNonNull(ObjectHelper.java:39) 
+    at io.reactivex.internal.functions.ObjectHelper.requireNonNull(ObjectHelper.java:39)
     at io.reactivex.internal.operators.observable.ObservableMap$MapObserver.onNext(ObservableMap.java:58)
     at io.reactivex.internal.operators.observable.ObservableScalarXMap$ScalarDisposable.run(ObservableScalarXMap.java:246)
     at io.reactivex.internal.operators.observable.ObservableJust.subscribeActual(ObservableJust.java:35)
