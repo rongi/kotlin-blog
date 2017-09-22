@@ -44,6 +44,16 @@ $social-icon-between: $spacing-unit / 3;
   }
 }
 
+.svg-icon-header {
+  width: $social-icon-size * 0.9;
+  height: $social-icon-size * 0.9;
+  fill: $social-icon-color;
+}
+
+.page-link-icon {
+  vertical-align: -webkit-baseline-middle;
+}
+
 // Simple share buttons
 
 ul.share-buttons{

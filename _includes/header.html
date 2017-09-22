@@ -30,6 +30,14 @@
             <a class="page-link" href="{{ my_page.url | relative_url }}">{{ my_page.title | escape }}</a>
             {% endif %}
           {% endfor %}
+
+          {% if site.social.twitter %}
+            <a class="page-link page-link-icon" href="https://www.twitter.com/{{ site.social.twitter | cgi_escape | escape }}" title="Twitter" onclick="gaSocialProfileClickEvent('Twitter-Header');return true;">
+              <svg class="svg-icon-header">
+                <use xlink:href="{{site.baseurl}}/assets/icons.svg#twitter"></use>
+              </svg>
+            </a>
+          {% endif %}
         </div>
       </nav>
     {% endif %}
