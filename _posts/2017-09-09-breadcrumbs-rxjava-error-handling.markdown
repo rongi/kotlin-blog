@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "Improve your RxJava crashlogs"
-excerpt: "Once in a while, something inside RxJava will crash and reward you with absolutely useless crash log.
+excerpt: "Once in a while, something inside RxJava will crash and give you absolutely useless crash log.
 How to never get into this kind of situation?"
 tags: rxjava rx
 categories: rxjava
@@ -10,7 +10,7 @@ published: false
 
 <img src="{{site.url}}{{site.baseurl}}/assets/hansel-and-gretel-breadcrumbs.jpg" alt="Drawing" style="width: 740px;"/>
 
-Once in a while, one of your observables will die and leave behind a crash log like this:
+Once in a while, one of your observables will crash and leave behind a crash log like this:
 
 <!-- <img src="{{site.url}}{{site.baseurl}}/assets/rxjava-breadcrumbs-log.jpg" alt="Drawing" style="width: 740px;"/> -->
 
