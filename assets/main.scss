@@ -114,5 +114,15 @@ ul.share-buttons li{
    margin-left: 12px;
    margin-top: 3px;
    margin-bottom: 3px;
-   border-radius: 50%
+   border-radius: 50%;
+}
+
+.author-photo-big {
+   height: 200px;
+   width: 200px;
+   display: block;
+   margin-left: auto;
+   margin-right: auto;
+   border-radius: 50%;
+   margin-bottom: 30px;
 }

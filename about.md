@@ -4,6 +4,6 @@ title: About
 permalink: /about/
 ---
 
-Android developer from Stockholm, Sweden.
+<img src="{{ "/" | relative_url }}assets/author-photo.jpg" class="author-photo-big">
 
-And this is my blog about Android, Kotlin and Rxjava development.
+I'm Android developer from Stockholm, Sweden. This is my blog about Android, Kotlin and Rxjava development.
