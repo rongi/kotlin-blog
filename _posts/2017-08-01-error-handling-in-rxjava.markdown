@@ -28,7 +28,7 @@ It's similar to what we used to do with `AsyncTasks` and looks pretty much like 
 
 There is one big problem with this though. Say there is a programming error inside `userProvider.getUsers()` observable that leads to `NullPointerException` or something like this. It'll be super convenient here to crash right away so we can detect and fix the problem on the spot. But we'll see no crash, the error will be handled as an expected one: an error message will be shown, or in some other graceful way.
 
-Even worse is that there wouldn't be any crash in the tests. The tests will just fail with mysterious unexpected behavior. You'll have to spend time on debugging instead of seeing the reason right away in a nice call stack.
+Even worse is that there wouldn't be any crash in the tests. The tests will just fail with mysterious unexpected behaviour. You'll have to spend time on debugging instead of seeing the reason right away in a nice call stack.
 
 ## Expected and unexpected exceptions
 
