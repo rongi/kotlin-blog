@@ -155,9 +155,8 @@ userProvider.getUsers().subscribe {
 }
 ```
 
-## Read next
+## More about error handling in RxJava
 
-> #### [RxJava - Better crash logs or how to always know which of your observables just crashed]({{site.baseurl}}{% post_url 2017-09-09-breadcrumbs-rxjava-error-handling %})
+> ### [RxJava - Better crash logs or how to always know which of your observables crashed]({{site.baseurl}}{% post_url 2017-09-09-breadcrumbs-rxjava-error-handling %})
 >
->Once in a while, something inside RxJava will crash and give you absolutely useless crash log.
->How to never get into this kind of situation?
+>Once in a while, something inside RxJava will crash and give you absolutely useless crash log. How to never get into this kind of situation?

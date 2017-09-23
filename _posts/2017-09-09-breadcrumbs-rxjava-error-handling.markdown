@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "RxJava - Better crash logs or how to always know which of your observables just crashed"
+title: "RxJava - Better crash logs or how to always know which of your observables crashed"
 excerpt: "Once in a while, something inside RxJava will crash and give you absolutely useless crash log.
 How to never get into this kind of situation?"
 tags: rxjava rx
@@ -10,9 +10,7 @@ published: false
 
 <img src="{{site.url}}{{site.baseurl}}/assets/hansel-and-gretel-breadcrumbs.jpg" alt="Drawing" style="width: 740px;"/>
 
-Once in a while, one of your observables will crash and leave behind a crash log like this:
-
-<!-- <img src="{{site.url}}{{site.baseurl}}/assets/rxjava-breadcrumbs-log.jpg" alt="Drawing" style="width: 740px;"/> -->
+Once in a while, one of your observables will crash and leave behind a useless crash log. Something like this:
 
 ```java
 java.lang.NullPointerException: The mapper function returned a null value.
@@ -34,11 +32,11 @@ java.lang.NullPointerException: The mapper function returned a null value.
     at java.lang.Thread.run(Thread.java:818)
 ```
 
-Just look at all these sweet `io.reactivex` and `java` packages! There is no single link to your code here. No hint on where the chain was created or who is the subscriber.
+Just look at all these sweet `io.reactivex` and `java` packages. There is no single link to your code. No hints on where the chain was created or who is the subscriber!
 
-Now, it's probably time to abandon whatever you were doing right now and spend the rest of your day in an exciting task of bisecting your code in hope to isolate the crash. And dear lord you are lucky if this one is easy to reproduce!
+Now, it's probably time to abandon whatever you were doing and spend the rest of your day in an exciting task of bisecting your code in hopes to isolate the crash. And dear lord you are lucky if this one is easy to reproduce!
 
-This kind of problems happens quite regularly. For example, the crash log above was produced by this code:
+This kind of problems happens quite regularly. For example, crash log above was produced by this code:
 
 ```kotlin
 just("a string").map { null }
@@ -47,15 +45,17 @@ just("a string").map { null }
 }
 ```
 
-Just run some of your observables on a separate thread (like you do it with Retrofit observables) and you can run into this kind of issues.
+This code models a pretty common situation: you've forgotten that something is nullable and return it from your `map` operator. Can happen with your Retrofit observables when you are interested only in a part of the response, and that part happened to be null.
 
-Similar thing can happen if you reuse the same observable (or observable creation code, like Retrofit calls) across multiple chains. Or if you subscribe to these observables more than once. In this case you may be unable to identify which chain have just crashed even if you can identify the crashed observable itself.
+Generally, just run some of your observables on a separate thread (like you do it with Retrofit observables) and you are in a danger zone. RxJava returns call stack only for the thread that crashed and if the said call stack doesn't contain your code; then, you are out of luck I guess.
 
-You may think: "Sounds like it may be useful to add info to your logs about where the crashed observable was created." But how to do that? Is that possible?
+Similar thing can happen if you use the same observable (or observable creation code, like Retrofit calls) in several places. In this case, you may be unable to identify which chain have just crashed even if you was lucky to identify the crashed observable itself.
+
+You may think: "Sounds like it may be useful to see where the crashed observable was created." Can you do that? May be you can you add this kind of information to the crash log?
 
 ## Breadcrumb exception
 
-Well, it is possible. Just decorate all your chains with this extension function:
+Well, actually you can. Just decorate all your chains with this extension function:
 
 ```kotlin
 fun <T> Observable<T>.dropBreadcrumb(): Observable<T> {
@@ -66,7 +66,7 @@ fun <T> Observable<T>.dropBreadcrumb(): Observable<T> {
 }
 ```
 
-Like this:
+Here is an example:
 
 ```kotlin
 just("a string").map { null }
@@ -139,11 +139,11 @@ This is our code! You can just click there now and get to the place where the cr
 
 ## How does it work
 
-If you look at the code then it's pretty obvious that it just creates an exception with a callstack pointing to the point where the chain was created. Or, to be more precice, where `dropBreadcrumb()` was applied. Then it decorates each error emitted by the chain with this exception.
+If you look at the code, then it's pretty obvious that it just creates an exception with a call stack pointing to the point where the chain was created. Or, to be more precise, where `dropBreadcrumb()` was applied. Then it decorates each error emitted by the chain with this exception.
 
 ## Can I do it with Java?
 
-For people like me, who are still forced to do Java, here is Java example:
+For people like me, who are still forced to do Java, here is a Java example:
 
 ```java
 public final class DropBreadcrumb<T> implements ObservableTransformer<T, T> {
@@ -169,93 +169,7 @@ Observable.just("a string").map(...)
     .subscribe();
 ```
 
-## Read next
+## More about error handling in RxJava
 
-> #### [Error handling in RxJava]({{site.baseurl}}{% post_url 2017-08-01-error-handling-in-rxjava %})
->
->What is the best way to handle errors in RxJava?
-
-<!-- Now, you at least know which of your observables just exploded!
- -->
-
-<!-- Oh my, something inside RxJava guts just crashed! -->
-
-
-<!-- Breadcrumbs. It's hard to understand what crashed if something crashed inside RxJava. -->
-<!-- Error handling in RxJava, part 2. Breadcrumbs -->
-
-<!-- Title -->
-<!-- Title -->
-<!-- Title -->
-
-<!-- RxJava: better crashlogs with breadcrumbs -->
-
-
-
-<!-- Intro -->
-<!-- Intro -->
-<!-- Intro -->
-
-<!-- Sometimes RxJava produces useless crashlogs
-
-It happens from time to time that RxJava produces crashlogs that are totally useless.
-
-It happens from time to time that RxJava produces crash logs that are totally useless. This article is about how to spice up your crash logs with more useful information.
-
-Sometimes something crashes in your RxJava observables
-
-Sometimes your RxJava observables crash. And sometimes crashlogs produced by this crashes are totally meaningless.
-
-Sometimes your RxJava observables crash. And crash logs produced by these crashes are totally useless sometimes.
-
-Sometimes your RxJava observables crash. And crash logs produced can be totally useless.
-
-Sometimes your RxJava observables crash and crash logs with crash logs which are useless.
-
-Sometimes your RxJava observables crash and spit up crash logs which are useless. -->
-
-<!-- Once in a while your RxJava observable will crash and spit out crash log which is totally useless. -->
-
-<!-- Once in a while RxJava observables crash and spit out crash logs which are totally useless. -->
-
-<!-- Once in a while your RxJava observable will crash and spit out crash log which is totally useless.
-
-Once in a while something inside RxJava will crash and spit out crash log which is totally useless.
-
-Once in a while something inside RxJava will crash and give you totally useless crashlog.
-
-Once in a while something inside RxJava guts will crash and you will be presented with perfectly useless crash log. -->
-
-<!-- Once in a while, something inside RxJava guts will crash and spit out perfectly useless crash log.
-
-This is how to avoid it. -->
-
-<!--
-Once in a while, something inside RxJava guts explodes and spits out perfectly useless crash log.
-
-Once in a while, one of your observables will crash and spit out perfectly useless crash log. Something like this.
--->
-
-<!-- How to make these crash logs more informative? -->
-
-<!-- Something -->
-<!-- Something -->
-<!-- Something -->
-
-<!-- Now, having crash on your hands which you can't localize can -->
-
-<!-- is a very very grim situation. make you -->
-
-<!-- Here is how to improve the situation. -->
-
-<!-- This post is about how to avoid this kind of situation and make all your RxJava crash logs meaningful.
-
-This post is about how to spice up your crash logs with useful data
-
-This post is about how to add information to the crash logs that will help localize the problem.
-
-Learn how to make crash logs more informative.
-
-And then you are in a very bad situation.
-
-Now, having crash on your hands which you can't localized is a very very bad situation. -->
+> ### [Error handling in RxJava]({{site.baseurl}}{% post_url 2017-08-01-error-handling-in-rxjava %})
+> Once you start writing RxJava code you realise that some things can be done in different ways and sometimes it’s hard to identify best practices right away. Error handling is one of these things.<br><br>So, what is the best way to handle errors in RxJava and what are the options?
