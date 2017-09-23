@@ -34,9 +34,9 @@ java.lang.NullPointerException: The mapper function returned a null value.
 
 Just look at all these sweet `io.reactivex` and `java` packages. There is no single link to your code. No hints on where the chain was created or who is the subscriber!
 
-Now, it's probably time to abandon whatever you were doing and spend the rest of your day in an exciting task of bisecting your code in hopes to isolate the crash. And dear lord you are lucky if this one is easy to reproduce!
+now, it's probably time to abandon whatever you were doing and spend the rest of your day in an exciting task of bisecting your code in hopes of isolating the crash. You are lucky if this one is easy to reproduce!
 
-This kind of problems happens quite regularly. For example, crash log above was produced by this code:
+This kind of problem happens quite regularly. For example, the crash log above was produced by this code:
 
 ```kotlin
 just("a string").map { null }
@@ -45,13 +45,13 @@ just("a string").map { null }
 }
 ```
 
-This code models a pretty common situation: you've forgotten that something is nullable and return it from your `map` operator. Can happen with your Retrofit observables when you are interested only in a part of the response, and that part happened to be null.
+This code models a pretty common situation: you've forgotten that something is nullable and return it from your `map` operator. This can happen with your Retrofit observables when you are interested in only a part of the response, and that part happened to be null.
 
-Generally, just run some of your observables on a separate thread (like you do it with Retrofit observables) and you are in a danger zone. RxJava returns call stack only for the thread that crashed and if the said call stack doesn't contain your code; then, you are out of luck I guess.
+Generally, just run some of your observables on a separate thread (like you do it with Retrofit observables), and you are in a danger zone. RxJava returns call stack only for the thread that crashed, and if the said call stack doesn't contain your code, then, you are out of luck.
 
-Similar thing can happen if you use the same observable (or observable creation code, like Retrofit calls) in several places. In this case, you may be unable to identify which chain have just crashed even if you was lucky to identify the crashed observable itself.
+A similar thing can happen if you use the same observable (or observable creation code, like Retrofit calls) in several places. In this case, you may be unable to identify which chain have just crashed even if you were lucky enough to identify the crashed observable itself.
 
-You may think: "Sounds like it may be useful to see where the crashed observable was created." Can you do that? May be you can you add this kind of information to the crash log?
+You may think: "Sounds like it may be useful to see where the crashed observable was created." Can you do that? Maybe you can add this kind of information to the crash log?
 
 ## Breadcrumb exception
 
@@ -137,9 +137,9 @@ This is our code! You can just click there now and get to the place where the cr
 <img src="https://i.giphy.com/media/12NUbkX6p4xOO4/giphy.webp" alt="Drawing" style="width: 300px; margin-top: 30px; margin-bottom: 20px;"/>
 {: refdef}
 
-## How does it work
+## How does it work?
 
-If you look at the code, then it's pretty obvious that it just creates an exception with a call stack pointing to the point where the chain was created. Or, to be more precise, where `dropBreadcrumb()` was applied. Then it decorates each error emitted by the chain with this exception.
+If you look at the code, then it's pretty obvious that it just creates an exception with a call stack pointing to the point where the chain was created --- or, to be more precise, where `dropBreadcrumb()` was applied. Then it decorates each error emitted by the chain with this exception.
 
 ## Can I do it with Java?
 
