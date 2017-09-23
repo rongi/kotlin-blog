@@ -21,7 +21,17 @@ baseurl: "/kotlin-blog" # the subpath of your site, e.g. /blog
 url: "https://rongi.github.io" # the base hostname & protocol for your site, e.g. http://example.com
 twitter_username: DmitryRyadnenko
 github_username:  rongi
-author: Dmitry Ryadnenko
+
+# SEO
+twitter:
+  username: DmitryRyadnenko
+facebook:
+  publisher: DmitryRd
+author:
+  name: Dmitry Ryadnenko
+  twitter: DmitryRyadnenko
+  facebook: DmitryRd
+# SEO
 
 social:
   twitter: DmitryRyadnenko
@@ -36,6 +46,14 @@ social:
   # pinterest: jekyll
   # stackoverflow: 12345/jekyll
   # youtube: jekyll
+  # SEO
+  name: Dmitry Ryadnenko
+  links:
+    - https://twitter.com/DmitryRyadnenko
+    - https://www.facebook.com/DmitryRd
+    - https://www.linkedin.com/in/dmitry-ryadnenko
+    - https://github.com/rongi
+  # SEO
 
 # Build settings
 markdown: kramdown
