@@ -36,7 +36,6 @@ function windowPopup(url) {
 }
 
 function onShareFbClick() {
-  windowPopup('https://www.facebook.com/sharer/sharer.php?u=' + encodeURIComponent(document.URL) + '&t=' + encodeURIComponent(document.URL));
   gaSocialShareClickEvent('Facebook')
   return false;
 }
@@ -47,13 +46,11 @@ function onShareTwitterClick() {
 }
 
 function onShareGooglePlusClick() {
-  windowPopup('https://plus.google.com/share?url=' + encodeURIComponent(document.URL));
   gaSocialShareClickEvent('Google Plus')
   return false;
 }
 
 function onShareEmailClick() {
-  windowPopup('mailto:?subject=' + encodeURIComponent(document.title) + '&body=' +  encodeURIComponent(document.URL));
   gaSocialShareClickEvent('Email')
   return false;
 }
