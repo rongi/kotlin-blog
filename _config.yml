@@ -26,11 +26,11 @@ github_username:  rongi
 twitter:
   username: DmitryRyadnenko
 facebook:
-  publisher: DmitryRd
+  publisher: dmitry.ryadnenko
 author:
   name: Dmitry Ryadnenko
   twitter: DmitryRyadnenko
-  facebook: DmitryRd
+  facebook: dmitry.ryadnenko
 # SEO
 
 social:
@@ -50,7 +50,7 @@ social:
   name: Dmitry Ryadnenko
   links:
     - https://twitter.com/DmitryRyadnenko
-    - https://www.facebook.com/DmitryRd
+    - https://www.facebook.com/dmitry.ryadnenko
     - https://www.linkedin.com/in/dmitry-ryadnenko
     - https://github.com/rongi
   # SEO
