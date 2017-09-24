@@ -3,7 +3,7 @@ layout: post
 title: "RxJava - Better crash logs or how to always know which of your observables crashed"
 excerpt: "Once in a while, something inside RxJava will crash and give you absolutely useless crash log.
 How to never get into this kind of situation?"
-tags: rxjava rx
+tags: rxjava rx breadcrumbs
 categories: rxjava
 published: false
 ---
