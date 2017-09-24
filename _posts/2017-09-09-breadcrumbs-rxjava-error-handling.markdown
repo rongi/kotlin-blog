@@ -32,9 +32,9 @@ java.lang.NullPointerException: The mapper function returned a null value.
     at java.lang.Thread.run(Thread.java:818)
 ```
 
-Just look at all these sweet `io.reactivex` and `java` packages. There is no single link to your code. No hints on where the chain was created or who is the subscriber!
+Just look at all these sweet `io.reactivex` and `java` packages. There is no single link to your code! No hints on where the chain was created or who is the subscriber.
 
-now, it's probably time to abandon whatever you were doing and spend the rest of your day in an exciting task of bisecting your code in hopes of isolating the crash. You are lucky if this one is easy to reproduce!
+Now, it's probably time to abandon whatever you were doing and spend the rest of your day in an exciting task of bisecting your code in hopes of isolating the crash. You are lucky if this one is easy to reproduce!
 
 This kind of problem happens quite regularly. For example, the crash log above was produced by this code:
 
