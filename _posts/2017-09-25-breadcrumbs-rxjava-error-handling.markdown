@@ -64,6 +64,8 @@ fun <T> Observable<T>.dropBreadcrumb(): Observable<T> {
     throw CompositeException(error, breadcrumb)
   }
 }
+
+class BreadcrumbException : Exception()
 ```
 
 Here is an example:
@@ -157,6 +159,9 @@ public final class DropBreadcrumb<T> implements ObservableTransformer<T, T> {
             }
         });
     }
+}
+
+class BreadcrumbException extends Exception {
 }
 ```
 
