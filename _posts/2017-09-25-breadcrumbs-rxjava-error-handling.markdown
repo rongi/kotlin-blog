@@ -136,7 +136,7 @@ at test.com.sandbox_kotlin.MainActivity.onCreate(MainActivity.kt:23)
 This is our code! You can just click there now and get to the place where the crashed chain was created.
 
 {:refdef: style="text-align: center;"}
-<img src="https://i.giphy.com/media/12NUbkX6p4xOO4/giphy.webp" alt="Drawing" style="width: 300px; margin-top: 30px; margin-bottom: 20px;"/>
+<img src="{{site.url}}{{site.baseurl}}/assets/magic.gif" alt="Drawing" style="width: 300px; margin-top: 30px; margin-bottom: 20px;"/>
 {: refdef}
 
 ## How does it work?
