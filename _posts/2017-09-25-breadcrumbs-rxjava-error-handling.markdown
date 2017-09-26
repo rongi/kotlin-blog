@@ -174,14 +174,13 @@ Observable.just("a string").map(...)
     .subscribe();
 ```
 
-## Can I do it automatically?
+## Can I have this as a default behavior?
 
-<!--
-Yep, and that's exactly what this plugin does: https://github.com/T-Spoon/Traceur.
-It uses Rx2's plugin system to hook into every operator call and performs the same logic as described in the article to dump granular stacktraces.
+You can do it with plugins like [Traceur](https://github.com/T-Spoon/Traceur) and [RxJava2Extensions](https://github.com/akarnokd/RxJava2Extensions#debug-support). They create a call stack for each subscription. While it may seem extremely handy, don't forget that observables subscribe to each other. So, for each observable in your chains, a call stack will be created. Probably you want to do it only in debug mode since creating a call stack is a costly operation and abusing it may lead to sudden performance issues.
 
-Ours cover the entire JVM in case you have difficulty locating the source of the error. Yours can be applied when the search is narrower.
- -->
+Dropping breadcrumbs here and there though shouldn't be a problem, and you can use them with release builds.
+
+If you use Kotlin, you can combine `dropBreadcrumb()` and `subscribe()` into a single extension function.
 
 ## More about error handling in RxJava
 
