@@ -174,6 +174,15 @@ Observable.just("a string").map(...)
     .subscribe();
 ```
 
+## Can I do it automatically?
+
+<!--
+Yep, and that's exactly what this plugin does: https://github.com/T-Spoon/Traceur.
+It uses Rx2's plugin system to hook into every operator call and performs the same logic as described in the article to dump granular stacktraces.
+
+Ours cover the entire JVM in case you have difficulty locating the source of the error. Yours can be applied when the search is narrower.
+ -->
+
 ## More about error handling in RxJava
 
 > ### [Error handling in RxJava]({{site.baseurl}}{% post_url 2017-08-01-error-handling-in-rxjava %})
