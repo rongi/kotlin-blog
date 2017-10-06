@@ -1,4 +1,5 @@
 {% assign favicon_dir = site.url | append: site.baseurl | append: "/assets/favicon" %}
+{% assign social_icon_dir = site.url | append: site.baseurl | append: "/assets/social-share-icons" %}
 
 <head>
   <meta charset="utf-8">
@@ -12,7 +13,8 @@
   <link rel="canonical" href="{{ page.url | replace:'index.html','' | absolute_url }}">
   <link rel="alternate" type="application/rss+xml" title="{{ site.title | escape }}" href="{{ "/feed.xml" | relative_url }}">
 
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <!-- social share icons-->
+  <link rel="stylesheet" type="text/css" href="{{social_icon_dir}}/flaticon.css">
 
   <!-- favicon -->
   <link rel="apple-touch-icon" sizes="180x180" href="{{favicon_dir}}/apple-touch-icon.png">

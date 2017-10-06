@@ -8,34 +8,35 @@ $social-icon-size: 30px;
 $social-icon-color: #666666 !default;
 
 $social-icon-between: $spacing-unit / 3;
+
+$share-icon-color: #666;
+$share-icon-color-hover: #000;
+
 /**
  * Grid helpers
  */
 .one-half {
   width: -webkit-calc(50% - (#{$spacing-unit} / 2));
-  width:         calc(50% - (#{$spacing-unit} / 2));
+  width: calc(50% - (#{$spacing-unit} / 2));
 }
 
 .social-media-list-my {
   display: table;
   position: relative;
-  margin-top: 0;
-  margin-bottom: 0;
-  margin-left: auto;
-  margin-right: auto;
+  margin: 0 auto;
   list-style: none;
   top: -$spacing-unit / 8;
   li {
     float: left;
     a {
-      display: block;
-      display: flex;
       margin: 0 4px;
       padding-left: $social-icon-between;
       padding-right: $social-icon-between;
-      border: 0px solid $grey-color-light
+      border: 0 solid $grey-color-light
     }
-    &:hover .svg-icon { fill: $brand-color; }
+    &:hover .svg-icon {
+      fill: $brand-color;
+    }
   }
   .svg-icon {
     width: $social-icon-size;
@@ -60,13 +61,13 @@ $social-icon-between: $spacing-unit / 3;
 
 // Simple share buttons
 
-ul.share-buttons{
+ul.share-buttons {
   padding: 0;
 }
 
-ul.share-buttons li{
-  display: inline;
-  margin-right: 8px;
+ul.share-buttons li {
+  margin: 18px 0;
+  list-style-type: none;
   a {
     text-decoration: none;
     i {
@@ -76,67 +77,93 @@ ul.share-buttons li{
 }
 
 .sb-button {
-  display: inline;
-  background: black;
-  padding: 7px 8px;
+  border-radius: 50%;
+  border: 1px solid $share-icon-color;
+  width: 40px;
+  line-height: 40px;
+  text-align: center;
+  font-size: 20px;
 }
 
-.sb-icon-text {
-  display: inline-block;
-  vertical-align: baseline;
-  color: white;
-  font-size: 16px;
-  margin-left: 8px;
+.sb-button:hover {
+  border: 1px solid $share-icon-color-hover;
+  .share-icon {
+    color: $share-icon-color-hover;
+  }
+  //background: #f3f3f3;
 }
 
-.fa {
-  color: white;
+.animation-hide {
+  transition: all 0.3s;
+  opacity: 0;
+}
+
+.animation-show {
+  transition: all 0.3s;
+  opacity: 1;
+}
+
+.share-icon {
+  color: $share-icon-color;
+  margin: 0 auto;
 }
 
 .sb-button-twitter {
-  background: #5BC2F0;
 }
 
 .sb-button-facebook {
-  background: #435D96;
 }
 
 .sb-button-google-plus {
-  background: #E93F2E;
 }
 
 .sb-button-email {
-  background: #1f3e66;
+}
+
+.flaticon-twitter-social-outlined-logo {
+  margin-left: 1px;
+}
+
+.flaticon-google-plus-outlined-logo-social-symbol {
+  margin-left: 3px;
+}
+
+.flaticon-google-plus {
+  margin-left: 3px;
 }
 
 .share-buttons-container-bottom {
-    border-top: 1px solid #e8e8e8;
-    border-bottom: 1px solid #e8e8e8;
-    padding-top: 24px;
-    padding-bottom: 12px;
-    text-align: center;
+  position: fixed!important;
+  top: 150px;
+  float: left;
+  z-index: 99;
+  margin-left: -120px;
 }
 
 .highlight {
-  .err   { color: #111; background-color: #eef } // Error
+  .err {
+    color: #111;
+    background-color: #eef
+  }
+  // Error
 }
 
 .author-photo {
-   height: 50px;
-   width: 50px;
-   float: left;
-   margin-left: 12px;
-   margin-top: 3px;
-   margin-bottom: 3px;
-   border-radius: 50%;
+  height: 50px;
+  width: 50px;
+  float: left;
+  margin-left: 12px;
+  margin-top: 3px;
+  margin-bottom: 3px;
+  border-radius: 50%;
 }
 
 .author-photo-big {
-   height: 200px;
-   width: 200px;
-   display: block;
-   margin-left: auto;
-   margin-right: auto;
-   border-radius: 50%;
-   margin-bottom: 30px;
+  height: 200px;
+  width: 200px;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  border-radius: 50%;
+  margin-bottom: 30px;
 }

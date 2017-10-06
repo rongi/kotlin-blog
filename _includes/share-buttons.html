@@ -1,64 +1,107 @@
 {% assign page_url = site.url | append: site.baseurl | append: page.url %}
 
-<ul class="share-buttons" style="margin-left:0;">
-  <li><a href="https://twitter.com/intent/tweet?text={{ page.title }}&url={{ page_url }}&via={{site.social.twitter}}" target="_blank" title="Tweet" onclick="return onShareTwitterClick();">
-    <div class="sb-button sb-button-twitter">
-      <i class="fa fa-twitter fa-lg" aria-hidden="true"></i><span class="sb-icon-text">Tweet</span>
-    </div>
-  </a></li>
-  <li><a href="https://www.facebook.com/sharer/sharer.php?u={{ page_url }}" target="_blank" title="Share on Facebook" onclick="return onShareFbClick();">
-    <div class="sb-button sb-button-facebook">
-      <i class="fa fa-facebook fa-lg" aria-hidden="true"></i><span class="sb-icon-text">Share</span>
-    </div>
-  </a></li>
-  <li><a href="https://plus.google.com/share?url={{ page_url }}" target="_blank" title="Share on Google+" onclick="return onShareGooglePlusClick();">
-    <div class="sb-button sb-button-google-plus">
-      <i class="fa fa-google-plus fa-lg" aria-hidden="true"></i><span class="sb-icon-text">Share</span>
-    </div>
-  </a></li>
-  <li><a href="mailto:?subject=&body={{ page_url }}" target="_blank" title="Send email" onclick="return onShareEmailClick();">
-    <div class="sb-button sb-button-email">
-      <i class="fa fa-envelope fa-lg" aria-hidden="true"></i><span class="sb-icon-text">Email</span>
-    </div>
-  </a></li>
+<ul id="share-buttons-left-panel" class="share-buttons animation-hide" style="margin-left:0;">
+  <li>
+    <a href="https://twitter.com/intent/tweet?text={{ page.title }}&url={{ page_url }}&via={{site.social.twitter}}"
+       target="_blank" title="Tweet" onclick="return onShareTwitterClick();">
+      <div class="sb-button sb-button-twitter">
+        <i class="share-icon flaticon-twitter-social-outlined-logo" aria-hidden="true"></i>
+      </div>
+    </a>
+  </li>
+  <li>
+    <a href="https://www.facebook.com/sharer/sharer.php?u={{ page_url }}" target="_blank" title="Share on Facebook"
+       onclick="return onShareFbClick();">
+      <div class="sb-button sb-button-facebook">
+        <i class="share-icon flaticon-facebook-logo-outline" aria-hidden="true"></i>
+      </div>
+    </a>
+    </li>
+  <li>
+    <a href="https://plus.google.com/share?url={{ page_url }}" target="_blank" title="Share on Google+"
+       onclick="return onShareGooglePlusClick();">
+      <div class="sb-button sb-button-google-plus">
+        <i class="share-icon flaticon-google-plus" aria-hidden="true"></i>
+      </div>
+    </a>
+  </li>
+  <li>
+    <a href="mailto:?subject=&body={{ page_url }}" target="_blank" title="Send email"
+       onclick="return onShareEmailClick();">
+      <div class="sb-button sb-button-email">
+        <i class="share-icon flaticon-note" aria-hidden="true"></i>
+      </div>
+    </a>
+  </li>
 </ul>
 
 <script>
 
-function windowPopup(url) {
-  var width = 700
-  var height = 400
-  var left = (screen.width / 2) - (width / 2)
-  var top = (screen.height / 2) - (height / 2)
+  function windowPopup(url) {
+    var width = 700
+    var height = 400
+    var left = (screen.width / 2) - (width / 2)
+    var top = (screen.height / 2) - (height / 2)
 
-  window.open(
-    url, "",
-    "menubar=no,toolbar=no,resizable=yes,scrollbars=yes,width=" + width + ",height=" + height + ",top=" + top + ",left=" + left
-  );
-}
+    window.open(
+      url, "",
+      "menubar=no,toolbar=no,resizable=yes,scrollbars=yes,width=" + width + ",height=" + height + ",top=" + top + ",left=" + left
+    );
+  }
 
-function onShareFbClick() {
-  gaSocialShareClickEvent('Facebook')
-  return true;
-}
+  function onShareFbClick() {
+    gaSocialShareClickEvent('Facebook')
+    return true;
+  }
 
-function onShareTwitterClick() {
-  gaSocialShareClickEvent('Twitter')
-  return true;
-}
+  function onShareTwitterClick() {
+    gaSocialShareClickEvent('Twitter')
+    return true;
+  }
 
-function onShareGooglePlusClick() {
-  gaSocialShareClickEvent('Google Plus')
-  return true;
-}
+  function onShareGooglePlusClick() {
+    gaSocialShareClickEvent('Google Plus')
+    return true;
+  }
 
-function onShareEmailClick() {
-  gaSocialShareClickEvent('Email')
-  return true;
-}
+  function onShareEmailClick() {
+    gaSocialShareClickEvent('Email')
+    return true;
+  }
 
-function gaSocialShareClickEvent(socialNetwork) {
-  ga('send', 'event', 'Social Share', 'Click', socialNetwork);
-}
+  function gaSocialShareClickEvent(socialNetwork) {
+    ga('send', 'event', 'Social Share', 'Click', socialNetwork);
+  }
+
+</script>
+
+<!-- Show social buttons after scroll -->
+<script>
+
+  shareButtons = document.getElementById("share-buttons-left-panel");
+  var elem = document.getElementById("container");
+
+  document.addEventListener("DOMContentLoaded", function() {
+    updateSocialPanelVisibility();
+  });
+
+  var myScrollFunc = function () {
+    updateSocialPanelVisibility();
+  };
+
+  function updateSocialPanelVisibility() {
+    var limit = document.body.clientHeight - window.innerHeight
+
+    var y = window.scrollY;
+    if (y >= 420 || y >= limit - 100) {
+      shareButtons.classList.remove("animation-hide")
+      shareButtons.classList.add("animation-show")
+    } else {
+      shareButtons.classList.add("animation-hide")
+      shareButtons.classList.remove("animation-show")
+    }
+  }
+
+  window.addEventListener("scroll", myScrollFunc);
 
 </script>
