@@ -32,10 +32,8 @@
           {% endfor %}
 
           {% if site.social.twitter %}
-            <a class="page-link page-link-icon" href="https://www.twitter.com/{{ site.social.twitter | cgi_escape | escape }}" title="Twitter" onclick="gaSocialProfileClickEvent('Twitter-Header');return true;">
-              <svg class="svg-icon-header">
-                <use xlink:href="{{site.baseurl}}/assets/icons.svg#twitter"></use>
-              </svg>
+            <a class="page-link-icon" href="https://www.twitter.com/{{ site.social.twitter | cgi_escape | escape }}" title="Twitter" onclick="gaSocialProfileClickEvent('Twitter-Header');return true;">
+              <i class="flaticon-twitter-social-outlined-logo" aria-hidden="true"></i>
             </a>
           {% endif %}
         </div>

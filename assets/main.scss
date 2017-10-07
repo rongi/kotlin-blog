@@ -55,12 +55,6 @@ $share-icon-color-hover: #000;
   fill: $brand-color;
 }
 
-.page-link-icon {
-  vertical-align: -webkit-baseline-middle;
-}
-
-// Simple share buttons
-
 ul.share-buttons {
   padding: 0;
 }
@@ -108,6 +102,23 @@ ul.share-buttons li {
   margin: 0 auto;
 }
 
+.page-link-icon {
+  line-height: 40px;
+  text-decoration: none!important;
+
+  .flaticon-twitter-social-outlined-logo {
+    font-size: 23px;
+    color: #666;
+    vertical-align: middle;
+  }
+}
+
+.page-link-icon:hover {
+  .flaticon-twitter-social-outlined-logo {
+    color: #000;
+  }
+}
+
 .sb-button-twitter {
 }
 
@@ -133,7 +144,7 @@ ul.share-buttons li {
 }
 
 .share-buttons-container-bottom {
-  position: fixed!important;
+  position: fixed !important;
   top: 150px;
   float: left;
   z-index: 99;
