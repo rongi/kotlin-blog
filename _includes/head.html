@@ -9,12 +9,12 @@
   <title>{% if page.title %}{{ page.title | escape }}{% else %}{{ site.title | escape }}{% endif %}</title>
   <meta name="description" content="{{ page.excerpt | default: site.description | strip_html | normalize_whitespace | truncate: 160 | escape }}">
 
+  <!-- social share icons-->
+  <link rel="stylesheet" href="{{social_icon_dir}}/flaticon.css">
+
   <link rel="stylesheet" href="{{ "/assets/main.css" | relative_url }}">
   <link rel="canonical" href="{{ page.url | replace:'index.html','' | absolute_url }}">
   <link rel="alternate" type="application/rss+xml" title="{{ site.title | escape }}" href="{{ "/feed.xml" | relative_url }}">
-
-  <!-- social share icons-->
-  <link rel="stylesheet" type="text/css" href="{{social_icon_dir}}/flaticon.css">
 
   <!-- favicon -->
   <link rel="apple-touch-icon" sizes="180x180" href="{{favicon_dir}}/apple-touch-icon.png">

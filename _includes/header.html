@@ -32,9 +32,11 @@
           {% endfor %}
 
           {% if site.social.twitter %}
-            <a class="page-link-icon" href="https://www.twitter.com/{{ site.social.twitter | cgi_escape | escape }}" title="Twitter" onclick="gaSocialProfileClickEvent('Twitter-Header');return true;">
+          <div class="page-link-icon" >
+            <a class="page-link-link" href="https://www.twitter.com/{{ site.social.twitter | cgi_escape | escape }}" title="Twitter" onclick="gaSocialProfileClickEvent('Twitter-Header');return true;">
               <i class="flaticon-twitter-social-outlined-logo" aria-hidden="true"></i>
             </a>
+          </div>
           {% endif %}
         </div>
       </nav>
