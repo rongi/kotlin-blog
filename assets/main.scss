@@ -12,6 +12,9 @@ $social-icon-between: $spacing-unit / 3;
 $share-icon-color: #666;
 $share-icon-color-hover: #000;
 
+$sb-threshold-min: 1050px;
+$sb-threshold-max: $sb-threshold-min - 1px;
+
 /**
  * Grid helpers
  */
@@ -70,14 +73,14 @@ ul.share-buttons li {
   }
 }
 
-@media (min-width: 1000px) {
+@media (min-width: $sb-threshold-min) {
   ul.share-buttons li {
     display: block;
     margin: 18px 0;
   }
 }
 
-@media (max-width: 999px) {
+@media (max-width: $sb-threshold-max) {
   ul.share-buttons li {
     display: inline-block;
     margin: 0 18px 0 0;
@@ -99,13 +102,13 @@ ul.share-buttons li {
   font-size: 20px;
 }
 
-@media (min-width: 1000px) {
+@media (min-width: $sb-threshold-min) {
   .sb-button {
     display: block;
   }
 }
 
-@media (max-width: 999px) {
+@media (max-width: $sb-threshold-max) {
   .sb-button {
     display: inline-block;
   }
@@ -118,14 +121,14 @@ ul.share-buttons li {
   }
 }
 
-@media (min-width: 1000px) {
+@media (min-width: $sb-threshold-min) {
   .animation-hide-share-buttons {
     transition: all 0.3s;
     opacity: 0;
   }
 }
 
-@media (max-width: 999px) {
+@media (max-width: $sb-threshold-max) {
   .animation-hide-share-buttons {
     opacity: 1;
   }
@@ -217,17 +220,17 @@ ul.share-buttons li {
   z-index: 99;
 }
 
-@media (min-width: 1000px) {
+@media (min-width: $sb-threshold-min) {
   .share-buttons-container-bottom {
     top: 150px;
     position: fixed !important;
     float: left;
-    margin-left: -120px;
+    margin-left: -180px;
     display: block;
   }
 }
 
-@media (max-width: 999px) {
+@media (max-width: $sb-threshold-max) {
   .share-buttons-container-bottom {
     top: 0;
     position: relative;
@@ -236,13 +239,12 @@ ul.share-buttons li {
     margin-right: auto;
     margin-left: auto;
 
-    border-width: 1px;
-    border-top-style: solid;
-    border-bottom-style: solid;
     padding-top: 16px;
     padding-bottom: 16px;
     margin-bottom: 16px;
-    border-color: #ddd;
+    border: 1px #ddd;
+    border-top-style: solid;
+    border-bottom-style: solid;
   }
 }
 
