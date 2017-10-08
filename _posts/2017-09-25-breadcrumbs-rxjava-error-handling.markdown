@@ -8,7 +8,7 @@ categories: rxjava
 image: /assets/hansel-and-gretel-breadcrumbs.jpg
 ---
 
-<img src="{{site.url}}{{site.baseurl}}/assets/hansel-and-gretel-breadcrumbs.jpg" alt="Drawing" style="width: 740px;"/>
+<img src="{{site.url}}{{site.baseurl}}/assets/hansel-and-gretel-breadcrumbs.jpg" alt="Drawing" style="width: 100%;"/>
 
 Once in a while, one of your observables will crash and leave behind a useless crash log. Something like this:
 
