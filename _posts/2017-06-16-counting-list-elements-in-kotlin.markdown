@@ -8,7 +8,7 @@ tags: kotlin
 Java:
 
 ```java
-  void myFunction {
+  void myFunction() {
     int selectedItemsCount = countSelectedItems(cells);
   }
 
@@ -28,7 +28,7 @@ Java:
 Kotlin:
 
 ```kotlin
-fun myFunction {
+fun myFunction() {
   val selectedItemsCount = cells.count { it.selected }
 }
 ```
