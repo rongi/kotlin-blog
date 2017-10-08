@@ -82,6 +82,11 @@ ul.share-buttons li {
     display: inline-block;
     margin: 0 18px 0 0;
   }
+  ul.share-buttons {
+    margin-left: auto;
+    margin-right: auto;
+    display: table;
+  }
 }
 
 .sb-button {
@@ -227,9 +232,17 @@ ul.share-buttons li {
     top: 0;
     position: relative;
     float: none;
-    display: table;
+    display: block;
     margin-right: auto;
     margin-left: auto;
+
+    border-width: 1px;
+    border-top-style: solid;
+    border-bottom-style: solid;
+    padding-top: 16px;
+    padding-bottom: 16px;
+    margin-bottom: 16px;
+    border-color: #ddd;
   }
 }
 
