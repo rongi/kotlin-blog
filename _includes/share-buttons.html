@@ -1,6 +1,6 @@
 {% assign page_url = site.url | append: site.baseurl | append: page.url %}
 
-<ul id="share-buttons-left-panel" class="share-buttons animation-hide" style="margin-left:0;">
+<ul id="share-buttons-left-panel" class="share-buttons animation-hide-share-buttons" style="margin-left:0;">
   <li>
     <a href="https://twitter.com/intent/tweet?text={{ page.title }}&url={{ page_url }}&via={{site.social.twitter}}"
        target="_blank" title="Tweet" onclick="return onShareTwitterClick();">
@@ -94,11 +94,11 @@
 
     var y = window.scrollY;
     if (y >= 420 || y >= limit - 100) {
-      shareButtons.classList.remove("animation-hide")
-      shareButtons.classList.add("animation-show")
+      shareButtons.classList.remove("animation-hide-share-buttons")
+      shareButtons.classList.add("animation-show-share-buttons")
     } else {
-      shareButtons.classList.add("animation-hide")
-      shareButtons.classList.remove("animation-show")
+      shareButtons.classList.add("animation-hide-share-buttons")
+      shareButtons.classList.remove("animation-show-share-buttons")
     }
   }
 

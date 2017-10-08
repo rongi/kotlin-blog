@@ -57,16 +57,30 @@ $share-icon-color-hover: #000;
 
 ul.share-buttons {
   padding: 0;
+  margin-bottom: 0;
 }
 
 ul.share-buttons li {
-  margin: 18px 0;
   list-style-type: none;
   a {
     text-decoration: none;
     i {
       display: inline-block;
     }
+  }
+}
+
+@media (min-width: 1000px) {
+  ul.share-buttons li {
+    display: block;
+    margin: 18px 0;
+  }
+}
+
+@media (max-width: 999px) {
+  ul.share-buttons li {
+    display: inline-block;
+    margin: 0 18px 0 0;
   }
 }
 
@@ -80,20 +94,39 @@ ul.share-buttons li {
   font-size: 20px;
 }
 
+@media (min-width: 1000px) {
+  .sb-button {
+    display: block;
+  }
+}
+
+@media (max-width: 999px) {
+  .sb-button {
+    display: inline-block;
+  }
+}
+
 .sb-button:hover {
   border: 1px solid $share-icon-color-hover;
   .share-icon {
     color: $share-icon-color-hover;
   }
-  //background: #f3f3f3;
 }
 
-.animation-hide {
-  transition: all 0.3s;
-  opacity: 0;
+@media (min-width: 1000px) {
+  .animation-hide-share-buttons {
+    transition: all 0.3s;
+    opacity: 0;
+  }
 }
 
-.animation-show {
+@media (max-width: 999px) {
+  .animation-hide-share-buttons {
+    opacity: 1;
+  }
+}
+
+.animation-show-share-buttons {
   transition: all 0.3s;
   opacity: 1;
 }
@@ -176,11 +209,28 @@ ul.share-buttons li {
 }
 
 .share-buttons-container-bottom {
-  position: fixed !important;
-  top: 150px;
-  float: left;
   z-index: 99;
-  margin-left: -120px;
+}
+
+@media (min-width: 1000px) {
+  .share-buttons-container-bottom {
+    top: 150px;
+    position: fixed !important;
+    float: left;
+    margin-left: -120px;
+    display: block;
+  }
+}
+
+@media (max-width: 999px) {
+  .share-buttons-container-bottom {
+    top: 0;
+    position: relative;
+    float: none;
+    display: table;
+    margin-right: auto;
+    margin-left: auto;
+  }
 }
 
 .highlight {
