@@ -78,7 +78,7 @@ ul.share-buttons li {
 @media (min-width: $sb-threshold-min) {
   ul.share-buttons li {
     display: block;
-    margin: 18px 0;
+    margin: 14px 0;
   }
 }
 
@@ -169,18 +169,6 @@ ul.share-buttons li {
   }
 }
 
-.sb-button-twitter {
-}
-
-.sb-button-facebook {
-}
-
-.sb-button-google-plus {
-}
-
-.sb-button-email {
-}
-
 .flaticon-twitter-social-outlined-logo {
   margin-left: 2px;
   margin-top: 1px;
@@ -216,6 +204,11 @@ ul.share-buttons li {
 .flaticon-google-plus-1 {
   font-size: 24px;
   margin-left: 1px;
+}
+
+.flaticon-linkedin-social-outline-logotype {
+  margin-left: 2px;
+  margin-top: -2px;
 }
 
 .share-buttons-container-bottom {

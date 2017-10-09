@@ -1,10 +1,11 @@
 {% assign page_url = site.url | append: site.baseurl | append: page.url %}
+{% assign page_excerpt = page.excerpt | default: site.description | strip_html | normalize_whitespace | truncate: 160 | escape %}
 
 <ul id="share-buttons-left-panel" class="share-buttons animation-hide-share-buttons">
   <li>
     <a href="https://twitter.com/intent/tweet?text={{ page.title }}&url={{ page_url }}&via={{site.social.twitter}}"
        target="_blank" title="Tweet" onclick="return onShareTwitterClick();">
-      <div class="sb-button sb-button-twitter">
+      <div class="sb-button">
         <i class="share-icon flaticon-twitter-social-outlined-logo" aria-hidden="true"></i>
       </div>
     </a>
@@ -12,7 +13,7 @@
   <li>
     <a href="https://www.facebook.com/sharer/sharer.php?u={{ page_url }}" target="_blank" title="Share on Facebook"
        onclick="return onShareFbClick();">
-      <div class="sb-button sb-button-facebook">
+      <div class="sb-button">
         <i class="share-icon flaticon-facebook-logo-outline" aria-hidden="true"></i>
       </div>
     </a>
@@ -20,15 +21,23 @@
   <li>
     <a href="https://plus.google.com/share?url={{ page_url }}" target="_blank" title="Share on Google+"
        onclick="return onShareGooglePlusClick();">
-      <div class="sb-button sb-button-google-plus">
+      <div class="sb-button">
         <i class="share-icon flaticon-google-plus" aria-hidden="true"></i>
+      </div>
+    </a>
+  </li>
+  <li>
+    <a href="https://www.linkedin.com/shareArticle?url={{ page_url }}&mini=true&title={{ page.title }}&summary={{ page_excerpt }}&source= {{ site.title | escape }}" target="_blank" title="Share on LinkedIn"
+       onclick="return onShareLinkedInClick();">
+      <div class="sb-button">
+        <i class="share-icon flaticon-linkedin-social-outline-logotype" aria-hidden="true"></i>
       </div>
     </a>
   </li>
   <li>
     <a href="mailto:?subject=&body={{ page_url }}" target="_blank" title="Send email"
        onclick="return onShareEmailClick();">
-      <div class="sb-button sb-button-email">
+      <div class="sb-button">
         <i class="share-icon flaticon-note" aria-hidden="true"></i>
       </div>
     </a>
@@ -61,6 +70,11 @@
 
   function onShareGooglePlusClick() {
     gaSocialShareClickEvent('Google Plus')
+    return true;
+  }
+
+  function onShareLinkedInClick() {
+    gaSocialShareClickEvent('LinkedIn')
     return true;
   }
 
