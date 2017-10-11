@@ -6,3 +6,8 @@ tags: rxjava rx mvi
 categories: rxjava
 published: false
 ---
+
+## I was curious
+
+RxJava common for data layer
+Is Rx suitable for View logic?
