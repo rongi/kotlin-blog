@@ -1,5 +1,6 @@
 {% assign page_url = site.url | append: site.baseurl | append: page.url %}
 {% assign page_excerpt = page.excerpt | default: site.description | strip_html | normalize_whitespace | truncate: 160 | escape %}
+{% assign assets = site.url | append: site.baseurl | append: "/assets" %}
 
 <ul id="share-buttons-left-panel" class="share-buttons animation-hide-share-buttons">
   <li>
@@ -22,7 +23,7 @@
     <a href="https://plus.google.com/share?url={{ page_url }}" target="_blank" title="Share on Google+"
        onclick="return onShareGooglePlusClick();">
       <div class="sb-button">
-        <i class="share-icon flaticon-google-plus" aria-hidden="true"></i>
+        <img src="{{ assets }}/google-plus.svg" class="share-icon google-plus-svg">
       </div>
     </a>
   </li>

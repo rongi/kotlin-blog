@@ -71,3 +71,7 @@ google_analytics: UA-101153501-1
 
 disqus:
   shortname: rongi-github-io-kotlin-blog
+
+webrick:
+  headers:
+    Access-Control-Allow-Origin: "*"
