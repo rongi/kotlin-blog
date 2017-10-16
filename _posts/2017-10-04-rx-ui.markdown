@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Rx UI"
+title: "Functional Reactive architecture for Android applications"
 excerpt: "Rx UI"
 tags: rxjava rx mvi
 categories: rxjava
@@ -11,3 +11,129 @@ published: false
 
 RxJava common for data layer
 Is Rx suitable for View logic?
+
+Can you write stateless presenter using only Rx?
+
+I've tried and came to something better
+
+## present() function
+
+In the center of the architecture is a single function
+
+```kotlin
+fun present(userInput): ViewModel {   
+  // ... 
+}
+```
+
+It does one simple thing. It takes streams of user input events, like clicks, and transforms them into streams of view states.
+
+This here, is basically the whole architecture. The main idea is exactly like this: take your application, your presenter. Write it like a single function with one simple role: to convert user input into view states. That's all. Sounds crazy? Sounds like it will never work? Well, after I've tried this, doing it in any other way feels like a huge mistake.
+
+But let's go to the details, shall we?
+
+## View Model
+
+What is this `ViewModel` class? What's inside? It's something like this:
+
+```kotlin
+data class ViewModel(   
+  val activityTitle: Observable<String>,   
+  val showProgress: Observable<Boolean>
+ )
+```
+
+It's just a collection of streams of view states.
+
+How does it map to your views? Something like this:
+
+[Image]
+
+How do we render this to the screen? Just `subscribe` to these observables and map their values to the view's properties.
+
+```kotlin
+progressVisibility.subscribe {
+  progressView.visible = it
+}
+```
+
+
+```kotlin
+class MainActivity : AppCompatActivity() {
+
+  override fun onCreate(savedInstanceState: Bundle?) {
+    super.onCreate(savedInstanceState)
+    setContentView(R.layout.main_activity)
+
+    val model = model()
+    render(model, this)
+  }
+
+}
+```
+
+```kotlin
+fun render(model: MainViewModel, view: MainActivity) {
+  with(model) {
+    activityTitle.subscribe { view.setTitle(it) }
+    progressVisibility.subscribe { view.progress.visible = it }
+  }
+}
+```
+
+## present() function
+
+Let's see what's inside real `present()` function. Let's implement a simple activity.
+
+[Image]
+
+An "update" button. You can hit it and when you hit it a list of articles is downloaded and displayed.
+
+This is how `present()` function for this activity will look like:
+
+```kotlin
+fun present( 
+  updateButtonClicks: Observable<Unit>, 
+  articlesService: ArticlesService 
+): ViewModel { 
+  val articles = updateButtonClicks
+    .flatMap { articlesService.getArticles() }    
+
+    return ViewModel( 
+      articles = articles 
+    )
+}
+```
+
+You can notice that it looks very much like your ordinal Presenter. Just class fields become parameters.
+
+## Moar states
+
+What if we need more states. For example, what if we need to show a text "There is no articles here" when there is no articles? How should we proceed? Should we make our chain more complex? No, just build a new one using the existing ones if necessary. Like this:
+
+```kotlin
+fun present( 
+  updateButtonClicks: Observable<Unit>, 
+  articlesService: ArticlesService 
+): ViewModel { 
+  val articles = updateButtonClicks
+    .flatMap { articlesService.getArticles() }    
+    .publish().autoConnect() 
+
+  val emptyViewVisibility = just(true)
+    .concatWith(articles.map { it.isEmpty() })
+
+  return ViewModel( 
+    articles = articles 
+    emptyViewVisibility = emptyViewVisibility 
+  )
+}
+```
+
+You see how we just reused `articles` observable to build a new view state. This is a key trick to build nice and maintainable code base instead of building huge unsupportable chain.
+
+
+
+## Drafts
+
+All these OOP architectures hanging around feels like a huge scam or conspiracy to sell more GoF books and Uncle Bob's videos.
