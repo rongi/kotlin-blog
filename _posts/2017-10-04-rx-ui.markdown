@@ -9,6 +9,8 @@ published: false
 
 ## I was curious
 
+It is pretty common to implement data layers with Rx.
+
 RxJava common for data layer
 Is Rx suitable for View logic?
 
@@ -16,25 +18,30 @@ Can you write stateless presenter using only Rx?
 
 I've tried and came to something better
 
+It was a successful experience
+
 ## present() function
 
-In the center of the architecture is a single function
+The idea is to write your presenter as a function that transforms user input into view states:
 
 ```kotlin
-fun present(userInput): ViewModel {   
+fun present(/* userInput */): ViewModel {   
   // ... 
 }
 ```
 
-It does one simple thing. It takes streams of user input events, like clicks, and transforms them into streams of view states.
+User input comes in the form of observables with interaction events, like clicks or input field changes
 
-This here, is basically the whole architecture. The main idea is exactly like this: take your application, your presenter. Write it like a single function with one simple role: to convert user input into view states. That's all. Sounds crazy? Sounds like it will never work? Well, after I've tried this, doing it in any other way feels like a huge mistake.
+```kotlin
+fun present(
+  updateButtonClicks: Observable<Unit>,
+  passwordEditTextChanges: Observable<String>
+): ViewModel {   
+  // ... 
+}
+```
 
-But let's go to the details, shall we?
-
-## View Model
-
-What is this `ViewModel` class? What's inside? It's something like this:
+View model is also a collection of streams, this times with view states:
 
 ```kotlin
 data class ViewModel(   
@@ -43,51 +50,51 @@ data class ViewModel( 
  )
 ```
 
-It's just a collection of streams of view states.
+Our `present()` function just transforms a bunch of streams into another bunch of streams. It's a simple transform function. Now, as you'll see further, `present()` function can do anything your conventional OOP presenter can. It does the same thing, but in functional way. Yet it's so simple to describe what this function does. One simple sentence. This fact only tells us that we are on the right way.
 
-How does it map to your views? Something like this:
 
-[Image]
+## More details
 
-How do we render this to the screen? Just `subscribe` to these observables and map their values to the view's properties.
-
+We render view states just by subscribing to the observables and mapping values to the views:
 ```kotlin
-progressVisibility.subscribe {
-  progressView.visible = it
+fun render(model: ViewModel) {
+  with(model) {
+    activityTitle.subscribe { this.setTitle(it) }
+    showProgress.subscribe { progressView.visible = it }
+  }
 }
 ```
 
+And this is how our `Activity` usually looks like:
 
 ```kotlin
-class MainActivity : AppCompatActivity() {
+class MainActivity : Activity() {
 
   override fun onCreate(savedInstanceState: Bundle?) {
-    super.onCreate(savedInstanceState)
-    setContentView(R.layout.main_activity)
+    /* ... */
 
-    val model = model()
-    render(model, this)
+    val model = present(/* userInput */)
+    render(model)
   }
 
-}
-```
-
-```kotlin
-fun render(model: MainViewModel, view: MainActivity) {
-  with(model) {
-    activityTitle.subscribe { view.setTitle(it) }
-    progressVisibility.subscribe { view.progress.visible = it }
+  fun render(model: ViewModel) {
+    with(model) {
+      activityTitle.subscribe { this.setTitle(it) }
+      showProgress.subscribe { progressView.visible = it }
+    }
   }
 }
 ```
 
 ## present() function
 
-Let's see what's inside real `present()` function. Let's implement a simple activity.
+That's enough about what comes inside `present()` function and what comes out, it's pretty trivial matter. Let's proceed to the cool part, what's inside `presenter()` function. Because this is important thing, this function is the part that matters, it is our real program. The rest is just a periphery.
+
+Let's implement an activity like this:
 
 [Image]
 
-An "update" button. You can hit it and when you hit it a list of articles is downloaded and displayed.
+We have an "update" button. When we hit it, a list of articles is downloaded and displayed.
 
 This is how `present()` function for this activity will look like:
 
@@ -99,9 +106,9 @@ fun present( 
   val articles = updateButtonClicks
     .flatMap { articlesService.getArticles() }    
 
-    return ViewModel( 
-      articles = articles 
-    )
+  return ViewModel( 
+    articles = articles 
+  )
 }
 ```
 
@@ -109,7 +116,9 @@ You can notice that it looks very much like your ordinal Presenter. Just class f
 
 ## Moar states
 
-What if we need more states. For example, what if we need to show a text "There is no articles here" when there is no articles? How should we proceed? Should we make our chain more complex? No, just build a new one using the existing ones if necessary. Like this:
+What happens if we need to add more states? For example, what if we need to show a text "There is no articles here" when the view is empty? How should we proceed? Should we make our `articles` observable more complex and make it return some composite value instead?
+
+No, just build a new observable using the existing ones as building blocks. Like this:
 
 ```kotlin
 fun present( 
@@ -130,10 +139,26 @@ fun present( 
 }
 ```
 
-You see how we just reused `articles` observable to build a new view state. This is a key trick to build nice and maintainable code base instead of building huge unsupportable chain.
+Note how we just reused `articles` observable to build a new view state. Many articles on this topic misses this trick while using it is the difference between solution to be actually working and not.
 
+## Can implement UI with any level of complexity
 
+## It is a simple and scalable way
+
+## Signals?
+
+## Testing?
+
+## Composition?
+
+## Relation to MVI?
 
 ## Drafts
 
+Now look, our `present()` function can do anything OOP presenter can, but it's so simple and elegant, it has one single easily to express responsibility. It's so sinple to reason about this function.
+
 All these OOP architectures hanging around feels like a huge scam or conspiracy to sell more GoF books and Uncle Bob's videos.
+
+Write it like a single function with one simple role: to convert user input into view states. That's all. Sounds crazy? Sounds like it will never work? Well, after I've tried this, doing it in any other way feels like a huge mistake.
+
+It is the same as MVI. MVI variant is just an option.
