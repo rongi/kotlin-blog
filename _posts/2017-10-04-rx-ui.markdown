@@ -57,11 +57,8 @@ Our `present()` function just transforms a bunch of streams into another bunch o
 
 We render view states just by subscribing to the observables and mapping values to the views:
 ```kotlin
-fun render(model: ViewModel) {
-  with(model) {
-    activityTitle.subscribe { this.setTitle(it) }
-    showProgress.subscribe { progressView.visible = it }
-  }
+viewModel.showProgress.subscribe {
+  progressView.visible = it
 }
 ```
 
@@ -73,12 +70,12 @@ class MainActivity : Activity() {
   override fun onCreate(savedInstanceState: Bundle?) {
     /* ... */
 
-    val model = present(/* userInput */)
-    render(model)
+    val viewModel = present(/* userInput */)
+    render(viewModel)
   }
 
-  fun render(model: ViewModel) {
-    with(model) {
+  fun render(viewModel: ViewModel) {
+    with(viewModel) {
       activityTitle.subscribe { this.setTitle(it) }
       showProgress.subscribe { progressView.visible = it }
     }
@@ -116,7 +113,7 @@ You can notice that it looks very much like your ordinal Presenter. Just class f
 
 ## Moar states
 
-What happens if we need to add more states? For example, what if we need to show a text "There is no articles here" when the view is empty? How should we proceed? Should we make our `articles` observable more complex and make it return some composite value instead?
+What happens if we need to add more states? For example, what if we need to show a text "There is no articles here" when the view is empty? How should we proceed? Should we make our `articles` observable more complex and make it return some composite value?
 
 No, just build a new observable using the existing ones as building blocks. Like this:
 
@@ -139,7 +136,9 @@ fun present( 
 }
 ```
 
-Note how we just reused `articles` observable to build a new view state. Many articles on this topic misses this trick while using it is the difference between solution to be actually working and not.
+Note how we just reused `articles` observable to build a new view model. This trick and creating simple chains for each view state are key for this solution to work 
+
+Many articles on this topic misses this trick while using it is the difference between solution to be actually working and not.
 
 ## Can implement UI with any level of complexity
 
