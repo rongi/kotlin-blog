@@ -20,6 +20,8 @@ I've tried and came to something better
 
 It was a successful experience
 
+I'm pretty convinced now that FRP an Rx is the natural way to write UI applications. It is better than traditional imperative approach in all ways.
+
 ## present() function
 
 The idea is to write your presenter as a function that transforms user input into view states:
@@ -30,7 +32,7 @@ fun present(/* userInput */): ViewModel { 
 }
 ```
 
-User input comes in the form of observables with interaction events, like clicks or input field changes
+User input comes in the form of observables which emit user interaction events, like button clicks or text field changes:
 
 ```kotlin
 fun present(
@@ -41,7 +43,7 @@ fun present(
 }
 ```
 
-View model is also a collection of streams, this times with view states:
+View model is also just a collection of observables. But with view states.
 
 ```kotlin
 data class ViewModel(   
@@ -52,7 +54,6 @@ data class ViewModel( 
 
 Our `present()` function just transforms a bunch of streams into another bunch of streams. It's a simple transform function. Now, as you'll see further, `present()` function can do anything your conventional OOP presenter can. It does the same thing, but in functional way. Yet it's so simple to describe what this function does. One simple sentence. This fact only tells us that we are on the right way.
 
-
 ## More details
 
 We render view states just by subscribing to the observables and mapping values to the views:
@@ -62,7 +63,7 @@ viewModel.showProgress.subscribe {
 }
 ```
 
-And this is how our `Activity` usually looks like:
+This is how `Activity` usually looks like:
 
 ```kotlin
 class MainActivity : Activity() {
@@ -74,14 +75,21 @@ class MainActivity : Activity() {
     render(viewModel)
   }
 
-  fun render(viewModel: ViewModel) {
-    with(viewModel) {
-      activityTitle.subscribe { this.setTitle(it) }
-      showProgress.subscribe { progressView.visible = it }
-    }
+}
+```
+
+That `render()` function usually looks like this:
+
+```kotlin
+fun render(viewModel: ViewModel) {
+  with(viewModel) {
+    activityTitle.subscribe { this.setTitle(it) }
+    showProgress.subscribe { progressView.visible = it }
   }
 }
 ```
+
+It just binds values emitted by the observables with views properties.
 
 ## present() function
 
@@ -109,7 +117,7 @@ fun present( 
 }
 ```
 
-You can notice that it looks very much like your ordinal Presenter. Just class fields become parameters.
+You can notice that it looks very much like your ordinal Presenter. Just class fields are function parameters now.
 
 ## Moar states
 
@@ -136,13 +144,11 @@ fun present( 
 }
 ```
 
-Note how we just reused `articles` observable to build a new view model. This trick and creating simple chains for each view state are key for this solution to work 
-
-Many articles on this topic misses this trick while using it is the difference between solution to be actually working and not.
-
-## Can implement UI with any level of complexity
+Note how we've just reused `articles` observable to build a new view model. This trick and creating chains for each view state are keys to produce simple and maintainable code.
 
 ## It is a simple and scalable way
+
+
 
 ## Signals?
 
