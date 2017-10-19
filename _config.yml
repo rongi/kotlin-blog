@@ -72,6 +72,7 @@ google_analytics: UA-101153501-1
 disqus:
   shortname: rongi-github-io-kotlin-blog
 
+# This is to prevent localhost error when imges cant be loaded
 webrick:
   headers:
     Access-Control-Allow-Origin: "*"
