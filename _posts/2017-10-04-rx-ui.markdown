@@ -36,7 +36,7 @@ fun present(
 }
 ```
 
-It transforms them into a `ViewModel` object, which is just a collection of view states, like text field values or view visibilities. In the form of observables again:
+It transforms them into a collection of view states: text field values or view visibility flags. In the form of observables again:
 
 ```kotlin
 data class ViewModel(   
@@ -44,6 +44,8 @@ data class ViewModel( 
   val showProgress: Observable<Boolean>
  )
 ```
+
+[Image]
 
 So, `present()` is a simple transform function. It takes a bunch of observables and transform them into another bunch of observables. As you'll see further, it can do anything traditional OOP presenter can. It does the same thing, fulfills the same role, but in a functional way.
 
@@ -55,7 +57,7 @@ It's just a simple transform function. It plays exactly the same role traditiona
 
 ## Rendering view state
 
-View states come in the form of observables. So, all we need to render them is subscribe to that observables and map values emitted by them to corresponding properties of the views:
+View states come in the form of observables. To render them we just subscribe and map emitted values to corresponding properties of the views:
 
 ```kotlin
 viewModel.showProgress.subscribe {
