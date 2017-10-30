@@ -57,7 +57,7 @@ It's just a simple transform function. It plays exactly the same role traditiona
 
 ## Rendering view state
 
-View states come in the form of observables. To render them we just subscribe and map emitted values to corresponding properties of the views:
+View states come in the form of observables. To render them we just subscribe and map the values to corresponding properties of the views:
 
 ```kotlin
 viewModel.showProgress.subscribe {
@@ -94,15 +94,13 @@ It just goes through each of the view models, subscribes to them and binds value
 
 ## Implementing present() function
 
-That's enough about what comes inside `present()` function and what comes out, it's pretty trivial matter. Let's proceed to the cool part, what's inside `presenter()` function. Because this is important thing, this function is the part that matters, it is our real program. The rest is just a periphery.
-
-Let's implement an activity like this:
+But how to render view states is a trivial matter. The heart of our program is the `present()` function. It owns all the complexity and all non-trivial presentation logic. Let's see how it's implemented. And let's take this activity as an example:
 
 [Image]
 
-We have an "update" button. When we hit it, a list of articles is downloaded and displayed.
+It have an "update" button. When we hit it, a list of articles is downloaded and displayed.
 
-This is how `present()` function for this activity will look like:
+Pretty simple activity. This is how implementation will look like:
 
 ```kotlin
 fun present( 
