@@ -7,13 +7,13 @@ categories: rxjava
 published: false
 ---
 
-It is pretty common to implement data layers with Rx. But for some time a question was bothering me: "Is it possible to implement UI logic with Rx? Is it possible to write a presenter entirely in Rx?" Rx was designed to handle tasks exactly like that --- programming fundamentally asynchronous processes, but you can never tell if the solution can survive countless edge cases and pressure of real-life requirements unless you try it in a production application.
+It is pretty common to implement data layers with Rx. But for some time a question was bothering me: "Is it possible to implement UI logic with Rx? Is it possible to write a presenter entirely in Rx?" Rx was designed to handle tasks exactly like that --- programming fundamentally asynchronous processes, but you can never tell if the solution will survive countless edge cases and pressure of real-life requirements unless you try it on a production application.
 
-So, about a year ago I had this opportunity to try this idea in a real production project. I started by implementing a little bit of a presenter with Rx but it quickly became obvious that the approach is so powerful, it produces so simple, easy to understand and reason about code, that it's benefits outweighed even the necessity to learn a completely new programming paradigm. So I'd ended up implementing whole UI layer of the app with Rx and in this article I will explain how I did it.
+So, about a year ago I had this opportunity to try this idea in a real production project. I started by implementing a little bit of a presenter with Rx but it quickly became obvious that the approach is so powerful, it produces so simple, easy to understand and reason about code, that it's benefits outweighed even the necessity to learn a completely new programming paradigm. I'd ended up implementing whole UI layer of the app with Rx and in this article I want to explain the final architecture.
 
 ## Presenter is a function
 
-I started by having plain old stateful presenter. While reimplementing it with Rx, I removed state by state from it as they become redundant. Eventually it became evident that my presenter is trying to take this form:
+I started by having plain old stateful presenter. While reimplementing it with Rx, I removed state by state from it as they become redundant. Eventually it became evident that presenter is trying to take this form:
 
 ```kotlin
 fun present(/* userInput */): ViewModel {   
@@ -147,7 +147,7 @@ Note how we've just reused `articles` observable to build a new view model. This
 
 ## It is a simple and scalable way
 
-Now look again at the previous code example. Notice how simple and easy to understand that piece of code is. It's just a set of rules how to build view states. Rule by rule. But surely this will quickly become a mess once a real life requirements kick in, right? No, not right! The experience of using this approach in real life application told me that your application will look as simple as this no matter how complex your requirements will become. You'll just get more view states and intermediate states there. This is the incredible power of the approach: complexity of your application is the same as complexity of the requirements. While with stateful approaches it feels like complexity of your application is square of complexity of the requirements.
+Now look again at the previous code example. Notice how simple and easy to understand that piece of code is. It's just a set of rules how to build view states. Rule by rule. But surely this will quickly become a mess once a real-life requirements kick in, right? No, not right! The experience of using this approach in real-life application told me that your application will look as simple as this no matter how complex your requirements will become. You'll just get more view states and intermediate states there. This is the incredible power of the approach: complexity of your application is the same as complexity of the requirements. While with stateful approaches it feels like complexity of your application is square of complexity of the requirements.
 
 ## Easy to understand and reason about
 
