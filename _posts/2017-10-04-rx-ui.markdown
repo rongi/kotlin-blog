@@ -94,13 +94,15 @@ It just goes through each of the view models, subscribes to them and binds value
 
 ## Implementing present() function
 
-But how to render view states is a trivial matter. The heart of our program is the `present()` function. It owns all the complexity and all non-trivial presentation logic. Let's see how it's implemented. And let's take this activity as an example:
+But how to render view states is a trivial matter. The heart of our program is the `present()` function. It owns all the complexity and all non-trivial presentation logic. What's inside this function?
+
+Let's see that on an example of this activity:
 
 [Image]
 
-It have an "update" button. When we hit it, a list of articles is downloaded and displayed.
+It displays a list of articles. This list is updated each time "update" button is clicked.
 
-Pretty simple activity. This is how implementation will look like:
+This is how implementation will look like:
 
 ```kotlin
 fun present( 
@@ -116,7 +118,7 @@ fun present( 
 }
 ```
 
-You can notice that it looks very much like your ordinal Presenter. Just class fields are function parameters now.
+You can notice that it looks very much like traditional Presenter. Just class fields are function parameters now.
 
 ## More states
 
