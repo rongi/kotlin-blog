@@ -100,7 +100,7 @@ Let's see that on an example of this activity:
 
 [Image]
 
-It displays a list of articles. This list is updated each time "update" button is clicked.
+It displays a list of articles. It updates the list each time "update" button is clicked.
 
 This is how implementation will look like:
 
@@ -118,11 +118,11 @@ fun present( 
 }
 ```
 
-You can notice that it looks very much like traditional Presenter. Just class fields are function parameters now.
+As you can notice, it looks very much like traditional Presenter. Just class fields are function parameters now.
 
 ## More states
 
-What happens if we need to add more states? For example, what if we need to show a text "There is no articles here" when the view is empty? How should we proceed? Should we make our `articles` observable more complex and make it return some composite value?
+What happens if we need to add more states? For example, what if we need to show a text "There is no articles here" when the view is empty? How should we proceed? Should we make our `articles` observable more complex and make it return some composite value instead?
 
 No, just build a new observable using the existing ones as building blocks. Like this:
 
@@ -145,7 +145,7 @@ fun present( 
 }
 ```
 
-Note how we've just reused `articles` observable to build a new view model. This trick and creating chains for each view state instead of creating single mega-chain are keys to make this solution functional.
+Here we reused already existing `articles` observable to build a new view model. Reusing the observables and creating separate chain for each view state are keys to make this solution scalable and practical.
 
 ## It is a simple and scalable way
 
