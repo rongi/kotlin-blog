@@ -1,15 +1,15 @@
 ---
 layout: post
-title: "Functional Reactive architecture for Android applications"
+title: "Functional Reactive architecture for Android applications or how to build your presenter with RxJava"
 excerpt: "Rx UI"
 tags: rxjava rx mvi frp functional reactive programming
 categories: rxjava
 published: false
 ---
 
-It is pretty common to implement data layers with Rx. But for some time a question was bothering me: "Is it possible to implement UI logic with Rx? Is it possible to write a presenter entirely in Rx?" Rx was designed to handle tasks exactly like that --- programming fundamentally asynchronous processes, but you can never tell if the solution will survive countless edge cases and pressure of real-life requirements unless you try it in this conditions.
+It is pretty common to implement data layers with Rx. Glue some requests together with `merge()` or `concatMap()` and subscribe to the result in the presenter. But is it possible to implement presenter itself with Rx? If you think about it, Rx was designed to handle tasks exactly like that --- programming fundamentally asynchronous processes. But the only way to tell if the solution will survive countless edge cases and pressure of real-life requirements is to try it in this conditions.
 
-So, about a year ago I had this opportunity to try this idea in a real production project. I started by implementing a little bit of a presenter with Rx but it quickly became obvious that the approach is so powerful, it produces so simple, easy to understand and reason about code, that it's benefits outweighed even the necessity to learn a completely new programming paradigm. I'd ended up implementing whole UI layer of the app with Rx and in this article I want to explain the final architecture.
+So, about a year ago got an opportunity to try this idea in a real-life production project. I started by implementing just a little bit of the presenter with Rx. It quickly became obvious though, that the approach is so powerful that it's benefits out weight even the necessity to learn completely new programming paradigm. I'd ended up implementing whole UI layer of the app with Rx. It was a truly exciting journey full of insights. The architecture evolved in the process, and here I want to share how it looked in it's final form.
 
 ## Presenter is a function
 
@@ -185,6 +185,8 @@ Not everything produced by OOP presenter is a view state. How would you start an
 
 ## Drafts
 
+it produces so simple, easy to understand and reason about code, that
+
 The chains themselves can grow pretty complex, but this complexity will just mirror complexity of the requirements.
 
 You can't build application simpler than it's requirements.
@@ -214,5 +216,7 @@ It's just a simple transform function. It plays exactly the same role traditiona
 Yet it's so simple to describe what this function does. One simple sentence. This fact only tells us that we are on the right way.
 
 If you know FRP as good as imperative programming, then this approach is as good as imperative programming on simple views and quickly gains value when complexity goes up.
+
+ It was exciting journey full of insights,
 
 <!-- And I knew by this time that RxJava is super suitable for building data layers and it was a widely accepted practice in Android community to use it for data layers, but at that moment I had a question in my mind "Is it suitable for building UI logic also It should be only reasonable that it is suitable, because UI logic is exactly the thing RxJava was created to handle a bunch of asynchronous signals transformed to another bunch of signals. So I tried to implement some UI logic and it turned out that it just worked, and not only worked, but resulting code was much more clean, easy to understand and maintain than traditional imperative code So, today I want to show you how this solution looked like. And probably get you as excited as I'm about it. -->
