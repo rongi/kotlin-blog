@@ -1,19 +1,19 @@
 ---
 layout: post
-title: "Functional Reactive architecture for Android applications or how to build your presenter with RxJava"
+title: "Functional Reactive architecture for Android or how to build your presenter with RxJava"
 excerpt: "Rx UI"
 tags: rxjava rx mvi frp functional reactive programming
 categories: rxjava
 published: false
 ---
 
-It is pretty common to implement data layers with Rx. Glue some requests together with `merge()` or `concatMap()` and subscribe to the result in the presenter. But is it possible to implement presenter itself with Rx? If you think about it, Rx was designed to handle tasks exactly like that --- programming fundamentally asynchronous processes. But the only way to tell if the solution will survive countless edge cases and pressure of real-life requirements is to try it in this conditions.
+It is pretty common to implement data layers with Rx. Just glue some requests together with `merge()` or `concatMap()` and subscribe to the result in the presenter. But is it possible to implement presenter itself with Rx? If you think about it, Rx was designed to handle tasks exactly like that --- programming fundamentally asynchronous processes. But the only way to tell if the solution will survive countless edge cases and pressure of real-life requirements is to try it in this conditions.
 
-So, about a year ago got an opportunity to try this idea in a real-life production project. I started by implementing just a little bit of the presenter with Rx. It quickly became obvious though, that the approach is so powerful that it's benefits out weight even the necessity to learn completely new programming paradigm. I'd ended up implementing whole UI layer of the app with Rx. It was a truly exciting journey full of insights. The architecture evolved in the process, and here I want to share how it looked in it's final form.
+So, about a year ago got an opportunity to try this idea in a real-life production project. I started by implementing just a little bit of the presenter with Rx but it quickly became obvious, that the approach is so powerful, that it's benefits out weight even the necessity to learn completely new programming paradigm. I'd ended up implementing whole UI layer of the app with Rx. The architecture evolved in the process, and here I want to share how it looks like in it's final form.
 
 ## Presenter is a function
 
-I started by having plain old stateful presenter. While reimplementing it with Rx, I removed state by state from it as they become redundant. Eventually it became evident that presenter is trying to take this form:
+I started with plain old presenter and just tried to fill it's guts with Rx. But it quickly become obvious that, then you think in Rx, all this OOP ceremony that comes with traditional presenters is no longer needed. It become obvious that my presenter is trying to take this form:
 
 ```kotlin
 fun present(/* userInput */): ViewModel {   
@@ -21,11 +21,9 @@ fun present(/* userInput */): ViewModel { 
 }
 ```
 
-The whole huge and complex presenter became a function. A function with one deadly simple role: to transform one set of data streams into another one.
+It's just a function that transforms a bunch of observables into another bunch of observables.
 
-What are the data streams we are talking about?
-
-It takes as an input a bunch of user interaction events, like button clicks or text field changes. All of them are in the form of observables:
+It takes as an input user interaction events, like button clicks or text field changes. All of them are in the form of observables:
 
 ```kotlin
 fun present(
@@ -47,7 +45,7 @@ data class ViewModel( 
 
 [Image]
 
-So, presenter became a simple transform function. It takes a bunch of observables and transform them into another bunch of observables. As you'll see further, it can do anything traditional OOP presenter can. It does the same thing, fulfills the same role, but in a functional way.
+So, presenter became a simple transform function. It transforms observables with user input into observables with view states. As you'll see further, this function can do anything traditional OOP presenter can. It does the same thing, fulfills the same role but in a functional way.
 
 ## Rendering view state
 
@@ -183,7 +181,9 @@ Not everything produced by OOP presenter is a view state. How would you start an
 
 ## Relation to MVI?
 
-## Drafts
+## Palette
+
+It was a truly exciting journey full of insights.
 
 it produces so simple, easy to understand and reason about code, that
 
