@@ -183,6 +183,8 @@ Not everything produced by OOP presenter is a view state. How would you start an
 
 ## Palette
 
+The fact that it solves main challenge of ui programming - maintaining complexity - so elegantly and the that it feels so natural tells me that this is a programming paradigm of the future.
+
 It was a truly exciting journey full of insights.
 
 it produces so simple, easy to understand and reason about code, that
