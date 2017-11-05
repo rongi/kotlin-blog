@@ -49,7 +49,7 @@ So, presenter became a simple transform function. It transforms observables with
 
 ## Rendering view state
 
-`present()` function produces a collection of view states which are just observables. To render them, we just subscribe and then map values to the corresponding properties of the views:
+`present()` function produces a collection of view states, which are observables. To render them, we just subscribe and map values emitted from these observables to corresponding properties of the views:
 
 ```kotlin
 viewModel.showProgress.subscribe {
