@@ -13,7 +13,7 @@ So, about a year ago got an opportunity to try this idea in a real-life producti
 
 ## Presenter is a function
 
-I started with plain old presenter and just tried to fill it's guts with Rx. But it quickly become obvious that, then you think in Rx, all this OOP ceremony that comes with traditional presenters is no longer needed. It become obvious that my presenter is trying to take this form:
+I started with plain old presenter and just tried to implement it with Rx. But it quickly become obvious that, then you think in Rx, all the OOP ceremony that comes with traditional presenters is no longer needed. It become obvious that my presenter is trying to take this form:
 
 ```kotlin
 fun present(/* userInput */): ViewModel {   
@@ -45,11 +45,11 @@ data class ViewModel( 
 
 [Image]
 
-So, presenter became a simple transform function. It transforms observables with user input into observables with view states. As you'll see further, this function can do anything traditional OOP presenter can. It does the same thing, fulfills the same role but in a functional way.
+So, presenter became a simple transform function. It transforms observables with user input into observables with view states. As you'll see further, this function can do anything traditional OOP presenter can. It does the same thing, fulfills the same role, but in a functional way.
 
 ## Rendering view state
 
-`present()` function produces a collection of view states, which are observables. To render them, we just subscribe and map values emitted from these observables to corresponding properties of the views:
+`present()` function produces a collection of view states, which are observables. To render them, just subscribe to these observables:
 
 ```kotlin
 viewModel.showProgress.subscribe {
