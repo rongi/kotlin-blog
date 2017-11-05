@@ -7,13 +7,13 @@ categories: rxjava
 published: false
 ---
 
-It is pretty common to implement data layers with Rx. Just glue some requests together with `merge()` or `concatMap()` and subscribe to the result in the presenter. But is it possible to implement presenter itself with Rx? If you think about it, Rx was designed to handle tasks exactly like that --- programming fundamentally asynchronous processes. But the only way to tell if the solution will survive countless edge cases and pressure of real-life requirements is to try it in this conditions.
+It is pretty common to implement data layers with Rx. Just glue some requests together with `zip()` or `concatMap()` and subscribe to the result in the presenter. But is it possible to implement presenter itself with Rx? Rx was designed to handle tasks exactly like that --- programming fundamentally asynchronous systems, so in theory idea sounds legit. But the only way to tell if it'll survive countless edge cases and pressure of real-life requirements is to try it in a real-life production application.
 
-So, about a year ago got an opportunity to try this idea in a real-life production project. I started by implementing just a little bit of the presenter with Rx but it quickly became obvious, that the approach is so powerful, that it's benefits out weight even the necessity to learn completely new programming paradigm. I'd ended up implementing whole UI layer of the app with Rx. The architecture evolved in the process, and here I want to share how it looks like in it's final form.
+So, about a year ago got this opportunity to try this idea in a real-life production project. I started by implementing just a little bit of the presenter with Rx, but it quickly became obvious, that the approach is so powerful, that it's benefits out weight even the necessity to learn completely new programming paradigm. I'd ended up implementing whole UI layer of the app with Rx. The architecture evolved in the process, and here I want to share how it looks like in it's final form.
 
 ## Presenter is a function
 
-I started with plain old presenter and just tried to implement it with Rx. But it quickly became obvious that, then you think in Rx, all the OOP ceremony that comes with traditional presenters is no longer needed. It became obvious that my presenter is trying to take this form:
+It quickly became clear that a lot of ceremony that comes with traditional  OOP presenters is no longer needed. I was quite surprised when it finally became obvious that my presenter is trying to take this form:
 
 ```kotlin
 fun present(/* userInput */): ViewModel {   
@@ -21,9 +21,9 @@ fun present(/* userInput */): ViewModel { 
 }
 ```
 
-It's just a function that transforms a bunch of observables into another bunch of observables.
+It's a transform function that has one simple role: to transforms one set of observables into another one.
 
-It takes a collection of interaction events, like button clicks or text field changes:
+As an input it takes a collection of interaction events, like button clicks or text field changes:
 
 ```kotlin
 fun present(
@@ -43,7 +43,7 @@ data class ViewModel( 
  )
 ```
 
-To render one of those, just subscribe and map it's value to the view:
+User input into view states. To render one of those, we just subscribe and map it's values to the view:
 
 ```kotlin
 viewModel.progressVisibility.subscribe {
@@ -51,7 +51,7 @@ viewModel.progressVisibility.subscribe {
 }
 ```
 
-This is how activity implementation usually looks like:
+Ans this is how activity usually looks like:
 
 ```kotlin
 class MainActivity : Activity() {
@@ -65,7 +65,7 @@ class MainActivity : Activity() {
 }
 ```
 
-The `render()` function just goes through each of the view models and renders it:
+The `render()` function just goes through each of the view models and renders them:
 
 ```kotlin
 fun render(viewModel: ViewModel) {
@@ -80,7 +80,7 @@ fun render(viewModel: ViewModel) {
 
 So, presenter became a simple transform function. It transforms observables with user input into observables with view states. As you'll see further, this function can do anything traditional OOP presenter can. It does the same thing, fulfills the same role, but in a functional way.
 
-This function is the heart of our presentation layer. It owns all the complexity and all non-trivial presentation logic. How is this function implemented? Let's see that on an example of this activity:
+This function is the heart of the presentation layer. It owns all the complexity and all non-trivial presentation logic. How is this function implemented? Let's see that on an example of this activity:
 
 [Image]
 
@@ -109,13 +109,13 @@ val articles = updateButtonClicks
   .flatMap { articlesService.getArticles() }    
 ```
 
-And this is just a rule how to transform `updateButtonClicks` observable into `articles` observable, using `articlesService` as a dependancy.
+It's a definition of a rule how to transform `updateButtonClicks` observable into `articles` observable while using `articlesService` as a dependancy.
 
 ## More states
 
-What happens if we need to add more states? For example, what if we need to show a text "There is no articles here" when the view is empty? We need to add a view state that determines visibility of this text. How should we do that? Should we make our `articles` observable more complex and make it return some composite value instead?
+What happens if we need to add more states? For example, what if we need to show a text "There is no articles here" when the view is empty? Obviously, we need to add a new view state, but how exactly should we do that? Should we make our `articles` observable more complex and make it return some composite value instead?
 
-No, just build a new observable! Feel free to use existing ones as building blocks. Like this:
+No, just build a new observable, new rule. Feel free to use existing ones as building blocks. Like this:
 
 ```kotlin
 fun present( 
@@ -137,11 +137,11 @@ fun present( 
 }
 ```
 
-Now we have two rules. And this is how the rest of our work will look like. We identify which view state we want to implement next and then we write a rule how to transform user input and other dependencies into this view state. We can use already created observables to implement new ones.
+Now we have two rules. And this is how working process looks like in this approach. We identify which view state we want to implement next and then we write a rule how to combine user input and other dependencies to get this new view state. It's perfectly fine to utilize already constructed observables in the process. Rule after the rule, and our app is fully implemented!
 
 ## It is a simple and scalable way
 
-Why should I even do that?
+Well, this looks peculiar you might say, but why ever a decent human being would do that?
 
 Now look again at the previous code example. Notice how simple and easy to understand that piece of code is. It's just a set of rules how to build view states, rule by rule. But surely this will quickly become a mess once a real-life requirements kick in, right? No! No matter how complex are your requirements, `present()` function will still be as simple as that. It will just get more view states and intermediate states inside. This is the incredible power of the approach: complexity of your application is the same as complexity of the requirements. With traditional stateful approaches it feels like the complexity is square of that. This means that the bigger and more complex your activity is, the greater are the advantages of functional approach.
 
