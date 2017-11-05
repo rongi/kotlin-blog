@@ -13,7 +13,7 @@ So, about a year ago got an opportunity to try this idea in a real-life producti
 
 ## Presenter is a function
 
-I started with plain old presenter and just tried to implement it with Rx. But it quickly become obvious that, then you think in Rx, all the OOP ceremony that comes with traditional presenters is no longer needed. It become obvious that my presenter is trying to take this form:
+I started with plain old presenter and just tried to implement it with Rx. But it quickly became obvious that, then you think in Rx, all the OOP ceremony that comes with traditional presenters is no longer needed. It became obvious that my presenter is trying to take this form:
 
 ```kotlin
 fun present(/* userInput */): ViewModel {   
@@ -23,7 +23,7 @@ fun present(/* userInput */): ViewModel { 
 
 It's just a function that transforms a bunch of observables into another bunch of observables.
 
-It takes as an input user interaction events, like button clicks or text field changes. All of them are in the form of observables:
+It takes a collection of interaction events, like button clicks or text field changes:
 
 ```kotlin
 fun present(
@@ -34,30 +34,24 @@ fun present(
 }
 ```
 
-It transforms them into a collection of view states: text field values or view visibility flags. In the form of observables again:
+It transforms them into a collection of view states: text field values, view visibility flags, etc.:
 
 ```kotlin
 data class ViewModel(   
-  val activityTitle: Observable<String>,   
-  val showProgress: Observable<Boolean>
+  val updateButtonText: Observable<String>,   
+  val progressVisibility: Observable<Boolean>
  )
 ```
 
-[Image]
-
-So, presenter became a simple transform function. It transforms observables with user input into observables with view states. As you'll see further, this function can do anything traditional OOP presenter can. It does the same thing, fulfills the same role, but in a functional way.
-
-## Rendering view state
-
-`present()` function produces a collection of view states, which are observables. To render them, just subscribe to these observables:
+To render one of those, just subscribe and map it's value to the view:
 
 ```kotlin
-viewModel.showProgress.subscribe {
+viewModel.progressVisibility.subscribe {
   progressView.visible = it
 }
 ```
 
-This is how it looks in the context of an Activity:
+This is how activity implementation usually looks like:
 
 ```kotlin
 class MainActivity : Activity() {
@@ -71,28 +65,26 @@ class MainActivity : Activity() {
 }
 ```
 
-`render()` function is something like this:
+The `render()` function just goes through each of the view models and renders it:
 
 ```kotlin
 fun render(viewModel: ViewModel) {
   with(viewModel) {
-    activityTitle.subscribe { this.setTitle(it) }
-    showProgress.subscribe { progressView.visible = it }
+    updateButtonText.subscribe { updateButton.setText(it) }
+    progressVisibility.subscribe { progressView.visible = it }
   }
 }
 ```
 
-It just goes through each of the view models, subscribes to them and binds values to corresponding view properties.
-
 ## Implementing present() function
 
-Rendering view states is a trivial matter though. The heart of our program is the `present()` function. It owns all the complexity and all non-trivial presentation logic. How is this function implemented?
+So, presenter became a simple transform function. It transforms observables with user input into observables with view states. As you'll see further, this function can do anything traditional OOP presenter can. It does the same thing, fulfills the same role, but in a functional way.
 
-Let's see that on an example of this activity:
+This function is the heart of our presentation layer. It owns all the complexity and all non-trivial presentation logic. How is this function implemented? Let's see that on an example of this activity:
 
 [Image]
 
-It has an "Update" button. Each time we click this button, a new list of articles is downloaded from the server and displayed on the screen.
+It has an "Update" button. Each time we click it, a new list of articles is downloaded from the server and displayed on the screen.
 
 This is how implementation will look like:
 
@@ -109,6 +101,15 @@ fun present( 
   )
 }
 ```
+
+The most interesting part here is this:
+
+```kotlin
+val articles = updateButtonClicks
+  .flatMap { articlesService.getArticles() }    
+```
+
+And this is just a rule how to transform `updateButtonClicks` observable into `articles` observable, using `articlesService` as a dependancy.
 
 You can notice that this looks very similar to a traditional Presenter. The difference is that variables that used to be class fields are functional parameters now.
 
