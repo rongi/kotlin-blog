@@ -1,19 +1,19 @@
 ---
 layout: post
-title: "Functional Reactive architecture for Android or how to build your presenter with RxJava"
+title: "Functional Reactive architecture for Android or how to build your presenter with Rx"
 excerpt: "Rx UI"
 tags: rxjava rx mvi frp functional reactive programming
 categories: rxjava
 published: false
 ---
 
-It is pretty common to implement data layers with Rx. Just glue some requests together with `zip()` or `concatMap()` and subscribe to the result in the presenter. But is it possible to implement presenter itself with Rx? Rx was designed to handle tasks exactly like that --- programming fundamentally asynchronous systems, so in theory idea sounds legit. But the only way to tell if it'll survive countless edge cases and pressure of real-life requirements is to try it in a real-life production application.
+It is pretty common to implement data layers with Rx: just glue up some requests together with `zip()` or `concatMap()` and subscribe to the result in the presenter. But is it possible to implement presenter itself with Rx? Rx was designed to handle tasks exactly like that --- programming fundamentally asynchronous systems, so at least in theory idea sounds right. But of course you need to try the idea to see if it'll actually work. And it's better to do it in a production application, it is the only way to tell if the idea will survive countless edge cases and pressure of real-life requirements.
 
-So, about a year ago got this opportunity to try this idea in a real-life production project. I started by implementing just a little bit of the presenter with Rx, but it quickly became obvious, that the approach is so powerful, that it's benefits out weight even the necessity to learn completely new programming paradigm. I'd ended up implementing whole UI layer of the app with Rx. The architecture evolved in the process, and here I want to share how it looks like in it's final form.
+So, about a year ago I got this opportunity to try it in a real-life production project. I started by implementing just a little bit of the presenter with Rx. It quickly became obvious though that the approach is so powerful that it's benefits out weight even the necessity to learn completely new programming paradigm. I'd ended up implementing whole UI layer of the app with Rx. The architecture evolved in the process, and here I want to share how it looks like in it's final form.
 
 ## Presenter is a function
 
-It quickly became clear that a lot of ceremony that comes with traditional  OOP presenters is no longer needed. I was quite surprised when it finally became obvious that my presenter is trying to take this form:
+I started with a traditional presenter and just tried to implement it's content with Rx. But it quickly became clear that a lot of ceremony that comes with traditional OOP presenters is no longer needed. I was quite surprised when it finally became obvious that my presenter is trying to take this form:
 
 ```kotlin
 fun present(/* userInput */): ViewModel {   
@@ -21,9 +21,9 @@ fun present(/* userInput */): ViewModel { 
 }
 ```
 
-It's a transform function that has one simple role: to transforms one set of observables into another one.
+Yes, it's just a function. And this function has a simple meaning: it transforms one set of observables into another one.
 
-As an input it takes a collection of interaction events, like button clicks or text field changes:
+As an input it takes a collection of user interaction events, like button clicks or text field changes:
 
 ```kotlin
 fun present(
@@ -43,7 +43,24 @@ data class ViewModel( 
  )
 ```
 
-User input into view states. To render one of those, we just subscribe and map it's values to the view:
+Presenter became a simple transform function. It transforms observables with user input into observables with view states.
+
+[Image: clicks -present()-> view state]
+
+As you'll see further, this function can do anything traditional OOP presenter can. It does the same thing, fulfills the same role, but in a functional way.
+
+## View model
+
+Again, this is how view model looks like:
+
+```kotlin
+data class ViewModel(   
+  val updateButtonText: Observable<String>,   
+  val progressVisibility: Observable<Boolean>
+ )
+```
+
+It's just a collection of observables. To render one of those, we just subscribe and map it's values to the view:
 
 ```kotlin
 viewModel.progressVisibility.subscribe {
@@ -221,6 +238,6 @@ Yet it's so simple to describe what this function does. One simple sentence. Thi
 
 If you know FRP as good as imperative programming, then this approach is as good as imperative programming on simple views and quickly gains value when complexity goes up.
 
- It was exciting journey full of insights,
+It was exciting journey full of insights,
 
 <!-- And I knew by this time that RxJava is super suitable for building data layers and it was a widely accepted practice in Android community to use it for data layers, but at that moment I had a question in my mind "Is it suitable for building UI logic also It should be only reasonable that it is suitable, because UI logic is exactly the thing RxJava was created to handle a bunch of asynchronous signals transformed to another bunch of signals. So I tried to implement some UI logic and it turned out that it just worked, and not only worked, but resulting code was much more clean, easy to understand and maintain than traditional imperative code So, today I want to show you how this solution looked like. And probably get you as excited as I'm about it. -->
