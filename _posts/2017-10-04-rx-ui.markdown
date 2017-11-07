@@ -95,9 +95,7 @@ fun render(viewModel: ViewModel) {
 
 ## Implementing present() function
 
-So, presenter became a simple transform function. It transforms observables with user input into observables with view states. As you'll see further, this function can do anything traditional OOP presenter can. It does the same thing, fulfills the same role, but in a functional way.
-
-This function is the heart of the presentation layer. It owns all the complexity and all non-trivial presentation logic. How is this function implemented? Let's see that on an example of this activity:
+`present()` function is the heart of the presentation layer. It owns all the complexity and all non-trivial presentation logic. How is this function implemented? Let's see that on an example of this activity:
 
 [Image]
 
@@ -119,14 +117,14 @@ fun present( 
 }
 ```
 
-The most interesting part here is this:
+You can notice how this resembles ordinary presenter, but the most interesting part is this:
 
 ```kotlin
 val articles = updateButtonClicks
   .flatMap { articlesService.getArticles() }    
 ```
 
-It's a definition of a rule how to transform `updateButtonClicks` observable into `articles` observable while using `articlesService` as a dependancy.
+This expression defines a rule how to transform `updateButtonClicks` observable into `articles` observable while using `articlesService` as a dependancy.
 
 ## More states
 
