@@ -124,7 +124,7 @@ val articles = updateButtonClicks
   .flatMap { articlesService.getArticles() }    
 ```
 
-This expression defines a rule how to transform `updateButtonClicks` observable into `articles` observable while using `articlesService` as a dependancy.
+This expression defines a rule how to transform `updateButtonClicks` observable into `articles` view state while using `articlesService` as a dependancy.
 
 And this is how our work looks like in this approach. We define a rule after a rule. We identify which view state we want to implement next and then we write a rule how to combine user input and other dependencies to get this new view state. It's perfectly fine to utilize already constructed observables in the process. Rule after the rule, and our app is fully implemented!
 
