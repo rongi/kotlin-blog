@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Functional Reactive architecture for Android or how to build your presenter with Rx"
+title: "Functional Reactive architecture for Android or implementing your presenter with Rx"
 excerpt: "Rx UI"
 tags: rxjava rx mvi frp functional reactive programming
 categories: rxjava
