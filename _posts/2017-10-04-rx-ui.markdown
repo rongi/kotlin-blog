@@ -128,6 +128,8 @@ This expression defines a rule how to transform `updateButtonClicks` observable 
 
 And this is how our work looks like in this approach. We define a rule after a rule. We identify which view state we want to implement next and then we write a rule how to combine user input and other dependencies to get this new view state. It's perfectly fine to utilize already constructed observables in the process. Rule after the rule, and our app is fully implemented!
 
+TODO transition
+
 ## More states
 
 What happens if we need to add more states? For example, what if we need to show a text "There is no articles here" when the view is empty? Obviously, we need to add a new view state, but how exactly should we do that? Should we make our `articles` observable more complex and make it return some composite value instead?
