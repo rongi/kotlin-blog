@@ -21,7 +21,9 @@ fun present(/* userInput */): ViewModel { 
 }
 ```
 
-Yes, it's just a function. And this function has a simple meaning: it transforms one set of observables into another one.
+It's a function that transforms various dependancies plus system and user interaction events into view states.
+
+[Image: clicks -present()-> view state]
 
 As an input it takes a collection of user interaction events, like button clicks or text field changes:
 
@@ -44,8 +46,6 @@ data class ViewModel( 
 ```
 
 Presenter became a simple transform function. It transforms observables with user input into observables with view states.
-
-[Image: clicks -present()-> view state]
 
 As you'll see further, this function can do anything traditional OOP presenter can. It does the same thing, fulfills the same role, but in a functional way.
 
