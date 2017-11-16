@@ -126,15 +126,9 @@ val articles = updateButtonClicks
 
 This expression defines a rule how to transform `updateButtonClicks` observable into `articles` view state while using `articlesService` as a dependancy.
 
-And this is how our work looks like in this approach. We define a rule after a rule. We identify which view state we want to implement next and then we write a rule how to combine user input and other dependencies to get this new view state. It's perfectly fine to utilize already constructed observables in the process. Rule after the rule, and our app is fully implemented!
+And this is how the work process looks like. We define a rule after a rule. We identify which view state we want to implement next and then we write a rule how to combine user input and other dependencies to get this new view state. It's perfectly fine to utilize already constructed observables in the process.
 
-TODO transition
-
-## More states
-
-What happens if we need to add more states? For example, what if we need to show a text "There is no articles here" when the view is empty? Obviously, we need to add a new view state, but how exactly should we do that? Should we make our `articles` observable more complex and make it return some composite value instead?
-
-No, just build a new observable, new rule. Feel free to use existing ones as building blocks. Like this:
+For example, if we need to show a text "There is no articles here", when the view is empty, we will do it like this:
 
 ```kotlin
 fun present( 
@@ -156,7 +150,7 @@ fun present( 
 }
 ```
 
-Now we have two rules. And this is how working process looks like in this approach. We identify which view state we want to implement next and then we write a rule how to combine user input and other dependencies to get this new view state. It's perfectly fine to utilize already constructed observables in the process. Rule after the rule, and our app is fully implemented!
+Now we have two rules. Rule after the rule, and our app is fully implemented.
 
 ## It is a simple and scalable way
 
