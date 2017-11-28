@@ -9,11 +9,11 @@ published: false
 
 It is pretty common to implement data layers with Rx: just glue up some requests together with `merge()` or `concat()` and subscribe to the result in the presenter. But is it possible to implement presenter itself with Rx? Rx was designed to handle tasks exactly like that --- programming fundamentally asynchronous systems, so at least in theory idea sounds right. But of course you need to try the idea to see if it'll actually work. And it's better to do it in a production application, it is the only way to tell if the idea will survive countless edge cases and pressure of real-life requirements.
 
-So, about a year ago I got this opportunity to try it in a real-life production project. I started by implementing just a little bit of the presenter with Rx. It quickly became obvious though that the approach is so powerful that it's benefits out weight even the necessity to learn completely new programming paradigm. I'd ended up implementing whole UI layer of the app with Rx. The architecture evolved in the process, and here I want to share how it looks like in it's final form.
+So, about a year ago I got this opportunity to try it in a real-life production project. I started by implementing just a little bit of the presenter with Rx. It quickly became obvious though that the approach is so powerful that it's benefits outweight even the necessity to learn completely new programming paradigm. I'd ended up implementing whole UI layer of the app with Rx. The architecture evolved in the process, and here I want to share how it looks like in it's final form.
 
 ## Presenter is a function
 
-I started with a traditional presenter and just tried to implement it's content with Rx. But it quickly became clear that a lot of ceremony that comes with traditional OOP presenters is no longer needed. I was quite surprised when it finally became obvious that my presenter is trying to take this form:
+I started with a traditional presenter and just tried to stuff it with Rx instead of ordinary declarative code. It quickly became clear though, that most of the ceremony that comes with traditional OOP presenters is no longer needed. I was really surprised when, finally, it became obvious that my presenter is trying to take this form:
 
 ```kotlin
 fun present(/* userInput */): ViewModel {   
@@ -21,7 +21,7 @@ fun present(/* userInput */): ViewModel { 
 }
 ```
 
-It's a function that transforms various dependancies plus system and user interaction events into view states.
+A class became a function. The meaning of this function is very simple. It transforms various dependancies plus system events and user interaction events into view states.
 
 [Image: clicks -present()-> view state]
 
