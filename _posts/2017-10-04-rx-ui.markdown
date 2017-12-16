@@ -15,7 +15,7 @@ While the approach itself is very simple, a few implementation details should be
 
 ## Presenter is a function
 
-I'd started my journey with a traditional `class Presenter`, and just tried to implement logic inside with Rx, step by step. It quickly became obvious though, that class is no longer needed, it became obvious that my presenter is trying to take this form:
+I'd started my journey with a traditional `class Presenter`, and just tried to implement the logic inside with Rx, step by step. It quickly became obvious though, that class is no longer needed, it became clear that my presenter is trying to take this form:
 
 ```kotlin
 fun present(/* input streams, dependancies */): ViewModel {   
@@ -23,11 +23,11 @@ fun present(/* input streams, dependancies */): ViewModel { 
 }
 ```
 
-A class became a function. The meaning of this function is very simple. It transforms various dependancies plus system events and user interaction events into view states.
+A class became a function, and this function has very simple meaning: it transforms a set of input streams, like user interaction and system events into view states.
 
 [Image: clicks -present()-> view state]
 
-As an input it takes a collection of user interaction events, like button clicks or text field changes:
+The input streams are in the form of observables of course. The most common example will be observables containing button clicks and text field changes:
 
 ```kotlin
 fun present(
@@ -38,62 +38,46 @@ fun present(
 }
 ```
 
-It transforms them into a collection of view states: text field values, view visibility flags, etc.:
+`present` function transforms them into a collection of view states: text field values, view visibilities, etc.:
 
 ```kotlin
 data class ViewModel(   
-  val updateButtonText: Observable<String>,   
-  val progressVisibility: Observable<Boolean>
+  val progressViewIsVisible: Observable<Boolean>,
+  val updateButtonText: Observable<String>
  )
 ```
 
-Presenter became a simple transform function. It transforms observables with user input into observables with view states.
-
-As you'll see further, this function can do anything traditional OOP presenter can. It does the same thing, fulfills the same role, but in a functional way.
-
-## View model
-
-Again, this is how view model looks like:
+It's just a collection of observables. To render, subscribe to each of them and map emitted values to view properties:
 
 ```kotlin
-data class ViewModel(   
-  val updateButtonText: Observable<String>,   
-  val progressVisibility: Observable<Boolean>
- )
-```
+fun render(viewModel: ViewModel) {
+  viewModel.progressViewIsVisible.subscribe {
+    progressView.visible = it
+  }
 
-It's just a collection of observables. To render one of those, we just subscribe and map it's values to the view:
-
-```kotlin
-viewModel.progressVisibility.subscribe {
-  progressView.visible = it
+  viewModel.updateButtonText.subscribe {
+    updateButton.setText(it)
+  }
 }
 ```
 
-Ans this is how activity usually looks like:
+And, to sum this up, this is how activity usually looks like:
 
 ```kotlin
 class MainActivity : Activity() {
 
   override fun onCreate(savedInstanceState: Bundle?) {
     /* ... */
-    val viewModel = present(/* userInput */)
+    val viewModel = present(/* ... */)
     render(viewModel)
   }
 
 }
 ```
 
-The `render()` function just goes through each of the view models and renders them:
+So, as we can see presenter became a simple transform function. It transforms observables with user input into observables with view states.
 
-```kotlin
-fun render(viewModel: ViewModel) {
-  with(viewModel) {
-    updateButtonText.subscribe { updateButton.setText(it) }
-    progressVisibility.subscribe { progressView.visible = it }
-  }
-}
-```
+As you'll see further, this function can do anything traditional OOP presenter can. It does the same thing, fulfills the same role, but in a functional way.
 
 ## Implementing present() function
 
@@ -152,7 +136,7 @@ fun present( 
 }
 ```
 
-Now we have two rules. Rule after the rule, and our app is fully implemented.
+Now we have two rules. Rule after a rule, and our app is fully implemented.
 
 ## It is a simple and scalable way
 
@@ -164,9 +148,9 @@ Now look again at the previous code example. Notice how simple and easy to under
 
 Now, imagine you came to your code after a while. Probably it's time to change how one of the view states works or fix a bug in one of them. What you need to do now is to understand again the logic behind your view states. How would you do it with traditional OOP presenter? You'll probably click on a variable or a function corresponding to this view state and browse through all the huge presenter to understand how pieces are connected. You build a mental model in your head. You need this mental model to understand how the thing works and change it. Now, this mental model is pretty unstable. If a colleague comes to your desk and asks something it will break and you have to build it again.
 
-How do you do this with functional presenter? You just look at the corresponding variable. That's all. It's all there, all logic behind this view state is there in one place. For you to build the model you just need to look at this piece of the code. And you can be absolutely sure that you missed nothing, that there is no hidden logic or non-obvious state manipulation. The code tells itself how it works in a 100% transparent way.
+How do you do this with functional presenter? You just look at the corresponding variable. That's all. It's all there, all logic behind this view state is there in one place. For you to build the mental model you just need to look at this piece of the code. And you can be absolutely sure that you missed nothing, that there is no hidden logic or non-obvious state manipulation. The code tells itself how it works in a 100% transparent way.
 
-Now, imagine how simpler it is to modify this kind of code, how you can see immediately what you change will do and most importantly what it will not do. That it will not introduce some weird bug by manipulating some shared state in a way unexpected by some other users of the state.
+Now, imagine how simpler it is to modify this kind of code, how you can see immediately what you change will do and, most importantly, what it will not do. That it will not introduce some weird bug by manipulating some shared state in a way unexpected by some other users of the state.
 
 ## The true form of the presenter
 
@@ -184,7 +168,9 @@ And look at the presenter. It was an abomination with a vague role of "updating 
 
 I'm pretty convinced now that FRP an Rx is the natural way to write UI applications. It is excels traditional imperative approach in all aspects.
 
-It's a programming of the future.
+It's a programming paradigm of the future.
+
+## Some nuances
 
 ## Signals?
 
