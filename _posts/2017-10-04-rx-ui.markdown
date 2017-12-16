@@ -7,16 +7,18 @@ categories: rxjava
 published: false
 ---
 
-It is pretty common to implement data layers with Rx: just glue up some requests together with `merge()` or `concat()` and subscribe to the result in the presenter. But is it possible to implement presenter itself with Rx? Rx was designed to handle tasks exactly like that --- programming fundamentally asynchronous systems, so at least in theory idea sounds right. But of course you need to try the idea to see if it'll actually work. And it's better to do it in a production application, it is the only way to tell if the idea will survive countless edge cases and pressure of real-life requirements.
+It is pretty common to implement data layers with Rx: just glue up some requests together with `merge()` or `concat()` and subscribe to the result. But it's not so common to implement presentation layers (presenters or view models) with Rx. Yet presentation layers is exactly type of systems Rx is designed for: it's a complex fundamentally asynchronous system. But even if it's suitable in theory, will it work in real life? Will it survive pressure of real life requirements? I had this question in my head for some time, so when an opportunity to check it arise, I've tried.
 
-So, about a year ago I got this opportunity to try it in a real-life production project. I started by implementing just a little bit of the presenter with Rx. It quickly became obvious though that the approach is so powerful that it's benefits outweight even the necessity to learn completely new programming paradigm. I'd ended up implementing whole UI layer of the app with Rx. The architecture evolved in the process, and here I want to share how it looks like in it's final form.
+Now, this approach starts to gain traction slowly; if you heard about MVI or MVVM with Rx, it's the same beast. But back then it wasn't really googlable, so it was a surprise for me that the thing actually worked. And not only worked, it felt like a long lost true way to implement UI. Traditional imperative approach with stateful presenters or view models started to feel like some overcomplicated synthetic abomination --- you have the same feeling when start to use some functional patterns instead of their clunky OOP counterparts.
+
+While the approach itself is very simple, a few implementation details should be shared in order to understand how exactly it works.
 
 ## Presenter is a function
 
-I started with a traditional presenter and just tried to stuff it with Rx instead of ordinary declarative code. It quickly became clear though, that most of the ceremony that comes with traditional OOP presenters is no longer needed. I was really surprised when, finally, it became obvious that my presenter is trying to take this form:
+I'd started my journey with a traditional `class Presenter`, and just tried to implement logic inside with Rx, step by step. It quickly became obvious though, that class is no longer needed, it became obvious that my presenter is trying to take this form:
 
 ```kotlin
-fun present(/* userInput */): ViewModel {   
+fun present(/* input streams, dependancies */): ViewModel {   
   // ... 
 }
 ```
