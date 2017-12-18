@@ -7,7 +7,13 @@ categories: rxjava
 published: false
 ---
 
-It is pretty common to implement data layers with Rx: just glue up some requests together with `merge()` or `concat()` and subscribe to the result. But it's not so common to implement presentation layers (presenters or view models) with Rx. Yet presentation layers is exactly type of systems Rx is designed for: it's a complex fundamentally asynchronous system. But even if it's suitable in theory, will it work in real life? Will it survive pressure of real life requirements? I had this question in my head for some time, so when an opportunity to check it arise, I've tried.
+It is pretty common to implement data layers with Rx --- just glue up some requests together with `merge()` or `concat()` and subscribe to the result. It's no so common to use Rx in presentation layer (presenters or view models).
+
+Yet presentation layers are exactly the type of systems Rx is designed for: it's a complex fundamentally asynchronous system.
+
+
+
+But even if it's suitable in theory, will it work in real life? Will it survive pressure of real life requirements? I had this question in my head for some time, so when an opportunity to check it arise, I've tried.
 
 Now, this approach starts to gain traction slowly; if you heard about MVI or MVVM with Rx, it's the same beast. But back then it wasn't really googlable, so it was a surprise for me that the thing actually worked. And not only worked, it felt like a long lost true way to implement UI. Traditional imperative approach with stateful presenters or view models started to feel like some overcomplicated synthetic abomination --- you have the same feeling when start to use some functional patterns instead of their clunky OOP counterparts.
 
@@ -15,7 +21,7 @@ While the approach itself is very simple, a few implementation details should be
 
 ## Presenter is a function
 
-I'd started my journey with a traditional `class Presenter`, and just tried to implement the logic inside with Rx, step by step. It quickly became obvious though, that class is no longer needed, it became clear that my presenter is trying to take this form:
+I started my journey with a traditional `class Presenter`, and just tried to implement the logic inside with Rx, step by step. It quickly became obvious though, that the class is no longer needed, it became clear that my presenter is trying to take this form:
 
 ```kotlin
 fun present(/* input streams, dependancies */): ViewModel {   
@@ -47,7 +53,7 @@ data class ViewModel( 
  )
 ```
 
-It's just a collection of observables. To render, subscribe to each of them and map emitted values to view properties:
+It's just a collection of observables. To render, just subscribe and map emitted values to view properties:
 
 ```kotlin
 fun render(viewModel: ViewModel) {
