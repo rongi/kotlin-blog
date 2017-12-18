@@ -7,33 +7,27 @@ categories: rxjava
 published: false
 ---
 
-It is pretty common to implement data layers with Rx --- just glue up some requests together with `merge()` or `concat()` and subscribe to the result. It's no so common to use Rx in presentation layer (presenters or view models).
+It is pretty common to implement data layers with Rx: just glue up some requests together with `merge()` or `concat()` and subscribe to the result. It's not so common to implement presentation layers (presenters or view models) with Rx. But, let's think about it, what is a presentation layer? It's a component that receives asynchronous signals (user clicks, network responses or system events), processes them, and emits asynchronous signals back (those are view updates mostly). Sounds like a type of systems Rx was designed for, right?
 
-Yet presentation layers are exactly the type of systems Rx is designed for: it's a complex fundamentally asynchronous system.
+May be it sounds good in theory, but will it work in real life? I had this question in my head for some time, so when an opportunity arise to check it in a real production application, I took this opportunity.
 
-
-
-But even if it's suitable in theory, will it work in real life? Will it survive pressure of real life requirements? I had this question in my head for some time, so when an opportunity to check it arise, I've tried.
-
-Now, this approach starts to gain traction slowly; if you heard about MVI or MVVM with Rx, it's the same beast. But back then it wasn't really googlable, so it was a surprise for me that the thing actually worked. And not only worked, it felt like a long lost true way to implement UI. Traditional imperative approach with stateful presenters or view models started to feel like some overcomplicated synthetic abomination --- you have the same feeling when start to use some functional patterns instead of their clunky OOP counterparts.
-
-While the approach itself is very simple, a few implementation details should be shared in order to understand how exactly it works.
+Now, this approach starts to gain traction slowly; if you heard about MVI or MVVM with Rx, it's the same beast. But then I tried it, there wasn't much about it in the Internet, so it was a surprise that the thing actually worked. And not just worked, it felt like a long lost true way to work on an UI application. Traditional imperative approach with stateful presenters or view models started to feel synthetic and overcomplicated; you have the same feeling when start to use some functional patterns instead of their clunky OOP counterparts.
 
 ## Presenter is a function
 
-I started my journey with a traditional `class Presenter`, and just tried to implement the logic inside with Rx, step by step. It quickly became obvious though, that the class is no longer needed, it became clear that my presenter is trying to take this form:
+I started my journey with a traditional `class Presenter` (which role is to incorporate all the presentation logic), and just tried to implement it's insides with Rx. It quickly became obvious though, that the class itself is no longer needed, my presenter was trying to take this form:
 
 ```kotlin
-fun present(/* input streams, dependancies */): ViewModel {   
+fun present(/* input streams */): ViewModel {   
   // ... 
 }
 ```
 
-A class became a function, and this function has very simple meaning: it transforms a set of input streams, like user interaction and system events into view states.
+A class became a function, and this function has very simple meaning: it transforms one set of observables into another set of observables. A set of input streams into a set of view states.
 
-[Image: clicks -present()-> view state]
+What are the "input streams" I'm talking about? Here is an example. All clicks on a button can be presented as an observable: this observable emits an item each time user clicks the button. This is the most common example of an "input stream". Another example will be an observable with all updates of a given text field.
 
-The input streams are in the form of observables of course. The most common example will be observables containing button clicks and text field changes:
+And this is how "input streams" will look like in the signature of a `present` function:
 
 ```kotlin
 fun present(
@@ -44,7 +38,7 @@ fun present(
 }
 ```
 
-`present` function transforms them into a collection of view states: text field values, view visibilities, etc.:
+These input streams are transformed into a collection of view states: text field values, view visibilities, etc., packed into a `ViewModel` class:
 
 ```kotlin
 data class ViewModel(   
@@ -53,28 +47,26 @@ data class ViewModel( 
  )
 ```
 
-It's just a collection of observables. To render, just subscribe and map emitted values to view properties:
+Which is just a named collection of observables. To render, just subscribe to any of these observables and map their values to view properties:
 
 ```kotlin
-fun render(viewModel: ViewModel) {
-  viewModel.progressViewIsVisible.subscribe {
-    progressView.visible = it
-  }
+viewModel.progressViewIsVisible.subscribe {
+  progressView.visible = it
+}
 
-  viewModel.updateButtonText.subscribe {
-    updateButton.setText(it)
-  }
+viewModel.updateButtonText.subscribe {
+  updateButton.setText(it)
 }
 ```
 
-And, to sum this up, this is how activity usually looks like:
+And this is how activity usually looks like:
 
 ```kotlin
 class MainActivity : Activity() {
 
   override fun onCreate(savedInstanceState: Bundle?) {
     /* ... */
-    val viewModel = present(/* ... */)
+    val viewModel = present(/* input streams */)
     render(viewModel)
   }
 
@@ -82,6 +74,8 @@ class MainActivity : Activity() {
 ```
 
 So, as we can see presenter became a simple transform function. It transforms observables with user input into observables with view states.
+
+[Image: clicks -present()-> view state]
 
 As you'll see further, this function can do anything traditional OOP presenter can. It does the same thing, fulfills the same role, but in a functional way.
 
