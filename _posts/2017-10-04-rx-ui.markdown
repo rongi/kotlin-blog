@@ -7,15 +7,15 @@ categories: rxjava
 published: false
 ---
 
-It is pretty common to implement data layers with Rx: just glue up some requests together with `merge()` or `concat()` and subscribe to the result. It's not so common to implement presentation layers (presenters or view models) with Rx. But, let's think about it, what is a presentation layer? It's a component that receives asynchronous signals (user clicks, network responses or system events), processes them, and emits asynchronous signals back (those are view updates mostly). Sounds like a type of systems Rx was designed for, right?
+It is pretty common to implement data layers with Rx: just glue up some requests together with `merge()` or `concat()` and subscribe to the result. It's not so common to implement presentation layers (presenters or view models) with Rx. But what is a presentation layer? It's a component that receives asynchronous signals (user clicks, network responses or system events), processes them, and emits asynchronous signals (view updates mostly) back . Sounds like a type of systems Rx was designed for.
 
 May be it sounds good in theory, but will it work in real life? I had this question in my head for some time, so when an opportunity arise to check it in a real production application, I took this opportunity.
 
-Now, this approach starts to gain traction slowly; if you heard about MVI or MVVM with Rx, it's the same beast. But then I tried it, there wasn't much about it in the Internet, so it was a surprise that the thing actually worked. And not just worked, it felt like a long lost true way to work on an UI application. Traditional imperative approach with stateful presenters or view models started to feel synthetic and overcomplicated; you have the same feeling when start to use some functional patterns instead of their clunky OOP counterparts.
+Now, this approach starts to gain traction slowly; if you heard about MVI or MVVM with Rx, it's the same beast. But back then I tried it, theses things wasn't googlable yet, so it was a surprise for me that the thing actually worked. And not just worked, it felt like a long lost true way to implement UI. Traditional imperative approach with stateful presenters or view models started to feel synthetic and overcomplicated; you have the same feeling when start to use some functional patterns instead of their clunky OOP counterparts.
 
 ## Presenter is a function
 
-I started my journey with a traditional `class Presenter` (which role is to incorporate all the presentation logic), and just tried to implement it's insides with Rx. It quickly became obvious though, that the class itself is no longer needed, my presenter was trying to take this form:
+I started my journey with a traditional `class Presenter` (which role is to incorporate all the presentation logic), and just tried to implement it's insides with Rx. It quickly became obvious though, that the class itself is no longer needed, and my presenter is trying to take this form:
 
 ```kotlin
 fun present(/* input streams */): ViewModel {   
@@ -23,11 +23,13 @@ fun present(/* input streams */): ViewModel { 
 }
 ```
 
-A class became a function, and this function has very simple meaning: it transforms one set of observables into another set of observables. A set of input streams into a set of view states.
+A class became a function, and this function has very simple meaning: it transforms a set of observables into another set of observables: a set of input streams into a set of view states.
+
+[Image: clicks -present()-> view state]
 
 What are the "input streams" I'm talking about? Here is an example. All clicks on a button can be presented as an observable: this observable emits an item each time user clicks the button. This is the most common example of an "input stream". Another example will be an observable with all updates of a given text field.
 
-And this is how "input streams" will look like in the signature of a `present` function:
+And this is how "input streams" will look like in the signature of a `present()` function:
 
 ```kotlin
 fun present(
@@ -46,6 +48,8 @@ data class ViewModel( 
   val updateButtonText: Observable<String>
  )
 ```
+
+[Image of a screen with observables and corresponding views]
 
 Which is just a named collection of observables. To render, just subscribe to any of these observables and map their values to view properties:
 
@@ -73,11 +77,7 @@ class MainActivity : Activity() {
 }
 ```
 
-So, as we can see presenter became a simple transform function. It transforms observables with user input into observables with view states.
-
-[Image: clicks -present()-> view state]
-
-As you'll see further, this function can do anything traditional OOP presenter can. It does the same thing, fulfills the same role, but in a functional way.
+So, presenter become a simple transform function. This change alone decreases complexity of our app (because functions are simpler than classes and stateless is simpler than stateful). It also improves our ability to reason about the app by providing incredible simple abstraction of a presentation layer. But the most drastic decrease of complexity happens inside `present()` function itself.
 
 ## Implementing present() function
 
@@ -85,9 +85,27 @@ As you'll see further, this function can do anything traditional OOP presenter c
 
 [Image]
 
-It has an "Update" button. Each time we click it, a new list of articles is downloaded from the server and displayed on the screen.
+It has "Update" button. Each time we click it, a new list of articles is downloaded from the server and displayed on the screen.
 
-This is how implementation will look like:
+How to implement this? We can expect to have a stream of button clicks and some mean to download articles as `present()` function parameters:
+
+```kotlin
+fun present( 
+  updateButtonClicks: Observable<Unit>, 
+  articlesService: ArticlesService 
+): ViewModel {
+  /* ... */
+}
+```
+
+We can use these two inputs to compose an observable of downloaded articles:
+
+```kotlin
+val articles = updateButtonClicks
+  .flatMap { articlesService.getArticles() }    
+```
+
+And this is how final implementation will look like:
 
 ```kotlin
 fun present( 
@@ -110,11 +128,9 @@ val articles = updateButtonClicks
   .flatMap { articlesService.getArticles() }    
 ```
 
-This expression defines a rule how to transform `updateButtonClicks` observable into `articles` view state while using `articlesService` as a dependancy.
+This expression defines a rule how to transform input stream `updateButtonClicks` into `articles` view state while using `articlesService` as a dependancy.
 
-And this is how the work process looks like. We define a rule after a rule. We identify which view state we want to implement next and then we write a rule how to combine user input and other dependencies to get this new view state. It's perfectly fine to utilize already constructed observables in the process.
-
-For example, if we need to show a text "There is no articles here", when the view is empty, we will do it like this:
+What if we need another view state? For example, what if we need to show a text "There is no articles here", when the view is empty? The implementation will look like this:
 
 ```kotlin
 fun present( 
@@ -136,13 +152,9 @@ fun present( 
 }
 ```
 
-Now we have two rules. Rule after a rule, and our app is fully implemented.
+We've added another rule, another observable, another view state. And this is how work process looks like. We identify which view state we want to implement next and then we write a rule how to combine user input and other dependencies to get this new view state. It's perfectly fine to utilize already constructed observables in the process. Rule after a rule, our app is fully implemented.
 
-## It is a simple and scalable way
-
-Well, this looks peculiar you might say, but why ever a decent human being would do that?
-
-Now look again at the previous code example. Notice how simple and easy to understand that piece of code is. It's just a set of rules how to build view states, rule by rule. But surely this will quickly become a mess once a real-life requirements kick in, right? No. No matter how complex are your requirements, `present()` function will still be as simple as that. It will just get more view states and intermediate states inside. This is the incredible power of the approach: complexity of your application is the same as complexity of the requirements. With traditional stateful approaches it feels like the complexity is square of that. This means that the bigger and more complex your activity is, the greater are the advantages of functional approach.
+(Merge with next chapter)
 
 ## Easy to understand and reason about
 
@@ -151,6 +163,12 @@ Now, imagine you came to your code after a while. Probably it's time to change h
 How do you do this with functional presenter? You just look at the corresponding variable. That's all. It's all there, all logic behind this view state is there in one place. For you to build the mental model you just need to look at this piece of the code. And you can be absolutely sure that you missed nothing, that there is no hidden logic or non-obvious state manipulation. The code tells itself how it works in a 100% transparent way.
 
 Now, imagine how simpler it is to modify this kind of code, how you can see immediately what you change will do and, most importantly, what it will not do. That it will not introduce some weird bug by manipulating some shared state in a way unexpected by some other users of the state.
+
+## It is a simple and scalable way
+
+Well, this looks peculiar you might say, but why ever a decent human being would do that?
+
+Now look again at the previous code example. Notice how simple and easy to understand that piece of code is. It's just a set of rules how to build view states, rule by rule. But surely this will quickly become a mess once a real-life requirements kick in, right? No. No matter how complex are your requirements, `present()` function will still be as simple as that. It will just get more view states and intermediate states inside. This is the incredible power of the approach: complexity of your application is the same as complexity of the requirements. With traditional stateful approaches it feels like the complexity is square of that. This means that the bigger and more complex your activity is, the greater are the advantages of functional approach.
 
 ## The true form of the presenter
 
