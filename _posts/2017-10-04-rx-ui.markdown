@@ -7,11 +7,11 @@ categories: rxjava
 published: false
 ---
 
-It is pretty common to implement data layers with Rx: just glue up some requests together with `merge()` or `concat()` and subscribe to the result. It's not so common to implement presentation layers (presenters or view models) with Rx. But what is a presentation layer? It's a component that receives asynchronous signals (user clicks, network responses or system events), processes them, and emits asynchronous signals (view updates mostly) back . Sounds like a type of systems Rx was designed for.
+It is pretty common to implement data layers with Rx: just glue up some requests together with `merge()` or `concat()` and subscribe to the result. It's not so common to implement presentation layers (presenters or view models) with Rx. And this kind of surprising, because what is a presentation layer? It's something that receives asynchronous signals (user clicks, network responses or system events), processes them, and emits asynchronous signals back (those are view updates mostly). It's a fundamentally asynchronous system, type of systems Rx was designed for.
 
-May be it sounds good in theory, but will it work in real life? I had this question in my head for some time, so when an opportunity arise to check it in a real production application, I took this opportunity.
+Okay, so, may be it sounds good in theory, but will it work in real life? I had this question (I was curious) in my head for some time, so when an opportunity arise to check it in a real production application, I was happy to took this opportunity.
 
-Now, this approach starts to gain traction slowly; if you heard about MVI or MVVM with Rx, it's the same beast. But back then I tried it, theses things wasn't googlable yet, so it was a surprise for me that the thing actually worked. And not just worked, it felt like a long lost true way to implement UI. Traditional imperative approach with stateful presenters or view models started to feel synthetic and overcomplicated; you have the same feeling when start to use some functional patterns instead of their clunky OOP counterparts.
+This approach starts to gain traction slowly; if you heard words "MVI" or "MVVM with Rx", it's the same beast. But back then, these things wasn't googlable yet, so it was a surprise for me that the thing actually worked. And not just worked, it felt like a long lost true way to implement UI. Traditional imperative approach with stateful presenters or view models started to feel synthetic and overcomplicated; you have the same feeling when start to use some functional patterns instead of their clunky OOP counterparts.
 
 ## Presenter is a function
 
@@ -77,7 +77,7 @@ class MainActivity : Activity() {
 }
 ```
 
-So, presenter become a simple transform function. This change alone decreases complexity of our app (because functions are simpler than classes and stateless is simpler than stateful). It also improves our ability to reason about the app by providing incredible simple abstraction of a presentation layer. But the most drastic decrease of complexity happens inside `present()` function itself.
+So, presenter become a simple transform function. This change alone decreases complexity of our app (because functions are simpler than classes and stateless is simpler than stateful). It also improves our ability to reason about the app by providing incredibly simple abstraction of a presentation layer. But the most drastic decrease of complexity happens inside `present()` function itself.
 
 ## Implementing present() function
 
