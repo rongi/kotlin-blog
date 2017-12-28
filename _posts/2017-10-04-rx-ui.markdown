@@ -150,23 +150,24 @@ fun present( 
 }
 ```
 
-And this is how work process looks like. We identify view states we want to implement and then we write a rule for each of these view states. Rule after a rule, our app is fully implemented. Our application is just a list of rules at the end, and this brings us to the most important benefit of the approach.
+And this is how the work process looks like. We identify view states we want to implement and then we write a rule for each of these view states. Rule after a rule, our app is fully implemented. Our application is just a list of rules at the end, and this brings us to the most important benefit of the approach.
 
-## Simple and scalable
+## Maintaining complexity
 
-No matter how complex your requirements are, `present()` function will be just a simple list of loosely coupled rules. As your application grows, there will be just more of them. Complexity of your application will be the same as complexity of the requirements, with the traditional stateful approach it feels like complexity is a square of that. The bigger and more complex your activity is, the greater are the advantages of implementing your presenter with Rx.
+1. It's important to keep code simple, it's the main challenge of the programming now
+2. Explain why complexity in traditional approach increases as a square factor
 
-To illustrate why keeping the solution simple important:
+No matter how complex your requirements are, `present()` function will be just a simple list of loosely coupled rules. As your application grows, there will be just more of them. It feels like complexity of your application is the same as complexity of the requirements, while with the traditional stateful approach complexity is a square of that. The bigger and more complex your activity is, the greater are the advantages of implementing your presenter with Rx.
 
 ## Easy to understand and modify
 
-Now, imagine you came to your code after a while. Probably it's time to change how one of the view states works or fix a bug in one of them. What you need to do now is to understand again the logic behind your view states. How would you do it with traditional OOP presenter? You'll probably click on a variable or a function corresponding to this view state and browse through all the huge presenter to understand how the pieces are connected. You build a mental model in your head. This mental model is pretty unstable. If a colleague comes to your desk and asks something, this model will break and you have to build it again. With Rx presenter it's pretty cheap to rebuild the model, all necessary parts are there, in the single place. In the place where view model observable is defined.
+Another advantage, possibly connected to the previous one, is that it's easier to understand the code. Let me explain that on an example. Imagine you came to your code after a while. Probably it's time to change how one of the view states works or fix a bug in one of them. What you need to do now is to understand again the logic behind your view states. How would you do it with traditional OOP presenter? You'll probably click on a variable or a function corresponding to this view state and browse through all the huge presenter to understand how the pieces are connected. You build a mental model in your head. The problem is, this mental model is pretty unstable. If a colleague comes to your desk and asks something, this model will break and you'll have to build it again. With Rx presenter it's pretty cheap to rebuild the model, all necessary parts are there, in the single place: in the place where view model observable is defined.
 
 Now, imagine how simpler it is to modify this kind of code, how you can see immediately what you changes will do and what they will not. You can be sure that you are not introducing some weird bug by manipulating some hidden shared state. Just because you don't mutate any. You just reuse them. State mutation is restricted to a single place, to the place where the state is defined.
 
 ## The true form of the presenter
 
-If you take another look at the `Activity` implementation:
+Let's take another look on how our `Activity` looks like:
 
 ```kotlin
 class MainActivity : Activity() {
@@ -180,7 +181,7 @@ class MainActivity : Activity() {
 }
 ```
 
-you may notice that it looks like something like this:
+`onCreate()` function is an entry point to the application, just like a `main()` function is. Having this in mind, you may notice that our application looks like this:
 
 ```kotlin
 fun main() {
