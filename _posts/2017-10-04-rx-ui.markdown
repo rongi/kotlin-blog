@@ -77,7 +77,7 @@ class MainActivity : Activity() {
 }
 ```
 
-Presenter become a function. This change alone is a good thing: it decreases complexity (because functions are simpler than classes and stateless is simpler than stateful) and it improves our ability to reason about the app by providing simple and clear abstraction of the presentation layer. Yet most drastic decrease of complexity happens inside `present()` function itself.
+Presenter become a function. This change alone is a good thing: it decreases complexity (because functions are simpler than classes and stateless is simpler than stateful) and it improves our ability to reason about the app by providing simple and clear abstraction of the presentation layer as a transform function. Yet most drastic decrease of complexity happens inside `present()` function itself.
 
 ## Implementing present() function
 
@@ -87,7 +87,7 @@ Presenter become a function. This change alone is a good thing: it decreases com
 
 It has an "Update" button. Each time we click it, a new list of articles is downloaded from the server and displayed on screen.
 
-How to implement this? As an input, we can expect to have a stream of button clicks and something that can download articles (let's call it `ArticlesProvider`):
+How to implement this? As an input, we can expect to have a stream of button clicks and some service/data provider that can download articles for us (let's call it `ArticlesProvider`):
 
 ```kotlin
 fun present( 
@@ -98,14 +98,14 @@ fun present( 
 }
 ```
 
-We can combine these two inputs into an observable that emits list of articles that should be rendered:
+We can combine these two inputs into an observable that downloads and emits articles on each button click:
 
 ```kotlin
 val articles = updateButtonClicks
   .flatMap { articlesProvider.getArticles() }    
 ```
 
-Let's suppose activity knows how to "render" these lists. This will be the final implementation of the `present()` function:
+Let's suppose activity knows how to "render" these articles (by passing them to a `RecyclerView` adapter for example). Then this observable is a view state and final implementation of the `present()` function will look like this:
 
 ```kotlin
 fun present( 
@@ -121,14 +121,14 @@ fun present( 
 }
 ```
 
-It's funny how it resembles ordinary presenter, but let's look into this part:
+It's funny how it resembles ordinary presenter, but let's look into the `articles` observable again:
 
 ```kotlin
 val articles = updateButtonClicks
   .flatMap { articlesProvider.getArticles() }    
 ```
 
-This expression defines a rule how to compose `articles` view state from `updateButtonClicks` input stream and `articlesProvider`dependancy. If we need to define another view state, just create a new rule and place it bellow the last one. For example, if we need to show "No articles" placeholder, when the view is empty, we can do it like this:
+This expression defines a rule how to compose `articles` view state. If we need to define another view state, just create a new rule and place it bellow the last one. For example, if we need to show "No articles" placeholder, when the view is empty, we can do it like this:
 
 ```kotlin
 fun present( 
@@ -157,17 +157,17 @@ And this is how the work process looks like. We identify view states we want to 
 1. It's important to keep code simple, it's the main challenge of the programming now
 2. Explain why complexity in traditional approach increases as a square factor
 
-No matter how complex your requirements are, `present()` function will be just a simple list of loosely coupled rules. As your application grows, there will be just more of them. It feels like complexity of your application is the same as complexity of the requirements, while with the traditional stateful approach complexity is a square of that. The bigger and more complex your activity is, the greater are the advantages of implementing your presenter with Rx.
+No matter how complex your requirements are, `present()` function will be just a simple list of loosely coupled rules. As your application grows, there will be just more of them. It feels like complexity of your application is the same as complexity of the requirements, while with the traditional stateful approach it feels like complexity is a square of that. The bigger and more complex your activity is, the greater are the advantages of implementing your presenter with Rx.
 
 ## Easy to understand and modify
 
 Another advantage, possibly connected to the previous one, is that it's easier to understand the code. Let me explain that on an example. Imagine you came to your code after a while. Probably it's time to change how one of the view states works or fix a bug in one of them. What you need to do now is to understand again the logic behind your view states. How would you do it with traditional OOP presenter? You'll probably click on a variable or a function corresponding to this view state and browse through all the huge presenter to understand how the pieces are connected. You build a mental model in your head. The problem is, this mental model is pretty unstable. If a colleague comes to your desk and asks something, this model will break and you'll have to build it again. With Rx presenter it's pretty cheap to rebuild the model, all necessary parts are there, in the single place: in the place where view model observable is defined.
 
-Now, imagine how simpler it is to modify this kind of code, how you can see immediately what you changes will do and what they will not. You can be sure that you are not introducing some weird bug by manipulating some hidden shared state. Just because you don't mutate any. You just reuse them. State mutation is restricted to a single place, to the place where the state is defined.
+Now, imagine how simpler it is to modify this kind of code, how you can see immediately what you changes will do and what they will not. You can be sure that you are not introducing some weird bug by manipulating some hidden shared state. Just because you don't mutate any. You just reuse them. State mutations are restricted to a single place, the place where the state is defined.
 
 ## The true form of the presenter
 
-Let's take another look on how our `Activity` looks like:
+Now, I want to share another exciting thing about this approach. Let's look again at our `Activity`:
 
 ```kotlin
 class MainActivity : Activity() {
@@ -181,7 +181,7 @@ class MainActivity : Activity() {
 }
 ```
 
-`onCreate()` function is an entry point to the application, just like a `main()` function is. Having this in mind, you may notice that our application looks like this:
+For an activity, `onCreate()` function serves the same role as `main()` function for an application: it'a a main entry point. Having this in mind, you may notice that our application looks like this:
 
 ```kotlin
 fun main() {
