@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Functional Reactive architecture for Android or implementing your presenter with Rx"
+title: "Implementing your presenter with Rx or Functional Reactive architecture for Android"
 excerpt: "Rx UI"
 tags: rxjava rx mvi frp functional reactive programming
 categories: rxjava
@@ -9,7 +9,7 @@ published: false
 
 It is pretty common to implement data layers with Rx: just glue up some requests together with `merge()` or `concat()` and subscribe to the result. It's not so common to implement presentation layers (presenters or view models) with Rx. And that is kind of surprising, because what is a presentation layer? It's something that receives asynchronous signals (user clicks, network responses or system events), processes them, and emits asynchronous signals back (view updates mostly). It's a fundamentally asynchronous system, type of systems Rx was designed for.
 
-Okay, so, may be it sounds good in theory, but will it work in real life? I had this question in my head for some time, until an opportunity came to check it in a production application. Needles to say, I was happy to take this opportunity.
+May be it sounds good in theory, but will it work in real life? I had this question in my head for some time, until an opportunity came to check it in a production application. Needles to say, I was happy to take this opportunity.
 
 Now, this approach starts to gain traction slowly; if you heard words "MVI" or "MVVM with Rx", it's the same beast. But back then, these things wasn't googlable yet, so it was a surprise for me that the thing actually worked. And not just worked, it felt like a long lost true way to implement UI. Traditional imperative approach with stateful presenters or view models started to feel synthetic and overcomplicated; you have the same feeling when start to use some functional patterns instead of their clunky OOP counterparts.
 
@@ -23,11 +23,11 @@ fun present(/* input streams (observables) */): ViewModel { 
 }
 ```
 
-A function. And function with a very simple meaning: it transforms observables with user interaction events into observables with view states.
+A function, and function with very simple meaning: it transforms observables with user interaction events into observables with view states.
 
 [Image: clicks -present()-> view state]
 
-What are the "user interaction events" I'm talking about? Most common example will be an observable that emits an item each time a button is clicked. Another example will be an observable that emits contents of an input field each time user types something in it.
+What are the "user interaction events" I'm talking about? Most common example will be an observable that emits an item each time a button is clicked. Another example will be an observable that emits input field text each time it changes.
 
 This is how these observables will look in the signature of a `present()` function:
 
@@ -77,11 +77,9 @@ class MainActivity : Activity() {
 }
 ```
 
-Presenter become a function. This change alone is a good thing: it decreases complexity (because functions are simpler than classes and stateless is simpler than stateful) and it improves our ability to reason about the app by providing simple and clear abstraction of the presentation layer as a transform function. Yet most drastic decrease of complexity happens inside `present()` function itself.
-
 ## Implementing present() function
 
-`present()` function is the heart of our presentation layer. It owns all the complexity and all non-trivial presentation logic. How is this function implemented? Let's see that on an example of this activity:
+`present()` function is the heart of the activity. It owns all the complexity and all non-trivial presentation logic. How is this function implemented? Let's see that on an example of this activity:
 
 [Image]
 
