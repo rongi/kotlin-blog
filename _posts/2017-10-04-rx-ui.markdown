@@ -189,11 +189,11 @@ fun main() {
 }
 ```
 
-What does it mean? We just took our super complex activity, consisting of a view, presenter, asynchronous events of all kinds, and turned it into a composition of three functions, each of them with a deadly simple meaning. Realizing that was a cathartic experience for me, it's like experiencing some beautiful formula or mathematic law for a first time. Our program suddenly became simple and so easy to think about. May be this is the natural way of how UI programming should be done?
+What does it mean? We just took our super complex activity, consisting of a view, presenter, asynchronous events of all kinds, and turned it into a composition of three functions, each of them with a deadly simple meaning. Realizing that was a cathartic experience for me, it's like experiencing some beautiful formula or mathematic law for a first time. Our program suddenly became so simple and easy to think about. May be this is the natural way of how UI programming should be done?
 
 And look at the presenter. It was an abomination with a hard to grasp role and now it's a simple transform function. It feels like presenter's true form was hidden all these years in a pile of OOP boilerplate and Rx and FRP just helped to reveal it.
 
-I'm pretty convinced now that FRP and Rx is the natural way to write UI applications. It excels traditional imperative approach in all aspects. It's a programming paradigm of the future.
+I'm pretty convinced now that FRP and Rx is the natural way to write UI applications. In my experience it excels traditional imperative approach in all aspects. It feels like a programming paradigm of the future.
 
 ## Some nuances
 
