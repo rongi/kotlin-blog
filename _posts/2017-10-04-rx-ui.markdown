@@ -23,13 +23,9 @@ fun present(/* input streams (observables) */): ViewModel { 
 }
 ```
 
-A function, and function with a very simple meaning: it transforms observables with user interaction events into observables with view states.
+A function, and a function with a very simple meaning: it transforms a bunch of observables into a bunch of observables.
 
-[Image: clicks -present()-> view state]
-
-What do I mean by "an observables with user interaction events"? An observable that emits an item each time a button is clicked is the most common example. Another example is an observable that emits text field's content each time user types something in.
-
-This is how these observables will look in the signature of a `present()` function:
+As an input it takes a bunch of observables with user interaction events. An example of such an observable will be an observable that emits an item each time a button is clicked:
 
 ```kotlin
 fun present(
@@ -40,7 +36,7 @@ fun present(
 }
 ```
 
-`present()` function then transforms these streams into a collection of view states, and returns these view state packed into a `ViewModel` class. `ViewModel` is just a shallow container for view states observables:
+As an output it return an instance of `ViewModel` object, which is just a container for a bunch of observables with view states. View states are values that can be mapped to some view property: view visibilities or label texts will be the most common examples here:
 
 ```kotlin
 data class ViewModel(   
@@ -51,7 +47,7 @@ data class ViewModel( 
 
 [Image of a screen with observables and corresponding views]
 
-To render, we just subscribe to each of these observables and map their values to view properties:
+To render, we just subscribe to each of these observables and map their values to corresponding view properties:
 
 ```kotlin
 viewModel.progressViewIsVisible.subscribe {
@@ -62,6 +58,10 @@ viewModel.updateButtonText.subscribe {
   updateButton.setText(it)
 }
 ```
+
+So, roughly speaking, `present()` is just a function that transforms clicks into the stuff we see on the screen:
+
+[clicks -> present() -> view states]
 
 This is how whole process looks like in an activity:
 
