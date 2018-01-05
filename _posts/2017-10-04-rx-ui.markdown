@@ -15,7 +15,7 @@ Now, this approach starts to gain traction slowly; if you heard words "MVI" or "
 
 ## Presenter is a function
 
-I started my journey with a traditional `class Presenter`, which, as you know, incorporates all the presentation logic, and just tried to implement it's guts with Rx. It was a surprise when it became obvious suddenly, that the class itself is no longer needed. It looked like presenter is trying to take this form:
+I started my journey with a traditional `class Presenter`, which, as you know, incorporates all the presentation logic, and just tried to implement it's guts with Rx. It was a surprise when it became obvious, that the class itself is no longer needed. It looked like presenter is trying to take this form:
 
 ```kotlin
 fun present(/* input streams (observables) */): ViewModel {   
@@ -25,7 +25,7 @@ fun present(/* input streams (observables) */): ViewModel { 
 
 A function, and a function with a very simple meaning: it transforms a bunch of observables into a bunch of observables.
 
-As an input it takes a bunch of observables with user interaction events. An example of such an observable will be an observable that emits an item each time a button is clicked:
+As input it takes a bunch of observables with user interaction events. A click on a button is an interaction event. Another example is an observable that emits a string each time user types something in an input field.
 
 ```kotlin
 fun present(
@@ -36,7 +36,7 @@ fun present(
 }
 ```
 
-As an output it return an instance of `ViewModel` object, which is just a container for a bunch of observables with view states. View states are values that can be mapped to some view property: view visibilities or label texts will be the most common examples here:
+An output of this function is an instance of `ViewModel` object, which is just a container for a bunch of observables with view states. View state is some property of a view. View visibility, margin or button text are common examples:
 
 ```kotlin
 data class ViewModel(   
@@ -59,11 +59,11 @@ viewModel.updateButtonText.subscribe {
 }
 ```
 
-So, roughly speaking, `present()` is just a function that transforms clicks into the stuff we see on the screen:
+Roughly speaking, `present()` is a function that transforms clicks into the screen content:
 
 [clicks -> present() -> view states]
 
-This is how whole process looks like in an activity:
+This is how typical activity looks with this approach:
 
 ```kotlin
 class MainActivity : Activity() {
@@ -77,7 +77,7 @@ class MainActivity : Activity() {
 }
 ```
 
-Yes, it's that simple. Activity's role is just to resolve dependancies for the `present()` function and to provide an entry point.
+Yes, it's that simple. Activity's role is to resolve dependancies for the `present()` function and to provide an entry point.
 
 ## Implementing present() function
 
@@ -152,7 +152,7 @@ fun present( 
 }
 ```
 
-And this is how the work process looks like. We identify view states we need to implement, and then we just write a rule for each of these view states. At the end `present()` function is just a list of view state definitions. It may contain other stuff, of course, like definitions of observables which are used in construction of several view states, but mostly `present()` function is just a list of view states.
+And this is how the work process looks like. We identify view states we need to implement, and then we just write a rule for each of these view states. At the end, `present()` function is just a list of view state definitions. It may contain other stuff, of course, like definitions of observables which are used in construction of several view states, but mostly `present()` function is just a list of view states.
 
 It may sound unreal that presentation layer can have such a simple form, but my experience with a real life application with live, changing requirements says that it's pretty real indeed. Your presentation layer is really just a list of view state definitions at the end. It feels like the reason why traditional presenters are so complex is just because we did it wrong all this time. Won't be the first time in the history of software development something like this happens.
 
@@ -160,9 +160,9 @@ It's pretty important to keep your software solution as simple as possible. My g
 
 ## Why complexity matters
 
-It's pretty easy to illustrate what this decrease of complexity gives to you as a developer. Imagine you came to your code after a while. Probably it's time to change how one of the view states works or fix a bug in one of them. To change something, you need to understand it first. Now, you'll probably click on a variable or a function corresponding this view state and browse through all the huge presenter to understand how the pieces are connected. You build a mental model in your head. The problem is, this mental model is pretty unstable. If a colleague comes to your desk and asks something, the model is broken and you'll have to build it again. With Rx presenter it's pretty cheap to rebuild the model, all necessary parts are there, in the single place: in the place where view model observable is defined.
+It's not hard to illustrate what this decrease of complexity gives to you as a developer. Imagine you came to your code after a while. Probably it's time to change how one of the view states works or fix a bug in one of them. To change something, you need to understand it first. Now, you'll probably click on a variable or a function responsible for this view state and browse through all the huge presenter to understand how the pieces are connected. You build a mental model in your head. The problem is, this mental model is pretty unstable. If a colleague comes to your desk and asks something, the model is broken and you'll have to build it again. With Rx presenter it's pretty cheap to rebuild the model, all necessary parts are there, in the single place: in the place where view model observable is defined.
 
-Now, imagine how simpler it is to modify this kind of code, how you can see immediately what you changes will do and what they will not. You can be sure that you are not introducing some weird bug by manipulating some hidden shared state. Just because you don't mutate any. You just reuse them. State mutations are restricted to a single place, to the place where the state is defined.
+Now, imagine how simpler it is to modify this kind of code, how you can see immediately what you changes do and what they not. You can be sure that you are not introducing some weird bug by manipulating some shared state in an unexpected way. Just because all state mutations are defined in a single place, in the place where corresponding observable is defined. You can grasp everything that happens with a state with a single look.
 
 ## The true form of the presenter
 
@@ -180,7 +180,7 @@ class MainActivity : Activity() {
 }
 ```
 
-`onCreate()` is like a `main()`, but for an activity. It's a main entry point of the software unit. Having this in mind, we may notice that the code above resembles this:
+`onCreate()` function serves a role of a main entry point. It's like a `main()`, but for an activity. Having this in mind, we may notice that the code above resembles this:
 
 ```kotlin
 fun main() {
