@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "Implementing your presenter with Rx or Functional Reactive architecture for Android applications"
-excerpt: "It is pretty common to implement data layers with Rx: just glue up some requests together with `merge()` or `concat()` and subscribe to the result. It's not so common to implement presentation layers (presenters or view models) with Rx. And that is kind of surprising, because what is a presentation layer? It's something that receives asynchronous signals (user clicks, network responses or system events), processes them, and emits asynchronous signals back (view updates mostly). It's a fundamentally asynchronous system, type of systems Rx was designed for."
+excerpt: "How to implement your presenter with RxJava (this approach is also known as MVI) and why in hell would you want to do that"
 tags: rxjava rx mvi frp functional reactive programming
 categories: rxjava
 image: /assets/rxui/display-with-wires.jpg
