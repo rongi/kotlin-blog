@@ -4,6 +4,7 @@ title: "Implementing your presenter with Rx or Functional Reactive architecture 
 excerpt: "Implementing your presenter with Rx or Functional Reactive architecture for Android applications"
 tags: rxjava rx mvi frp functional reactive programming
 categories: rxjava
+image: /assets/rxui/display-with-wires.jpg
 ---
 
 <div style="overflow: hidden; margin-bottom: 20px;">
