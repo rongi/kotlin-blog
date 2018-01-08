@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "Implementing your presenter with Rx or Functional Reactive architecture for Android applications"
-excerpt: "How to implement your presenter with RxJava (this approach is also known as MVI) and why in hell would you want to do that"
+excerpt: "How to implement your presenter with RxJava (this approach is also known as MVI) and why in hell would you want to do that."
 tags: rxjava rx mvi frp functional reactive programming
 categories: rxjava
 image: /assets/rxui/display-with-wires.jpg
@@ -15,11 +15,11 @@ It is pretty common to implement data layers with Rx: just glue up some requests
 
 Maybe it sounds good in theory, but will it work in real life? The only way to answer this question is to try this approach on a live application with requirements coming from real business needs. I had an opportunity like that a year ago and this article is about what came out of it.
 
-Now, this approach starts to gain traction slowly; if you heard words "MVI" or "MVVM with Rx", it's the same beast. But back then these words weren't googlable yet, so it was a surprise that the thing actually worked. And not just worked, it felt like a long lost true way to implement UI. Traditional imperative approach with stateful presenters or view models started to feel synthetic and overcomplicated; I had a similar feeling while adopting functional programming after years of Android Java.
+Now, this approach starts to gain traction slowly; if you heard words "MVI" or "MVVM with Rx", it's the same beast. But back then these words weren't googlable yet, so it was a surprise for me that the thing actually worked. And not just worked, it felt like a long lost true way to implement UI. Traditional imperative approach with stateful presenters or view models started to feel synthetic and overcomplicated; I had a similar feeling while adopting functional programming after years of Android Java.
 
 ## Presenter is a function
 
-I started my journey with a good old `class Presenter`; I just tried to implement its guts with Rx. Eventually, it became obvious (and it was an exciting surprise) that the class itself is no longer needed. It looked like presenter is trying to take this form:
+I started my journey with a good old `class Presenter`; I just tried to implement its guts with Rx. Eventually, it became obvious (and it was an quite a surprise) that the class itself is no longer needed. It looked like presenter is trying to take this form:
 
 ```kotlin
 fun present(/* input streams (observables) */): ViewModel {   
@@ -108,7 +108,7 @@ fun present( 
 }
 ```
 
-We can combine these two inputs into an observable that downloads and emits a list of articles every time update button is clicked:
+We can then combine these two inputs into an observable that downloads and emits a list of articles every time update button is clicked:
 
 ```kotlin
 val articles = updateButtonClicks
