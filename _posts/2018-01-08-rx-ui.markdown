@@ -6,6 +6,10 @@ tags: rxjava rx mvi frp functional reactive programming
 categories: rxjava
 ---
 
+<div style="overflow: hidden; margin-bottom: 20px;">
+<img src="{{site.url}}{{site.baseurl}}/assets/rxui/display-with-wires.jpg" alt="Drawing" style="width: 100%;height: 100%;margin-top: -10%;">
+</div>
+
 It is pretty common to implement data layers with Rx: just glue up some requests together with `merge()` or `concat()` and subscribe to the result. It's not so common to implement presentation layers (presenters or view models) with Rx. And that is kind of surprising, because what is a presentation layer? It's something that receives asynchronous signals (user clicks, network responses or system events), processes them, and emits asynchronous signals back (view updates mostly). It's a fundamentally asynchronous system, type of systems Rx was designed for.
 
 Maybe it sounds good in theory, but will it work in real life? The only way to answer this question is to try this approach on a live application with requirements coming from real business needs. I had an opportunity like that a year ago and this article is about what came out of it.
