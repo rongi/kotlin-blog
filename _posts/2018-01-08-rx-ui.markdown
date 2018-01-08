@@ -137,7 +137,7 @@ val articles = updateButtonClicks
   .flatMap { articlesProvider.getArticles() }    
 ```
 
-This expression defines a rule how to compose `articles` view state. To define another view state, just create a new rule and place it, say, bellow the previous one:
+This expression defines a rule how to compose `articles` view state. To define another view state, just create a new rule and place it, say, below the previous one:
 
 ```kotlin
 fun present( 
