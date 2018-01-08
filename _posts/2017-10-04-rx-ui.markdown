@@ -1,10 +1,9 @@
 ---
 layout: post
 title: "Implementing your presenter with Rx or Functional Reactive architecture for Android applications"
-excerpt: "Rx UI"
+excerpt: "Implementing your presenter with Rx or Functional Reactive architecture for Android applications"
 tags: rxjava rx mvi frp functional reactive programming
 categories: rxjava
-published: false
 ---
 
 It is pretty common to implement data layers with Rx: just glue up some requests together with `merge()` or `concat()` and subscribe to the result. It's not so common to implement presentation layers (presenters or view models) with Rx. And that is kind of surprising, because what is a presentation layer? It's something that receives asynchronous signals (user clicks, network responses or system events), processes them, and emits asynchronous signals back (view updates mostly). It's a fundamentally asynchronous system, type of systems Rx was designed for.
@@ -45,7 +44,9 @@ data class ViewModel( 
  )
 ```
 
-[Image of a screen with observables and corresponding views]
+Here are these properties on the screen:
+
+<img src="{{site.url}}{{site.baseurl}}/assets/rxui/view-states.png" alt="Drawing" style="width: 100%;"/>
 
 Activity can subscribe to these view states and map their values to corresponding view properties:
 
@@ -59,9 +60,11 @@ viewModel.updateButtonText.subscribe {
 }
 ```
 
-So, to sum this up, `present()` is a function that transforms streams of clicks and other interaction events into streams of view properties:
+So, to sum this up, `present()` is a function that transforms streams of clicks and other interaction events into streams of view states:
 
-[clicks -> present() -> view states]
+{:refdef: style="text-align: center;"}
+<img src="{{site.url}}{{site.baseurl}}/assets/rxui/clicks-present-viewstates.png" alt="Drawing" style="width: 600px;"/>
+{: refdef}
 
 This is how typical activity looks like with this approach:
 
@@ -83,7 +86,9 @@ Yes, it's that simple. Activity's role is just to resolve dependancies for the `
 
 `present()` function is the heart of the activity. It owns all the complexity and all non-trivial presentation logic. How is this function implemented? Let's see that on an example of this activity:
 
-[Image]
+{:refdef: style="text-align: center;"}
+<img src="{{site.url}}{{site.baseurl}}/assets/rxui/list-of-articles.png" alt="Drawing" style="width: 300px;"/>
+{: refdef}
 
 It has an "Update" button. Each time we click it, a new list of articles is downloaded from the server and displayed on the screen.
 
