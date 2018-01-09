@@ -27,6 +27,13 @@ p, h1, h2, h3, h4, h5, h6 {
   color: $body-text-color;
 }
 
+h1, h2, h3, h4, h5, h6,
+p, blockquote, pre,
+ul, ol, dl, figure,
+%vertical-rhythm {
+  margin-bottom: $spacing-unit * 0.9;
+}
+
 p {
   font: $base-font-weight #{$paragraph-font-size}/#{$paragraph-line-height} $paragraph-font-family;
   -webkit-font-smoothing: antialiased;
