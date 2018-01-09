@@ -1,5 +1,6 @@
 {% assign favicon_dir = site.url | append: site.baseurl | append: "/assets/favicon" %}
 {% assign social_icon_dir = site.url | append: site.baseurl | append: "/assets/social-share-icons" %}
+{% assign fonts_dir = site.url | append: site.baseurl | append: "/assets/fonts" %}
 
 <head>
   <meta charset="utf-8">
@@ -8,6 +9,8 @@
 
   <title>{% if page.title %}{{ page.title | escape }}{% else %}{{ site.title | escape }}{% endif %}</title>
   <meta name="description" content="{{ page.excerpt | default: site.description | strip_html | normalize_whitespace | truncate: 160 | escape }}">
+
+  <link rel="stylesheet" href="{{fonts_dir}}/body-font.css">
 
   <!-- social share icons-->
   <link rel="stylesheet" href="{{social_icon_dir}}/flaticon.css">

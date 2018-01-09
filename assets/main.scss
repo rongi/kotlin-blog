@@ -5,7 +5,7 @@
 @import "minima";
 
 $social-icon-size: 30px;
-$social-icon-color: #666666 !default;
+$social-icon-color: #666666;
 
 $social-icon-between: $spacing-unit / 3;
 
@@ -16,6 +16,28 @@ $sb-threshold-min: 1050px;
 $sb-threshold-max: $sb-threshold-min - 1px;
 
 $code-bg: #f3f6fa;
+
+$paragraph-font-size: 21px;
+$paragraph-code-font-size: 18px;
+$paragraph-line-height: 1.57;
+$paragraph-font-family: body-font-serif, Georgia, Cambria, "Times New Roman", Times, serif;
+$body-text-color: rgba(0,0,0,.70);
+
+p, h1, h2, h3, h4, h5, h6 {
+  color: $body-text-color;
+}
+
+p {
+  font: $base-font-weight #{$paragraph-font-size}/#{$paragraph-line-height} $paragraph-font-family;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+p code {
+  font-size: $paragraph-code-font-size;
+  line-height: $paragraph-line-height;
+  border: 0px !important;
+}
 
 /**
  * Grid helpers
