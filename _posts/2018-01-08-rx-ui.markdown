@@ -5,6 +5,8 @@ excerpt: "How to implement your presenter with RxJava (this approach is also kno
 tags: rxjava rx mvi frp functional reactive programming
 categories: rxjava
 image: /assets/rxui/display-with-wires.jpg
+published: false
+permalink: rx-presenter.html
 ---
 
 <div style="overflow: hidden; margin-bottom: 30px;">
