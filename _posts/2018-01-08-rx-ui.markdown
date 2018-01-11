@@ -19,7 +19,7 @@ This approach starts to gain traction slowly; if you have heard the words MVI or
 
 ## Presenter is a function
 
-I start my journey with a good old `class presenter`, and I just try to implement its guts with Rx. Eventually, it becomes obvious (and it was quite a surprise) that the class itself is no longer needed. It looks like the presenter is trying to take this form:
+I start my journey with a good old `class Presenter`, and I just try to implement its guts with Rx. Eventually, it becomes obvious (and it was quite a surprise) that the class itself is no longer needed. It looks like the presenter is trying to take this form:
 
 ```kotlin
 fun present(/* input streams (observables) */): ViewModel {   

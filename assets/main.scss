@@ -21,7 +21,7 @@ $paragraph-font-size: 21px;
 $paragraph-code-font-size: 18px;
 $paragraph-line-height: 1.57;
 $paragraph-font-family: body-font-serif, Georgia, Cambria, "Times New Roman", Times, serif;
-$main-text-color: rgba(0,0,0,.70);
+$main-text-color: rgba(0,0,0,.73);
 $title-text-color: rgba(0,0,0,.76);
 
 p {
@@ -50,6 +50,7 @@ p code {
 
 p.rss-subscribe {
   font: $base-font-weight #{$base-font-size}/#{$base-line-height} $base-font-family;
+  color: $text-color;
 }
 
 .post-title {
