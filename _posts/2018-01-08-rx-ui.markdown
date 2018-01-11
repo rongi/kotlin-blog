@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "Implementing your presenter with Rx or Functional Reactive architecture for Android applications"
-excerpt: "How to implement your presenter with RxJava (this approach is also known as MVI) and why in hell would you want to do that."
+excerpt: "How to implement your presenter with RxJava (this approach is also known as MVI) --- And why in hell you would want to do that"
 tags: rxjava rx mvi frp functional reactive programming
 categories: rxjava
 image: /assets/rxui/display-with-wires.jpg
@@ -11,15 +11,15 @@ image: /assets/rxui/display-with-wires.jpg
 <img src="{{site.url}}{{site.baseurl}}/assets/rxui/display-with-wires.jpg" alt="Drawing" style="width: 100%;height: 100%;margin-top: -10%;">
 </div>
 
-It is pretty common to implement data layers with Rx: just glue up some requests together with `merge()` or `concat()` and subscribe to the result. It's not so common to implement presentation layers (presenters or view models) with Rx. And that is kind of surprising, because what is a presentation layer? It's something that receives asynchronous signals (user clicks, network responses or system events), processes them, and emits asynchronous signals back (view updates mostly). It's a fundamentally asynchronous system, type of systems Rx was designed for.
+It is pretty common to implement data layers with Rx: just glue some requests together with `merge()` or `concat()` and subscribe to the result. It is less common to implement presentation layers (presenters or view models) with Rx. And that is surprising, because a presentation layer is just the type of system Rx is designed for; it receives asynchronous signals (user clicks, network responses, or system events), processes them, and emits asynchronous signals back (view updates mostly). It's a fundamentally asynchronous system, the type of system that Rx is designed for.
 
-Maybe it sounds good in theory, but will it work in real life? The only way to answer this question is to try this approach on a live application with requirements coming from real business needs. I had an opportunity like that a year ago and this article is about what came out of it.
+This sounds good in theory, but does it work in real life? The only way to answer that question is to try this approach on a live application with requirements coming from real business needs. I had an opportunity such as this a year ago, and this article is about what came out of it.
 
-Now, this approach starts to gain traction slowly; if you heard words "MVI" or "MVVM with Rx", it's the same beast. But back then these words weren't googlable yet, so it was a surprise for me that the thing actually worked. And not just worked, it felt like a long lost true way to implement UI. Traditional imperative approach with stateful presenters or view models started to feel synthetic and overcomplicated; I had a similar feeling while adopting functional programming after years of Android Java.
+This approach starts to gain traction slowly; if you have heard the words MVI or MVVM with Rx, this approach is the same. But back then these words were not googlable yet, so it was a surprise for me that the thing actually worked. And not just worked, it felt like a long-lost, true way to implement UI. The traditional imperative approach with stateful presenters or view models was starting to feel synthetic and overcomplicated. I had a similar feeling when adopting functional programming after years of Android Java.
 
 ## Presenter is a function
 
-I started my journey with a good old `class Presenter`; I just tried to implement its guts with Rx. Eventually, it became obvious (and it was an quite a surprise) that the class itself is no longer needed. It looked like presenter is trying to take this form:
+I start my journey with a good old `class presenter`, and I just try to implement its guts with Rx. Eventually, it becomes obvious (and it was quite a surprise) that the class itself is no longer needed. It looks like the presenter is trying to take this form:
 
 ```kotlin
 fun present(/* input streams (observables) */): ViewModel {   
@@ -27,9 +27,9 @@ fun present(/* input streams (observables) */): ViewModel { 
 }
 ```
 
-This is a function. What does it do? Well, it transforms a bunch of observables into a bunch of observables.
+This is a function. What does it do? Well, it transforms a bunch of observables into another bunch of observables.
 
-As input it takes a bunch of observables with user interaction events; a click on a button is an example of such an event. It's easy to construct an observable that emits an item each time this event happens. Another example is an observable that emits a string each time user types something in an input field.
+As input, it takes observables with user interaction events; a click on a button is an example of such an event. It is easy to construct an observable that emits an item each time the event happens. Another example is an observable that emits a string each time a user types something in an input field.
 
 ```kotlin
 fun present(
@@ -40,7 +40,7 @@ fun present(
 }
 ```
 
-An output of this function is an instance of a `ViewModel` object, which is just a container for a bunch of observables with view states. View state is some property of a view, like visibility, margin or button text:
+An output of this function is an instance of a `ViewModel` object, which is just a container for a bunch of observables with view states. A view state is some property of a view, like visibility, margin, or button text:
 
 ```kotlin
 data class ViewModel(   
@@ -49,7 +49,7 @@ data class ViewModel( 
  )
 ```
 
-Here are these properties on the screen:
+Here are those properties on the screen:
 
 <img src="{{site.url}}{{site.baseurl}}/assets/rxui/view-states.png" alt="Drawing" style="width: 100%;"/>
 
@@ -71,7 +71,7 @@ So, to sum this up, `present()` is a function that transforms streams of clicks 
 <img src="{{site.url}}{{site.baseurl}}/assets/rxui/clicks-present-viewstates.png" alt="Drawing" style="width: 600px;"/>
 {: refdef}
 
-This is how typical activity looks like with this approach:
+This is what the typical activity looks like with this approach:
 
 ```kotlin
 class MainActivity : Activity() {
@@ -85,19 +85,19 @@ class MainActivity : Activity() {
 }
 ```
 
-Yes, it's that simple. Activity's role is just to resolve dependencies for the `present()` function and to provide an entry point to start the whole process.
+Yes, it is that simple. Activity's role is just to resolve dependencies for the `present()` function and to provide an entry point to start the whole process.
 
 ## Implementing present() function
 
-`present()` function is the heart of the activity. It owns all the complexity and all non-trivial presentation logic. How is this function implemented? Let's see that on an example of this activity:
+`present()` function is the heart of the activity. It owns all the complexity and all nontrivial presentation logic. How is this function implemented? Let's see that on an example of this activity:
 
 {:refdef: style="text-align: center;"}
 <img src="{{site.url}}{{site.baseurl}}/assets/rxui/list-of-articles.png" alt="Drawing" style="width: 300px;"/>
 {: refdef}
 
-It has an "Update" button. Each time we click it, a new list of articles is downloaded from the server and displayed on the screen.
+This is a screen with an "Update" button; each time we click it, a new list of articles is downloaded from the server and displayed on the screen.
 
-How to implement this? As an input, we can expect to have a stream of button clicks and something that can download articles for us (let's call it `ArticlesProvider`):
+How do we implement this? As an input, we expect to have a stream of button clicks and something that can download articles for us (call it `ArticlesProvider`):
 
 ```kotlin
 fun present( 
@@ -108,14 +108,14 @@ fun present( 
 }
 ```
 
-We can then combine these two inputs into an observable that downloads and emits a list of articles every time update button is clicked:
+We combine these two inputs into an observable that downloads and emits a list of articles every time the update button is clicked:
 
 ```kotlin
 val articles = updateButtonClicks
   .flatMap { articlesProvider.getArticles() }    
 ```
 
-Let's suppose activity knows how to "render" these articles (by passing them to a proper `RecyclerView` adapter for example). Then we can consider this observable a view state and final implementation of the `present()` function will look like this:
+Suppose activity knows how to "render" these articles (by passing them to a proper `RecyclerView` adapter, for example). We then consider this observable a view state, and final implementation of a `present()` function looks like this:
 
 ```kotlin
 fun present( 
@@ -131,14 +131,14 @@ fun present( 
 }
 ```
 
-It's funny how it resembles ordinary presenter, but let's look at the `articles` observable again:
+It's funny how this resembles an ordinary presenter, but look at the `articles` observable again:
 
 ```kotlin
 val articles = updateButtonClicks
   .flatMap { articlesProvider.getArticles() }    
 ```
 
-This expression defines a rule how to compose `articles` view state. To define another view state, just create a new rule and place it, say, below the previous one:
+This expression defines a rule for how to compose `articles` view state. To define another view state, just create a new rule and place it, say, below the previous one:
 
 ```kotlin
 fun present( 
@@ -162,19 +162,19 @@ fun present( 
 }
 ```
 
-And this is how the work process looks like. We identify view states we need to implement, and then we just write a rule for each of these view states and place these rules one after another. At the end, `present()` function is just a list of view state definitions. It may contain other stuff, of course, like definitions of observables which are used in construction of several view states, but mostly `present()` function is just a list of view states.
+And this is what the work process looks like. We identify view states we need to implement, and then we write a rule for each of these view states and place these rules one after another. At the end, the `present()` function is just a list of view state definitions. It may contain other stuff, of course, like definitions of observables, which are used in the construction of several view states, but mostly the `present()` function is just a list of view states.
 
-Compared to a traditional presenter, this form feels very... unentangled, and this affects how fast complexity of your solution grows. My general feeling is that with a traditional presenter complexity of your solution increases as a square of a complexity of the requirements. Each added requirement tends to affect several pieces of code, and so, the more code you already have, the more is the complexity increase after each update. With the Rx approach, it feels like updates are usually much more isolated and complexity of the code is more like of linear dependency on a complexity of the requirements. This means that the bigger and more complex your activity is, the greater are the advantages of implementing your presenter with Rx. With simplest activities it feels like complexity of both solutions is nearly the same.
+Compared to a traditional presenter, this form feels very... unentangled, and this affects how quickly a solution's complexity grows. My general feeling is that with a traditional presenter, the complexity of a solution increases as a square of the complexity of the requirements. Each added requirement tends to affect several pieces of code, and so, the more code you already have, the bigger are the complexity increases after each update. With the Rx approach, it feels like updates are usually much more isolated and the complexity of the code is more like of linear dependency on the complexity of the requirements. This means that the bigger and more complex your activity is, the greater the advantages of implementing your presenter with Rx. With the simplest activities, it feels like the complexity of both solutions is nearly the same.
 
 ## Why complexity matters
 
-It's not hard to illustrate what this decrease in complexity gives to you as a developer. Imagine you came to your code after a while. Probably it's time to change how one of the view states works or fix a bug in one of them. To change something, you need to understand it first. Now, you'll probably click on a variable or a function responsible for this view state and browse through the entire huge presenter to see where the thing is used and how it's modified. You build a mental model in your head. The problem is, this mental model is pretty unstable. If a colleague comes to your desk and asks something, the model is broken and you'll have to build it again. With Rx presenter it's pretty cheap to rebuild the model, all necessary parts are there, in the single place: in the place where view model observable is defined.
+It's not hard to illustrate what this decrease in complexity gives a developer. Imagine you revisit your code after a while. Perhaps it’s time to change how one view state works or to fix a bug in one of them. To change something, you need to understand it first. Now, you probably click on a variable or a function responsible for this view state and browse through the entire huge presenter to see where the thing is used and how it mutates. You build a mental model in your head. The problem is that this mental model is pretty unstable. If a colleague comes to your desk and asks something, the model is broken and you have to build it again. With Rx presenter, it's pretty cheap to rebuild the model. All necessary parts are there in one place: the place where the view model observable is defined.
 
-Now, imagine how simpler it is to modify this kind of code, how you can see immediately what your changes will affect and what they will not. You can be sure that you are not introducing some weird bug by manipulating some shared state in an unexpected way. Just because all state mutations are restricted to a single place, to the place where corresponding observable is defined. You can grasp everything that happens with a state with a single look.
+Now, imagine how much simpler it is to modify this kind of code --- you can see immediately what your changes will affect and what they will not. You can be sure that you are not introducing a weird bug by manipulating some shared state in an unexpected way, because all state mutations are restricted to a single place, to the place where the corresponding observable is defined. You can grasp everything that happens with a state with a single look.
 
 ## The true form of a presenter
 
-In the end, I want to share another exciting thing about this approach. This insight comes from André Staltz's talks and MVI documentation from cycle.js site. Let's look again at our activity:
+Now I want to share another exciting thing about this approach. This insight comes from André Staltz's talks and MVI documentation from the cycle.js site. Look again at our activity:
 
 ```kotlin
 class MainActivity : Activity() {
@@ -188,16 +188,16 @@ class MainActivity : Activity() {
 }
 ```
 
-`onCreate()` function serves a role of a main entry point. It's like a `main()`, but for an activity. Having this in mind, we may notice that the code above resembles this:
+The `onCreate()` function serves the role of a main entry point --- it's like a `main()` but for an activity. With this in mind, we notice that the code above resembles this:
 
 ```kotlin
 fun main() {
-  render(preset(userInput()))
+  render(present(userInput()))
 }
 ```
 
-What does it mean? We just took our super complex activity, consisting of a view, presenter, asynchronous events of all kinds, and turned it into a composition of three functions. Each of these functions has a deadly simple meaning. Our program suddenly became so simple and so easy to think about. Maybe this is the natural way of how UI programming should be done?
+What does this mean? We just took our super complex activity, which consists of a view, presenter, and asynchronous events of all kinds, and turned it into a composition of three functions. Each function has a deadly simple meaning. Our program suddenly becomes so simple and so easy to think about. Maybe this is the natural way UI programming should be done?
 
-And look at the presenter. It was an abomination with hard to grasp role and potentially incomprehensible knot of states inside. Now it's a transform function, simple and elegant. It feels like presenter's true form; it was hidden all these years in a pile of OOP boilerplate and Rx with FRP just helped to reveal it.
+And look at the presenter. It was an abomination with a hard-to-grasp role and a potentially incomprehensible knot of states inside. Now it is a transform function that is simple and elegant. It feels like the presenter's true form; it was hidden all these years in a pile of OOP boilerplate, and Rx with FRP just helped reveal it.
 
-I'm pretty convinced now that FRP is the natural way to write UI applications. From what I saw so far, it excels traditional imperative approach in all aspects; it feels like programming paradigm of the future.
+I am pretty convinced now that FRP is the natural way to write UI applications. From what I have seen so far, it is better than the traditional imperative approach in all aspects. It feels like the programming paradigm of the future.
