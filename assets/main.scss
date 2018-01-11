@@ -21,10 +21,18 @@ $paragraph-font-size: 21px;
 $paragraph-code-font-size: 18px;
 $paragraph-line-height: 1.57;
 $paragraph-font-family: body-font-serif, Georgia, Cambria, "Times New Roman", Times, serif;
-$body-text-color: rgba(0,0,0,.70);
+$main-text-color: rgba(0,0,0,.70);
+$title-text-color: rgba(0,0,0,.76);
 
-p, h1, h2, h3, h4, h5, h6 {
-  color: $body-text-color;
+p {
+  font: $base-font-weight #{$paragraph-font-size}/#{$paragraph-line-height} $paragraph-font-family;
+  color: $main-text-color;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  color: $title-text-color;
 }
 
 h1, h2, h3, h4, h5, h6,
@@ -34,16 +42,14 @@ ul, ol, dl, figure,
   margin-bottom: $spacing-unit * 0.9;
 }
 
-p {
-  font: $base-font-weight #{$paragraph-font-size}/#{$paragraph-line-height} $paragraph-font-family;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
 p code {
   font-size: $paragraph-code-font-size;
   line-height: $paragraph-line-height;
   border: 0px !important;
+}
+
+p.rss-subscribe {
+  font: $base-font-weight #{$base-font-size}/#{$base-line-height} $base-font-family;
 }
 
 .post-title {
