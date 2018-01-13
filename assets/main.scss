@@ -60,12 +60,15 @@ p.rss-subscribe {
 }
 
 .post-title {
-  font-family: $title-font-family;
   letter-spacing: -1px !important;
   line-height: 1.12 !important;
   text-indent: -2px;
   font-weight: 700;
   font-size: 48.5px;
+}
+
+.site-title {
+  font-weight: 400;
 }
 
 /**
