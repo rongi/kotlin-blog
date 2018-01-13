@@ -2,6 +2,8 @@
 # Only the main Sass file needs front matter (the dashes are enough)
 ---
 
+$base-font-family: "Open Sans","Myriad Pro","Lucida Grande","Lucida Sans Unicode","Lucida Sans",Geneva,Verdana,sans-serif;
+
 @import "minima";
 
 $social-icon-size: 30px;
@@ -21,7 +23,6 @@ $paragraph-font-size: 21px;
 $paragraph-code-font-size: 18px;
 $paragraph-line-height: 1.57;
 $paragraph-font-family: body-font-serif, Georgia, Cambria, "Times New Roman", Times, serif;
-$title-font-family: "Open Sans","Myriad Pro","Lucida Grande","Lucida Sans Unicode","Lucida Sans",Geneva,Verdana,sans-serif;
 $main-text-color: #333;
 
 .post-content {
@@ -41,7 +42,6 @@ $main-text-color: #333;
   }
 
   h1, h2, h3, h4, h5, h6 {
-    font-family: $title-font-family;
     font-weight: 700;
     color: $main-text-color;
   }
@@ -56,7 +56,6 @@ $main-text-color: #333;
 }
 
 p.rss-subscribe {
-  font: $base-font-weight #{$base-font-size}/#{$base-line-height} $base-font-family;
   color: $text-color;
 }
 
@@ -65,8 +64,8 @@ p.rss-subscribe {
   letter-spacing: -1px !important;
   line-height: 1.12 !important;
   text-indent: -2px;
-  font-weight: 600;
-  font-size: 42px;
+  font-weight: 700;
+  font-size: 48.5px;
 }
 
 /**
