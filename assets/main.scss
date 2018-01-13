@@ -7,7 +7,7 @@ $base-font-family: "Open Sans","Myriad Pro","Lucida Grande","Lucida Sans Unicode
 @import "minima";
 
 $social-icon-size: 30px;
-$social-icon-color: #666666;
+$social-icon-color: #555;
 
 $social-icon-between: $spacing-unit / 3;
 
@@ -108,6 +108,13 @@ p.rss-subscribe {
   width: $social-icon-size * 0.9;
   height: $social-icon-size * 0.9;
   fill: #444;
+}
+
+.site-nav {
+  .page-link {
+    font-size: 18px;
+    color: $main-text-color;
+  }
 }
 
 ul.share-buttons {
