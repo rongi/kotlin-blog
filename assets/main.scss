@@ -107,11 +107,7 @@ p.rss-subscribe {
 .svg-icon-header {
   width: $social-icon-size * 0.9;
   height: $social-icon-size * 0.9;
-  fill: $social-icon-color;
-}
-
-.svg-icon-header:hover {
-  fill: $brand-color;
+  fill: #444;
 }
 
 ul.share-buttons {
@@ -200,14 +196,21 @@ ul.share-buttons li {
   margin: 0 auto;
 }
 
-.page-link-icon {
+.trigger {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.twitter-header-container {
   height: 40px;
   width: 40px;
   float: right;
   text-align: end;
+  margin-left: 12px;
 }
 
-.page-link-link {
+.twitter-header-link {
   line-height: 40px;
   text-decoration: none !important;
 
@@ -215,12 +218,6 @@ ul.share-buttons li {
     font-size: 23px;
     color: #111;
     vertical-align: middle;
-  }
-}
-
-.page-link-link:hover {
-  .flaticon-twitter-social-outlined-logo {
-    color: #000;
   }
 }
 
