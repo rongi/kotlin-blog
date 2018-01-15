@@ -13,7 +13,7 @@ permalink: rx-presenter.html
 <img src="{{site.url}}{{site.baseurl}}/assets/rxui/display-with-wires.jpg" alt="Drawing" style="width: 100%;height: 100%;margin-top: -10%;">
 </div>
 
-> GitHub repository with a code example is <a href="https://github.com/rongi/rx-presenter-example" target="\_blank">here</a> 
+>  <a href="https://github.com/rongi/rx-presenter-example" target="\_blank">GitHub repository</a> with an example project
 
 It is pretty common to implement data layers with Rx: just glue some requests together with `merge()` or `concat()` and subscribe to the result. It is less common to implement presentation layers (presenters or view models) with Rx. And that is surprising, because a presentation layer is just the type of system Rx is designed for; it receives asynchronous signals (user clicks, network responses, or system events), processes them, and emits asynchronous signals back (view updates mostly). It's a fundamentally asynchronous system, the type of system that Rx is designed for.
 
