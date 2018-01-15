@@ -15,7 +15,7 @@ permalink: rx-presenter.html
 
 >  <a href="https://github.com/rongi/rx-presenter-example" target="\_blank">GitHub repository</a> with an example project
 
-It is pretty common to implement data layers with Rx: just glue some requests together with `merge()` or `concat()` and subscribe to the result. It is less common to implement presentation layers (presenters or view models) with Rx. And that is surprising, because a presentation layer is just the type of system Rx is designed for; it receives asynchronous signals (user clicks, network responses, or system events), processes them, and emits asynchronous signals back (view updates mostly). It's a fundamentally asynchronous system, the type of system that Rx is designed for.
+It is pretty common to implement data layers with Rx: just glue some requests together with `merge()` or `concat()` and subscribe to the result. It is less common to implement presentation layers (presenters or view models) with Rx. And that is surprising, because a presentation layer is just the type of system Rx is designed for. It is an asynchronous processor --- it receives asynchronous signals (user clicks, network responses, or system events), processes them, and emits asynchronous signals back (view updates mostly).
 
 This sounds good in theory, but does it work in real life? The only way to answer that question is to try this approach on a live application with requirements coming from real business needs. I had an opportunity such as this a year ago, and this article is about what came out of it.
 
