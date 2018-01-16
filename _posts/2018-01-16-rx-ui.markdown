@@ -168,6 +168,8 @@ fun present( 
 
 And this is what the work process looks like. We identify view states we need to implement, and then we write a rule for each of these view states and place these rules one after another. At the end, the `present()` function is just a list of view state definitions. It may contain other stuff, of course, like definitions of observables, which are used in the construction of several view states, but mostly the `present()` function is just a list of view states.
 
+> <a href="https://github.com/rongi/rx-presenter-example/blob/master/app/src/main/java/com/github/rongi/rxpresenter/example/app/main/MainViewModel.kt" target="\_blank">Here</a> is an example of how your `present()` function may look like in the end
+
 Compared to a traditional presenter, this form feels very... unentangled, and this affects how quickly a solution's complexity grows. My general feeling is that with a traditional presenter, the complexity of a solution increases as a square of the complexity of the requirements. Each added requirement tends to affect several pieces of code, and so, the more code you already have, the bigger are the complexity increases after each update. With the Rx approach, it feels like updates are usually much more isolated and the complexity of the code is more like of linear dependency on the complexity of the requirements. This means that the bigger and more complex your activity is, the greater the advantages of implementing your presenter with Rx. With the simplest activities, it feels like the complexity of both solutions is nearly the same.
 
 ## Why complexity matters
