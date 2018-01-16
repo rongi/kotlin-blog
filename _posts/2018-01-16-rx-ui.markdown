@@ -5,15 +5,13 @@ excerpt: "How to implement your presenter with RxJava (this approach is also kno
 tags: rxjava rx mvi frp functional reactive programming
 categories: rxjava
 image: /assets/rxui/display-with-wires.jpg
-published: false
 permalink: rx-presenter.html
+date: 2018-01-16
 ---
 
 <div style="overflow: hidden; margin-bottom: 30px;">
 <img src="{{site.url}}{{site.baseurl}}/assets/rxui/display-with-wires.jpg" alt="Drawing" style="width: 100%;height: 100%;margin-top: -10%;">
 </div>
-
->  <a href="https://github.com/rongi/rx-presenter-example" target="\_blank">GitHub repository</a> with an example project
 
 It is pretty common to implement data layers with Rx: just glue some requests together with `merge()` or `concat()` and subscribe to the result. It is less common to implement presentation layers (presenters or view models) with Rx. And that is surprising, because a presentation layer is just the type of system Rx is designed for. It is an asynchronous processor --- it receives asynchronous signals (user clicks, network responses, or system events), processes them, and emits asynchronous signals back (view updates mostly).
 
@@ -207,3 +205,5 @@ What does this mean? We just took our super complex activity, which consists of 
 And look at the presenter. It was an abomination with a hard-to-grasp role and a potentially incomprehensible knot of states inside. Now it is a transform function that is simple and elegant. It feels like the presenter's true form; it was hidden all these years in a pile of OOP boilerplate, and Rx with FRP just helped reveal it.
 
 I am pretty convinced now that FRP is the natural way to write UI applications. From what I have seen so far, it is better than the traditional imperative approach in all aspects. It feels like the programming paradigm of the future.
+
+>  <a href="https://github.com/rongi/rx-presenter-example" target="\_blank">GitHub repository</a> with an example project
