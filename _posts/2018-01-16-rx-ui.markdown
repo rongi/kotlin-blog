@@ -17,7 +17,7 @@ It is pretty common to implement data layers with Rx: just glue some requests to
 
 This sounds good in theory, but does it work in real life? The only way to answer that question is to try this approach on a live application with requirements coming from real business needs. I had an opportunity such as this a year ago, and this article is about what came out of it.
 
-This approach starts to gain traction slowly; if you have heard the words MVI or MVVM with Rx, this approach is the same. But back then these words were not googlable yet, so it was a surprise for me that the thing actually worked. And not just worked, it felt like a long-lost, true way to implement UI. The traditional imperative approach with stateful presenters or view models was starting to feel synthetic and overcomplicated. I had a similar feeling when adopting functional programming after years of Android Java.
+This approach starts to gain traction slowly; if you have heard the words MVI (Model View Intent) or MVVM with Rx, this approach is the same. But back then these words were not googlable yet, so it was a surprise for me that the thing actually worked. And not just worked, it felt like a long-lost, true way to implement UI. The traditional imperative approach with stateful presenters or view models was starting to feel synthetic and overcomplicated. I had a similar feeling when adopting functional programming after years of Android Java.
 
 ## Presenter is a function
 
