@@ -8,21 +8,21 @@ tags: kotlin
 With Kotlin extension functions it's possible to display toasts as simple as this:
 
 ```kotlin
-"This is my string".showToast(context)
+"This is my string".toast(context)
 ```
 
 You'll just need to define this extension function somewhere in your code:
 
 ```kotlin
-fun Any.toast(context: Context) {
-  Toast.makeText(context, this.toString(), Toast.LENGTH_LONG).show()
+fun Any.toast(context: Context, duration: Int = Toast.LENGTH_SHORT): Toast {
+  return Toast.makeText(context, this.toString(), duration).apply { show() }
 }
 ```
 
 This solution especially shines when combined this with Kotlin's string templates feature:
 
 ```kotlin
-"click on ${position.name}".showToast(context)
+"click on ${position.name}".toast(context)
 ```
 Look at the beauty of that!
 
