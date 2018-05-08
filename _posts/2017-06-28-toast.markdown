@@ -3,7 +3,7 @@ layout: post
 title:  "Making toasts with Kotlin and extension functions"
 categories: kotlin
 tags: kotlin
-amazon_ad: true
+amazon_ad: false
 ---
 
 With Kotlin extension functions it's possible to display toasts as simple as this:
