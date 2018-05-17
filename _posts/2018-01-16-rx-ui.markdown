@@ -1,7 +1,7 @@
 ---
 layout: post
-title: "Implementing your presenter with Rx or Functional Reactive architecture for Android applications"
-excerpt: "How to implement your presenter with RxJava (this approach is also known as MVI) --- And why in hell you would want to do that"
+title: "Android MVI explained in MVP terms and why I enjoyed the transition"
+excerpt: "How to implement your presenter with RxJava (this approach is also known as MVI or Model-View-Intent) --- And why in hell you would want to do that"
 tags: rxjava rx mvi frp functional reactive programming
 categories: rxjava
 image: /assets/rxui/display-with-wires.jpg
@@ -17,7 +17,7 @@ It is pretty common to implement data layers with Rx: just glue some requests to
 
 This sounds good in theory, but does it work in real life? The only way to answer that question is to try this approach on a live application with requirements coming from real business needs. I had an opportunity such as this, and this article is about what came out of it.
 
-This approach starts to gain traction slowly; if you have heard the words MVI (Model View Intent) or MVVM with Rx, this approach is the same. But back then these words were not googlable yet, so it was a surprise for me that the thing actually worked. And not just worked, it felt like a long-lost, true way to implement UI. The traditional imperative approach with stateful presenters or view models was starting to feel synthetic and overcomplicated. I had a similar feeling when adopting functional programming after years of Android Java.
+This approach starts to gain traction slowly; if you have heard the words <a href="https://cycle.js.org/model-view-intent.html#model-view-intent" target="\_blank">MVI</a> (Model View Intent) or MVVM with Rx, this approach is the same. But back then these words were not googlable yet, so it was a surprise for me that the thing actually worked. And not just worked, it felt like a long-lost, true way to implement UI. The traditional imperative approach with stateful presenters or view models was starting to feel synthetic and overcomplicated. I had a similar feeling when adopting functional programming after years of Android Java.
 
 ## Presenter is a function
 
