@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Android MVI explained in MVP terms and why I enjoyed the transition"
+title: "Android MVI explained in MVP terms"
 excerpt: "How to implement your presenter with RxJava (this approach is also known as MVI or Model-View-Intent) --- And why in hell you would want to do that"
 tags: rxjava rx mvi frp functional reactive programming
 categories: rxjava
