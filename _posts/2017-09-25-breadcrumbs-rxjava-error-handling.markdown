@@ -139,6 +139,8 @@ This is our code! You can just click there now and get to the place where the cr
 <img src="{{site.url}}{{site.baseurl}}/assets/magic.gif" alt="Drawing" style="width: 300px; margin-top: 30px; margin-bottom: 20px;"/>
 {: refdef}
 
+The reason why `dropBreadcrumb()` function is inline is because this way it will produce cleaner call stack. Thanks to Roman who made this suggestion in the comments.
+
 ## How does it work?
 
 If you look at the code, then it's pretty obvious that it just creates an exception with a call stack pointing to the point where the chain was created --- or, to be more precise, where `dropBreadcrumb()` was applied. Then it decorates each error emitted by the chain with this exception.
