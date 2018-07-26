@@ -58,7 +58,7 @@ You may think: "Sounds like it may be useful to see where the crashed observable
 Well, actually you can. Just decorate all your chains with this extension function:
 
 ```kotlin
-fun <T> Observable<T>.dropBreadcrumb(): Observable<T> {
+inline fun <T> Observable<T>.dropBreadcrumb(): Observable<T> {
   val breadcrumb = BreadcrumbException()
   return this.onErrorResumeNext { error: Throwable ->
     throw CompositeException(error, breadcrumb)
