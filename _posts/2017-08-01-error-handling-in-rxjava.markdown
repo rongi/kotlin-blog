@@ -84,7 +84,7 @@ Observables designed to emit errors as a valid output have limited scope of poss
 
 ## Result class
 
-So, how to design observables that return expected errors? Just make them return some kind of `Result` class, which will contain either result of the operation or an exception. Something like this:
+So, how to design observables that return expected errors? Just make them return some kind of `Result` class, which will contain either a result of the operation or an exception. Something like this:
 
 ```kotlin
 data class Result<out T>(
@@ -144,7 +144,7 @@ sealed class Result<out T> {
 }
 ```
 
-This allows you to write this beauty:
+It allows you to write this beauty:
 
 ```kotlin
 userProvider.getUsers().subscribe {
