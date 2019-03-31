@@ -1,7 +1,7 @@
 ---
 layout: post
-title: "Android MVI explained in MVP terms"
-excerpt: "How to implement your presenter with RxJava (this approach is also known as MVI or Model-View-Intent) --- And why in hell you would want to do that"
+title: "Implementing your presenter with Rx or Functional Reactive architecture for Android applications"
+excerpt: "How to implement your presenter with RxJava (this approach is also known as MVI or Model-View-Intent) --- And why would you want to do that"
 tags: rxjava rx mvi frp functional reactive programming
 categories: rxjava
 image: /assets/rxui/display-with-wires.jpg
