@@ -16,12 +16,14 @@ layout: default
   </header>
 
   <div class="post-content" itemprop="articleBody">
-    {{ content }}
+      {{ content }}
   </div>
 
-  <div class="share-buttons-container-bottom">
+  <!-- <div class="share-buttons-container-bottom"> -->
+  {% comment %}
     {% include share-buttons.html %}
-  </div>
+  {% endcomment %}
+  <!-- </div> -->
 
   {% if page.amazon_ad %}
     {% include amazon-ad.html %}
